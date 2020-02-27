@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="今天开始做一下LeetCode的算法题，做一下记录。 Two Sum我最初的实现是暴利遍历，看了答案学习到这个O(n)的实现。 关键在于这里对于number 元素 index的字典索引是一个hash table，它的查询是时间复杂度O(1)的。 12345678910111213141516class Solution:    def twoSum(self, nums, target):">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode notes">
+<meta property="og:url" content="https://note.siwei.info/leetcode-notes/index.html">
+<meta property="og:site_name" content="Siwei notes">
+<meta property="og:description" content="今天开始做一下LeetCode的算法题，做一下记录。 Two Sum我最初的实现是暴利遍历，看了答案学习到这个O(n)的实现。 关键在于这里对于number 元素 index的字典索引是一个hash table，它的查询是时间复杂度O(1)的。 12345678910111213141516class Solution:    def twoSum(self, nums, target):">
+<meta property="article:published_time" content="2019-01-03T12:15:39.000Z">
+<meta property="article:modified_time" content="2019-03-05T14:33:59.276Z">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="leetcode">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://note.siwei.info/leetcode-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>leetcode notes | Siwei notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Siwei notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-résumé">
+
+    <a href="/about/resume.pdf" rel="section"><i class="fa fa-fw fa-book"></i>Résumé</a>
+
+  </li>
+        <li class="menu-item menu-item-简历">
+
+    <a href="/about/resume_chs.pdf" rel="section"><i class="fa fa-fw fa-book"></i>简历</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/leetcode-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode notes
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-03 20:15:39" itemprop="dateCreated datePublished" datetime="2019-01-03T20:15:39+08:00">2019-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-05 22:33:59" itemprop="dateModified" datetime="2019-03-05T22:33:59+08:00">2019-03-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode-notes/" itemprop="url" rel="index"><span itemprop="name">leetcode notes</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天开始做一下LeetCode的算法题，做一下记录。</p>
+<h1 id="Two-Sum"><a href="#Two-Sum" class="headerlink" title="Two Sum"></a>Two Sum</h1><p>我最初的实现是暴利遍历，看了答案学习到这个O(n)的实现。</p>
+<p>关键在于这里对于number 元素 index的字典索引是一个<code>hash table</code>，它的查询是时间复杂度<code>O(1)</code>的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># number-index map, also as the iteration record</span></span><br><span class="line">        numIndex_map = dict()</span><br><span class="line">        <span class="keyword">for</span> index, element <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            co_element = target - element</span><br><span class="line">            <span class="keyword">if</span> co_element <span class="keyword">in</span> numIndex_map:</span><br><span class="line">                <span class="keyword">return</span> numIndex_map[co_element], index</span><br><span class="line">            <span class="comment"># append numIndex_map</span></span><br><span class="line">            numIndex_map[element] = index</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Add-two-numbers"><a href="#Add-two-numbers" class="headerlink" title="Add two numbers"></a>Add two numbers</h1><p>第二题是单链表逆序表示十进制正整数实现加法。</p>
+<p>我的实现考虑了下面的情况:</p>
+<ul>
+<li>在相加一方位数大于另一方时候，在没有进位<code>tenFlag</code>的时候，加和的<code>ListNode</code>的<code>next</code>指针直接指向大位数的那些高位<code>node</code>，而非继续遍历大位数的所有位。</li>
+</ul>
+<p>另外，这是我第一次学习链表已经它的python实现，觉得很开心。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1, l2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type l1: ListNode</span></span><br><span class="line"><span class="string">        :type l2: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        tenFlag, lowestDigi = divmod(l1.val + l2.val, <span class="number">10</span>)</span><br><span class="line">        result = ListNode(lowestDigi)</span><br><span class="line">        cursor_1, cursor_2, cursor_result = l1, l2, result </span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cursor_1.next <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>) <span class="keyword">and</span> (cursor_2.next <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):</span><br><span class="line">            tenFlag, added_Val = divmod(cursor_1.next.val + cursor_2.next.val + tenFlag, <span class="number">10</span>)</span><br><span class="line">            cursor_result.next = ListNode(added_Val)</span><br><span class="line">            cursor_1, cursor_2, cursor_result = cursor_1.next, cursor_2.next, cursor_result.next</span><br><span class="line"></span><br><span class="line">        cursor_result.next = (cursor_1.next <span class="keyword">or</span> cursor_2.next)</span><br><span class="line">        <span class="keyword">while</span> tenFlag == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> cursor_result.next <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cursor_result.next = ListNode(<span class="number">0</span>)</span><br><span class="line">            tenFlag, added_Val = divmod(cursor_result.next.val + tenFlag, <span class="number">10</span>)</span><br><span class="line">            cursor_result.next.val = added_Val</span><br><span class="line">            cursor_result = cursor_result.next</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<h1 id="Longest-substring-without-repeating-characters"><a href="#Longest-substring-without-repeating-characters" class="headerlink" title="Longest substring without repeating characters"></a>Longest substring without repeating characters</h1><p>第三题是找出字符串里最长的无重复字母子字符串。</p>
+<p>我的最初实现是从两侧移动指针，两边的字母如果属于被指针包裹的子字符串，则向内移动。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        start, end = (<span class="number">0</span>, len(s) - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">while</span> (len(set(s[start:end+<span class="number">1</span>])) &lt; (end + <span class="number">1</span> - start)) <span class="keyword">and</span> start &lt; end:</span><br><span class="line">            <span class="keyword">if</span> s[start] <span class="keyword">in</span> s[start + <span class="number">1</span>:end + <span class="number">1</span>]:</span><br><span class="line">                start = start + <span class="number">1</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                end = end - <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> end - start + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>这是很傻的，因为它粗暴地假设先触及重复字母一定不包含于最终的最长子字符串。<br>反例:  <code>&quot;pwwkew&quot;</code> 作为输入之后，选择的最长子字符串是 <code>&quot;pw&quot;</code>， 而非 <code>&quot;wke&quot;</code> 。</p>
+<p>修改之后的初步算法如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(s)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">duplicated_char_exists</span><span class="params">(s)</span>:</span></span><br><span class="line">            <span class="keyword">for</span> i, c <span class="keyword">in</span> enumerate(s):</span><br><span class="line">                <span class="keyword">if</span> c <span class="keyword">in</span> s[i + <span class="number">1</span>:]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        subStrLenMax = len(set(s))</span><br><span class="line">        <span class="comment">#print("Possibly max substr length by len(set(s)) is %s" % subStrLenMax)</span></span><br><span class="line">        lenOfStr = len(s)</span><br><span class="line">        <span class="keyword">for</span> delta <span class="keyword">in</span> range(subStrLenMax + <span class="number">1</span>):</span><br><span class="line">            lenOfSubstr = subStrLenMax - delta</span><br><span class="line">            start = <span class="number">0</span></span><br><span class="line">            end = start + lenOfSubstr</span><br><span class="line">            <span class="keyword">while</span> end &lt; lenOfStr + <span class="number">1</span>:</span><br><span class="line">                <span class="comment">#if len(set(s[start:end])) &lt; lenOfSubstr:</span></span><br><span class="line">                <span class="keyword">if</span> duplicated_char_exists(s[start:end]):</span><br><span class="line">                    start += <span class="number">1</span></span><br><span class="line">                    end += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#print("first result sub-string is %s" % s[start:end])</span></span><br><span class="line">                    <span class="keyword">return</span> lenOfSubstr</span><br><span class="line">        <span class="keyword">return</span> lenOfSubstr</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        list_ = []</span><br><span class="line">        max_ = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> i <span class="keyword">in</span> list_:</span><br><span class="line">                <span class="keyword">del</span> list_[<span class="number">0</span>:list_.index(i)+<span class="number">1</span>]</span><br><span class="line">                list_.append(i)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                list_.append(i)</span><br><span class="line">                <span class="keyword">if</span> len(list_) &gt; max_:</span><br><span class="line">                    max_ = len(list_)</span><br><span class="line">        <span class="keyword">return</span> max_</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>to be continued…</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://note.siwei.info/leetcode-notes/" title="leetcode notes">https://note.siwei.info/leetcode-notes/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/openstack-basic-for-newbie/" rel="prev" title="Openstack Basic for newbie">
+      <i class="fa fa-chevron-left"></i> Openstack Basic for newbie
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/notes-after-creating-a-fuel-plugin/" rel="next" title="notes after creating a fuel plugin">
+      notes after creating a fuel plugin <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Two-Sum"><span class="nav-number">1.</span> <span class="nav-text">Two Sum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-two-numbers"><span class="nav-number">2.</span> <span class="nav-text">Add two numbers</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Longest-substring-without-repeating-characters"><span class="nav-number">3.</span> <span class="nav-text">Longest substring without repeating characters</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">Build things.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/littlewey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:littlewey@gmail.com" title="E-Mail → mailto:littlewey@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/littlewey" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/littlewey" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/littlewey" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/littlewey" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '90bb84dab80e142752cb',
+      clientSecret: '26f2fb897afc6becceae244ae33738ba8c51a0b7',
+      repo        : 'littlewey.github.io',
+      owner       : 'littlewey',
+      admin       : ['littlewey'],
+      id          : '1361aae0629aa7739190baf99a42a5ce',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

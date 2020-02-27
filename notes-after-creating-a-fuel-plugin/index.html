@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="关于这篇文章是我做一个内部 knowledge sharing准备的文档，介绍了如何基于MIranis fuel的平台开发一个fuel plugin，我用了一个死了的项目 nova-docker作为实际的例子。 Build a fuel plugin from scrash Live demo: Let’s try to build a fuel plugin enables nova-docke">
+<meta property="og:type" content="article">
+<meta property="og:title" content="notes after creating a fuel plugin">
+<meta property="og:url" content="https://note.siwei.info/notes-after-creating-a-fuel-plugin/index.html">
+<meta property="og:site_name" content="Siwei notes">
+<meta property="og:description" content="关于这篇文章是我做一个内部 knowledge sharing准备的文档，介绍了如何基于MIranis fuel的平台开发一个fuel plugin，我用了一个死了的项目 nova-docker作为实际的例子。 Build a fuel plugin from scrash Live demo: Let’s try to build a fuel plugin enables nova-docke">
+<meta property="article:published_time" content="2019-01-17T02:15:12.000Z">
+<meta property="article:modified_time" content="2019-11-20T06:30:19.538Z">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="openstack">
+<meta property="article:tag" content="fuel-plugin">
+<meta property="article:tag" content="puppet">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://note.siwei.info/notes-after-creating-a-fuel-plugin/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>notes after creating a fuel plugin | Siwei notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Siwei notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-résumé">
+
+    <a href="/about/resume.pdf" rel="section"><i class="fa fa-fw fa-book"></i>Résumé</a>
+
+  </li>
+        <li class="menu-item menu-item-简历">
+
+    <a href="/about/resume_chs.pdf" rel="section"><i class="fa fa-fw fa-book"></i>简历</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/notes-after-creating-a-fuel-plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          notes after creating a fuel plugin
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-17 10:15:12" itemprop="dateCreated datePublished" datetime="2019-01-17T10:15:12+08:00">2019-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-20 14:30:19" itemprop="dateModified" datetime="2019-11-20T14:30:19+08:00">2019-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/openstack-stuff/" itemprop="url" rel="index"><span itemprop="name">openstack stuff</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>这篇文章是我做一个内部 knowledge sharing准备的文档，介绍了如何基于MIranis fuel的平台开发一个fuel plugin，我用了一个死了的项目 nova-docker作为实际的例子。</p>
+<h1 id="Build-a-fuel-plugin-from-scrash"><a href="#Build-a-fuel-plugin-from-scrash" class="headerlink" title="Build a fuel plugin from scrash"></a>Build a fuel plugin from scrash</h1><blockquote>
+<p><strong>Live demo:</strong></p>
+<p>Let’s try to build a fuel plugin enables nova-docker</p>
+<p>Code put here: <a href="https://github.com/littlewey/fuel-plugin-nova-docker" target="_blank" rel="noopener">https://github.com/littlewey/fuel-plugin-nova-docker</a></p>
+</blockquote>
+<h2 id="Create-fuel-plugin-for-nova-docker"><a href="#Create-fuel-plugin-for-nova-docker" class="headerlink" title="Create fuel plugin for nova-docker"></a>Create fuel plugin for <code>nova-docker</code></h2><p><strong>Steps needed:</strong></p>
+<ul>
+<li>Step 1 Installation packages<ul>
+<li>install nova-docker</li>
+<li>install dependency (docker)</li>
+</ul>
+</li>
+<li>Step 2 configuration<ul>
+<li>configuration on nova compute</li>
+<li>configuration on nova controller</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="Step-0-Initiate-the-project"><a href="#Step-0-Initiate-the-project" class="headerlink" title="[Step 0] Initiate the project"></a>[Step 0] Initiate the project</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ~ fpb --create nova_docker</span><br><span class="line">Plugin is created</span><br><span class="line">$ ~ fpb --build nova_docker</span><br><span class="line">Plugin is built</span><br><span class="line">$ ~ <span class="built_in">cd</span> nova_docker</span><br><span class="line">$ nova_docker ls</span><br><span class="line">bond_config.yaml         network_roles.yaml     node_roles.yaml                     tasks.yaml</span><br><span class="line">components.yaml          metadata.yaml          pre_build_hook                      volumes.yaml</span><br><span class="line">deployment_scripts       LICENSE  <span class="comment">#pack buit--&gt; nova_docker-1.0-1.0.0-1.noarch.rpm</span></span><br><span class="line">$ nova_docker git init</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> ~/nova_docker/.git/</span><br></pre></td></tr></table></figure>
+
+<p>Let’s exclude the nova-docker binary file from our git base.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ nova_docker git:(master) cat .gitignore</span><br><span class="line">.tox</span><br><span class="line">.build</span><br><span class="line">*.pyc</span><br><span class="line">*.rpm</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ nova_docker git:(master) tree -L 2</span><br><span class="line">.</span><br><span class="line">├── bond_config.yaml</span><br><span class="line">├── components.yaml</span><br><span class="line">├── deployment_scripts</span><br><span class="line">│   └── deploy.sh</span><br><span class="line">├── deployment_tasks.yaml</span><br><span class="line">├── environment_config.yaml</span><br><span class="line">├── LICENSE</span><br><span class="line">├── metadata.yaml</span><br><span class="line">├── network_roles.yaml</span><br><span class="line">├── nic_config.yaml</span><br><span class="line">├── node_config.yaml</span><br><span class="line">├── node_roles.yaml</span><br><span class="line">├── pre_build_hook</span><br><span class="line">├── README.md</span><br><span class="line">├── repositories</span><br><span class="line">│   ├── centos</span><br><span class="line">│   └── ubuntu</span><br><span class="line">├── tasks.yaml</span><br><span class="line">└── volumes.yaml</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Step-1-Installation-packages"><a href="#Step-1-Installation-packages" class="headerlink" title="[Step 1] Installation packages"></a>[Step 1] Installation packages</h3><h4 id="nova-docker"><a href="#nova-docker" class="headerlink" title="nova-docker"></a><code>nova-docker</code></h4><ul>
+<li>ensure needed packages included in plugin</li>
+<li>code to install packages</li>
+</ul>
+<h5 id="gt-gt-Fetch-the-nova-docker-source-code"><a href="#gt-gt-Fetch-the-nova-docker-source-code" class="headerlink" title="&gt;&gt; Fetch the nova-docker source code"></a>&gt;&gt; Fetch the <code>nova-docker</code> source code</h5><blockquote>
+<p>fetch the file from github: <a href="https://github.com/openstack/nova-docker" target="_blank" rel="noopener">url</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p repositories/python &amp;&amp; <span class="built_in">cd</span> repositories/python</span><br><span class="line">$ git <span class="built_in">clone</span> git@github.com:openstack/nova-docker.git &amp;&amp; <span class="built_in">cd</span> nova-docker</span><br><span class="line"><span class="comment"># project was removed, have to checkout to the previous commit of the last master head</span></span><br><span class="line">$ git checkout HEAD^1</span><br><span class="line">$ git <span class="built_in">log</span></span><br><span class="line">commit 034a4842fc1ebba5912e02cff8cd197ae81eb0c3 (HEAD, origin/stable/ocata)</span><br><span class="line">$ git checkout stable/mitaka</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-Build-nova-docker"><a href="#gt-gt-Build-nova-docker" class="headerlink" title="&gt;&gt; Build nova-docker"></a>&gt;&gt; Build <code>nova-docker</code></h5><ul>
+<li><strong>option one</strong>, build a python sdist <code>tar</code> file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setup.py sdist</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>An example of option one</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python setup.py sdist</span><br><span class="line">$ tree dist</span><br><span class="line">dist</span><br><span class="line">└── nova-docker-0.0.1.dev275.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># easy_install instead of pip to install this source dist tar file will do the job</span></span><br><span class="line">$ easy_install dist/nova-docker-0.0.1.dev275.tar.gz</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>option two</strong>, build a <code>deb</code> file</li>
+</ul>
+<blockquote>
+<p>ref: <a href="https://fpm.readthedocs.io/en/latest/" target="_blank" rel="noopener">https://fpm.readthedocs.io/en/latest/</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fpm -v <span class="string">"1:0.0.1"</span> -s python -t deb -n fuel-plugin-nova-docker \</span><br><span class="line">  --python-install-bin /usr/bin \</span><br><span class="line">  --python-install-lib /usr/lib/python2.7/dist-packages/ \</span><br><span class="line">  nova-docker/setup.py</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>An example of option two</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ fpm -v <span class="string">"1:0.0.1"</span> -s python -t deb -n fuel-plugin-nova-docker \</span><br><span class="line">  --python-install-bin /usr/bin \</span><br><span class="line">  --python-install-lib /usr/lib/python2.7/dist-packages/ \</span><br><span class="line">  nova-docker/setup.py</span><br><span class="line"></span><br><span class="line">Created package &#123;:path=&gt;<span class="string">"fuel-plugin-nova-docker_1:0.0.1_all.deb"</span>&#125;</span><br><span class="line">$ ls</span><br><span class="line">fuel-plugin-nova-docker_1:0.0.1_all.deb  nova-docker</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-Install-nova-docker"><a href="#gt-gt-Install-nova-docker" class="headerlink" title="&gt;&gt; Install nova-docker"></a>&gt;&gt; Install <code>nova-docker</code></h5><blockquote>
+<p>with above two options, we could do like this</p>
+</blockquote>
+<p>either <code>install.pp</code> with <strong>option one</strong>:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">exec &#123;<span class="string">'install nova-docker'</span><span class="symbol">:</span></span><br><span class="line">  command =&gt; <span class="string">'easy_install /temp/nova-docker*.tar.gz'</span>,</span><br><span class="line">  path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>or <code>install.pp</code> with <strong>option two</strong>:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">package &#123;<span class="string">'fuel-plugin-nova-docker'</span><span class="symbol">:</span></span><br><span class="line">  <span class="keyword">ensure</span>  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-Include-nova-docker"><a href="#gt-gt-Include-nova-docker" class="headerlink" title="&gt;&gt; Include nova-docker"></a>&gt;&gt; Include <code>nova-docker</code></h5><p>Let’s add <code>nova-docker</code> as a <code>submodule</code> as upstream project instead of putting a binary package.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule add git@github.com:openstack/nova-docker.git repositories/python/nova-docker</span><br></pre></td></tr></table></figure>
+
+<p>To ensure this package being built during <code>fpb --build nova-docker</code> we should do this via <code>pre_build_hook</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Add here any the actions which are required before plugin build</span></span><br><span class="line"><span class="comment"># like packages building, packages downloading from mirrors and so on.</span></span><br><span class="line"><span class="comment"># The script should return 0 if there were no errors.</span></span><br><span class="line"><span class="built_in">cd</span> repositories/python</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line"><span class="built_in">cd</span> nova-docker; git checkout stable/mitaka; <span class="built_in">cd</span> ..</span><br><span class="line">fpm -v <span class="string">"1:0.0.1"</span> -s python \</span><br><span class="line">  -t deb \</span><br><span class="line">  -n fuel-plugin-nova-docker \</span><br><span class="line">  --python-install-bin /usr/bin \</span><br><span class="line">  --python-install-lib /usr/lib/python2.7/dist-packages/ \</span><br><span class="line">  nova-docker/setup.py</span><br><span class="line">mv *.deb ../ubuntu</span><br></pre></td></tr></table></figure>
+
+<p>Verify it via a plugin build.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ~ fpb --build nova_docker</span><br><span class="line">Plugin is built</span><br><span class="line">$ ~ <span class="built_in">cd</span> nova_docker</span><br><span class="line">$ nova_docker git:(master) ls repositories/ubuntu</span><br><span class="line">fuel-plugin-nova-docker_1:0.0.1_all.deb</span><br></pre></td></tr></table></figure>
+
+<p>Let’s exclude the nova-docker binary file from the repository.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nova_docker git:(master) cat .gitignore</span><br><span class="line">.tox</span><br><span class="line">.build</span><br><span class="line">*.pyc</span><br><span class="line">*.rpm</span><br><span class="line">repositories/ubuntu/fuel-plugin-nova-docker*.deb</span><br></pre></td></tr></table></figure>
+
+<h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a><code>docker</code></h4><blockquote>
+<p>As we are working on mos 9.0, which is Ubuntu 14.04, the ubuntu build docker is named <code>docker.io</code> in repository.</p>
+</blockquote>
+<p>below lines could be enough:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package &#123;<span class="string">'docker.io'</span><span class="symbol">:</span></span><br><span class="line">  <span class="keyword">ensure</span>  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">&#125; -&gt;</span><br><span class="line">exec &#123;<span class="string">'add nova to docker group'</span><span class="symbol">:</span></span><br><span class="line">  command =&gt; <span class="string">'usermod -aG docker nova'</span>,</span><br><span class="line">  path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-debugging-puppet-code"><a href="#gt-gt-debugging-puppet-code" class="headerlink" title="&gt;&gt; debugging puppet code"></a>&gt;&gt; debugging puppet code</h5><p>Save it as <code>install.pp</code> , let’s verify it like this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@node-1:~<span class="comment"># puppet apply --debug ./install.pp</span></span><br><span class="line">Error: Could not find <span class="built_in">command</span> <span class="string">'usermod'</span></span><br><span class="line">Error: /Stage[main]/Main/Exec[add nova to docker group]/returns: change from notrun to 0 failed: Could not find <span class="built_in">command</span> <span class="string">'usermod'</span></span><br><span class="line"></span><br><span class="line">root@node-1:~<span class="comment"># which usermod</span></span><br><span class="line">/usr/sbin/usermod</span><br></pre></td></tr></table></figure>
+
+<p>Then we come to know path need to be put with <code>/usr/sbin</code>.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package &#123;<span class="string">'docker.io'</span><span class="symbol">:</span></span><br><span class="line">  <span class="keyword">ensure</span>  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">&#125; -&gt;</span><br><span class="line">exec &#123;<span class="string">'add nova to docker group'</span><span class="symbol">:</span></span><br><span class="line">  command =&gt; <span class="string">'usermod -aG docker nova'</span>,</span><br><span class="line">  path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin:/usr/sbin'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And now we have a verified <code>install.pp</code> :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package &#123;<span class="string">'fuel-plugin-nova-docker'</span>:</span><br><span class="line">  ensure  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">&#125; -&gt;</span><br><span class="line">package &#123;<span class="string">'docker.io'</span>:</span><br><span class="line">  ensure  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">&#125; -&gt;</span><br><span class="line"><span class="built_in">exec</span> &#123;<span class="string">'add nova to docker group'</span>:</span><br><span class="line">  <span class="built_in">command</span> =&gt; <span class="string">'usermod -aG docker nova'</span>,</span><br><span class="line">  path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin:/usr/sbin'</span>,</span><br><span class="line">&#125; -&gt;</span><br><span class="line"><span class="built_in">exec</span> &#123;<span class="string">'verify docker installation'</span>:</span><br><span class="line">  <span class="built_in">command</span> =&gt; <span class="string">'su nova -c docker ps'</span>,</span><br><span class="line">  path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin:/usr/sbin'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Step-2-Configuration"><a href="#Step-2-Configuration" class="headerlink" title="[Step 2] Configuration"></a>[Step 2] Configuration</h3><blockquote>
+<p>referring to <code>nova-docker</code> README here:  <a href="https://github.com/openstack/nova-docker/blob/4923a7d53024e0d476befe3a8b6dd841537569b6/README.rst" target="_blank" rel="noopener">README.rst</a>, we need to do below configuration change:</p>
+</blockquote>
+<ul>
+<li><p>In <code>nova.conf</code> for <code>nova-compute</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compute_driver=novadocker.virt.docker.DockerDriver</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>In <code>glance-api.conf</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">container_formats=ami,ari,aki,bare,ovf,ova,docker</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Then it could be done like below, where <code>roles_include</code> is a function from <code>fuel-library</code> on ruby function : <code>library/deployment/puppet/osnailyfacter/spec/functions/roles_include_spec.rb</code> (source code –&gt; <a href="https://github.com/openstack/fuel-library/blob/master/deployment/puppet/osnailyfacter/spec/functions/roles_include_spec.rb" target="_blank" rel="noopener">url</a>)</p>
+<blockquote>
+<p>referring to project: <code>fuel-library</code> <a href="https://github.com/openstack/fuel-library" target="_blank" rel="noopener">https://github.com/openstack/fuel-library</a></p>
+</blockquote>
+<p>Let’s name it as <code>configure.pp</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> roles_include([<span class="string">'compute'</span>])&#123;</span><br><span class="line">    nova_config &#123;</span><br><span class="line">      <span class="string">'default/compute_driver'</span>:     value =&gt; <span class="string">"novadocker.virt.docker.DockerDriver"</span>;</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec&#123;<span class="string">"restart nova compute service"</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">"/usr/sbin/service nova-compute restart"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (roles_include([<span class="string">'controller'</span>]) <span class="keyword">or</span> roles_include([<span class="string">'primary-controller'</span>]))&#123;</span><br><span class="line">    glance_api_config &#123;</span><br><span class="line">      <span class="string">'default/container_formats'</span>:  value =&gt; <span class="string">"ami,ari,aki,bare,ovf,ova,docker"</span>;</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec&#123;<span class="string">"restart Glance api service"</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">"/usr/sbin/service glance-api restart"</span>,</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec&#123;<span class="string">"restart Glance glare service"</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">"/usr/sbin/service glance-glare restart"</span>,</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec&#123;<span class="string">"restart Glance registry service"</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">"/usr/sbin/service glance-registry restart"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Let’s add this condition check on <code>install.pp</code> as well.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> roles_include([<span class="string">'compute'</span>])&#123;</span><br><span class="line">    package &#123;<span class="string">'fuel-plugin-nova-docker'</span><span class="symbol">:</span></span><br><span class="line">      <span class="keyword">ensure</span>  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    package &#123;<span class="string">'docker.io'</span><span class="symbol">:</span></span><br><span class="line">      <span class="keyword">ensure</span>  =&gt; <span class="string">'installed'</span>,</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec &#123;<span class="string">'add nova to docker group'</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">'usermod -aG docker nova'</span>,</span><br><span class="line">      path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin:/usr/sbin'</span>,</span><br><span class="line">    &#125; -&gt;</span><br><span class="line">    exec &#123;<span class="string">'verify docker installation'</span><span class="symbol">:</span></span><br><span class="line">      command =&gt; <span class="string">'su nova -c docker ps'</span>,</span><br><span class="line">      path    =&gt; <span class="string">'/bin:/usr/bin:/usr/local/bin:/usr/sbin'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fuel-plugin-file-structure"><a href="#Fuel-plugin-file-structure" class="headerlink" title="Fuel plugin [file structure]"></a>Fuel plugin [file structure]</h3><p>The scripts entry path is <code>deployment_scripts</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nova_docker git:(master) mkdir -p deployment_scripts/puppet/manifests</span><br><span class="line">$ nova_docker git:(master) tree deployment_scripts</span><br><span class="line">deployment_scripts</span><br><span class="line">├── deploy.sh     <span class="comment"># dummy script from the fpb template</span></span><br><span class="line">└── puppet        <span class="comment"># we create puppet files here</span></span><br><span class="line">    └── manifests</span><br></pre></td></tr></table></figure>
+
+<p>The scripts were called via tasks in <code>deployment_tasks.yml</code> in the whole graph.</p>
+<h5 id="gt-gt-Entry-for-nova-docker-install"><a href="#gt-gt-Entry-for-nova-docker-install" class="headerlink" title="&gt;&gt; Entry for nova_docker-install"></a>&gt;&gt; Entry for <code>nova_docker-install</code></h5><p>Let’s compse the  <code>deployment_tasks.yml</code>, where we would like our <code>install.pp</code> being called during <code>post_deployment</code> on <code>role: compute</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># If you do not want to use task-based deployment that is introduced as experimental</span></span><br><span class="line"><span class="comment"># in fuel v8.0 comment code section below this comment, uncomment two lines below it</span></span><br><span class="line"><span class="comment"># and do the same for tasks below.</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">id:</span> <span class="string">nova_docker-install</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">puppet</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2.0</span><span class="number">.0</span></span><br><span class="line">  <span class="attr">role:</span> <span class="string">[compute]</span></span><br><span class="line">  <span class="attr">requires:</span> <span class="string">[post_deployment_start]</span></span><br><span class="line">  <span class="attr">required_for:</span> <span class="string">[post_deployment_end]</span></span><br><span class="line">  <span class="attr">parameters:</span></span><br><span class="line">    <span class="attr">puppet_manifest:</span> <span class="string">puppet/manifests/install.pp</span></span><br><span class="line">    <span class="attr">puppet_modules:</span> <span class="string">puppet/modules:/etc/puppet/modules</span></span><br><span class="line">    <span class="attr">timeout:</span> <span class="number">600</span></span><br><span class="line">    <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">interval:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-Entry-for-nova-docker-configure"><a href="#gt-gt-Entry-for-nova-docker-configure" class="headerlink" title="&gt;&gt; Entry for nova_docker-configure"></a>&gt;&gt; Entry for <code>nova_docker-configure</code></h5><p>Add this part to  <code>deployment_tasks.yml</code> for <code>configure.pp</code>.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">id:</span> <span class="string">nova_docker-configure</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">puppet</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2.0</span><span class="number">.0</span></span><br><span class="line">  <span class="attr">role:</span> <span class="string">[primary-controller,</span> <span class="string">controller,</span> <span class="string">compute]</span></span><br><span class="line">  <span class="attr">requires:</span> <span class="string">[post_deployment_start,</span> <span class="string">nova_docker-install]</span></span><br><span class="line">  <span class="attr">cross-depends:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nova_docker-install</span></span><br><span class="line">      <span class="attr">role:</span> <span class="string">[primary-controller,</span> <span class="string">controller,</span> <span class="string">compute]</span></span><br><span class="line">  <span class="attr">required_for:</span> <span class="string">[post_deployment_end]</span></span><br><span class="line">  <span class="attr">parameters:</span></span><br><span class="line">    <span class="attr">puppet_manifest:</span> <span class="string">puppet/manifests/configure.pp</span></span><br><span class="line">    <span class="attr">puppet_modules:</span> <span class="string">puppet/modules:/etc/puppet/modules</span></span><br><span class="line">    <span class="attr">timeout:</span> <span class="number">600</span></span><br><span class="line">    <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">interval:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Metadata-change"><a href="#Metadata-change" class="headerlink" title="Metadata change"></a>Metadata change</h3><p><code>metadata.yaml</code> are changed accordingly</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homepage:</span> <span class="string">'https://github.com/littlewey/fuel-plugin-nova-docker'</span></span><br><span class="line"><span class="attr">is_hotpluggable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Debug-fuel-plugin-deployment"><a href="#Debug-fuel-plugin-deployment" class="headerlink" title="Debug fuel plugin deployment"></a>Debug fuel plugin deployment</h3><h3 id="Install-plugin"><a href="#Install-plugin" class="headerlink" title="Install plugin"></a>Install plugin</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ scp ./nova_docker-1.0-1.0.0-1.noarch.rpm fuel:/root/</span><br><span class="line"></span><br><span class="line">$ fuel plugins --install /root/nova_docker-1.0-1.0.0-1.noarch.rpm</span><br><span class="line"></span><br><span class="line">$ fuel plugins --sync</span><br></pre></td></tr></table></figure>
+
+<h3 id="Check-status"><a href="#Check-status" class="headerlink" title="Check status"></a>Check status</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel2 task history show 21 --node 1 2 3 --status ready</span></span><br><span class="line">+----------------------+----+--------+----------------------------+----------------------------+</span><br><span class="line">| task_name            | id | status | time_start                 | time_end                   |</span><br><span class="line">+----------------------+----+--------+----------------------------+----------------------------+</span><br><span class="line">| upload_configuration | 1  | ready  | 2019-01-20T14:32:42.823654 | 2019-01-20T14:32:43.150434 |</span><br><span class="line">| upload_configuration | 3  | ready  | 2019-01-20T14:32:43.057490 | 2019-01-20T14:32:43.175740 |</span><br><span class="line">| upload_configuration | 2  | ready  | 2019-01-20T14:32:43.125496 | 2019-01-20T14:32:43.201964 |</span><br><span class="line">| setup_repositories   | 3  | ready  | 2019-01-20T14:32:44.480248 | 2019-01-20T14:32:50.491014 |</span><br><span class="line">| setup_repositories   | 2  | ready  | 2019-01-20T14:32:44.548006 | 2019-01-20T14:32:50.522656 |</span><br><span class="line">| setup_repositories   | 1  | ready  | 2019-01-20T14:32:44.409323 | 2019-01-20T14:32:54.502436 |</span><br><span class="line">+----------------------+----+--------+----------------------------+----------------------------+</span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel plugins</span></span><br><span class="line">id | name        | version | package_version | releases</span><br><span class="line">---+-------------+---------+-----------------+---------------------------------</span><br><span class="line">1  | nova_docker | 1.0.0   | 5.0.0           | ubuntu (mitaka-9.0, newton-10.0)</span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># ls -l /var/www/nailgun/plugins/</span></span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 4 root root 4096 Jan 20 14:32 nova_docker-1.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="Deploy-Plugin"><a href="#Deploy-Plugin" class="headerlink" title="Deploy Plugin"></a>Deploy Plugin</h3><p>Let’s do it!</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel node --node 1 2 --task nova_docker-install nova_docker-configure</span></span><br><span class="line">400 Client Error: Bad Request <span class="keyword">for</span> url: http://10.20.0.2:8000/api/v1/clusters/1/deploy_tasks/?nodes=1,2 (Tasks nova_docker-install,nova_docker-configure are not present <span class="keyword">in</span> deployment graph)</span><br></pre></td></tr></table></figure>
+
+<p>fuel deployment’s entry is the deployement graph, simply install the plugin is not enough, we still need to update the graph:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel2 graph download -e 1 -a</span></span><br><span class="line">Tasks were downloaded to /root/cluster_graph.yaml</span><br><span class="line">[root@fuel ~]<span class="comment"># vim cluster_graph.yaml</span></span><br><span class="line"></span><br><span class="line">// <span class="keyword">do</span> changes here</span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel2 graph upload -e 1  -t default -f cluster_graph.yaml</span></span><br><span class="line">Deployment graph was uploaded from cluster_graph.yaml</span><br></pre></td></tr></table></figure>
+
+<p><code>diff /root/cluster_graph.yaml.backup /root/cluster_graph.yaml</code></p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">4988a4989,5015</span><br><span class="line">&gt; - id: nova_docker-install</span><br><span class="line">&gt;   type: puppet</span><br><span class="line">&gt;   version: 2.0.0</span><br><span class="line">&gt;   role: [compute]</span><br><span class="line">&gt;   requires: [post_deployment_start]</span><br><span class="line">&gt;   required_for: [post_deployment_end]</span><br><span class="line">&gt;   parameters:</span><br><span class="line">&gt;     puppet_manifest: puppet/manifests/install.pp</span><br><span class="line">&gt;     puppet_modules: puppet/modules:/etc/puppet/modules</span><br><span class="line">&gt;     timeout: 600</span><br><span class="line">&gt;     retries: 3</span><br><span class="line">&gt;     interval: 20</span><br><span class="line">&gt; - id: nova_docker-configure</span><br><span class="line">&gt;   type: puppet</span><br><span class="line">&gt;   version: 2.0.0</span><br><span class="line">&gt;   role: [primary-controller, controller, compute]</span><br><span class="line">&gt;   requires: [post_deployment_start, nova_docker-install]</span><br><span class="line">&gt;   cross-depends:</span><br><span class="line">&gt;     - name: nova_docker-install</span><br><span class="line">&gt;       role: [primary-controller, controller, compute]</span><br><span class="line">&gt;   required_for: [post_deployment_end]</span><br><span class="line">&gt;   parameters:</span><br><span class="line">&gt;     puppet_manifest: puppet/manifests/configure.pp</span><br><span class="line">&gt;     puppet_modules: puppet/modules:/etc/puppet/modules</span><br><span class="line">&gt;     retries: 3</span><br><span class="line">&gt;     interval: 20</span><br><span class="line">&gt;     timeout: 600</span><br></pre></td></tr></table></figure>
+
+<p>Let’s retry!</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel node --node 1 2 --task nova_docker-install nova_docker-configure</span></span><br><span class="line">Started tasks [<span class="string">'nova_docker-install'</span>, <span class="string">'nova_docker-configure'</span>] <span class="keyword">for</span> nodes nodes [1, 2].</span><br></pre></td></tr></table></figure>
+
+<p>Error occuered</p>
+<h3 id="gt-gt-debugging-plugin-deployment"><a href="#gt-gt-debugging-plugin-deployment" class="headerlink" title="&gt;&gt; debugging plugin deployment"></a>&gt;&gt; debugging plugin deployment</h3><p>Narrow down the error node: node-2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel2 task history show 23 --status error</span></span><br><span class="line">+---------------------+---------+--------+----------------------------+...</span><br><span class="line">| task_name           | node_id | status | time_start                 |...</span><br><span class="line">+---------------------+---------+--------+----------------------------+...</span><br><span class="line">| nova_docker-install | 2       | error  | 2019-01-20T14:56:03.262103 |...</span><br><span class="line">+---------------------+---------+--------+----------------------------+...</span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel2 node list -c id -c status -c name -c online</span></span><br><span class="line">+----+------------+--------+--------+</span><br><span class="line">| id | name       | status | online |</span><br><span class="line">+----+------------+--------+--------+</span><br><span class="line">|  3 | cinder     | ready  | True   |</span><br><span class="line">|  1 | controller | ready  | True   |</span><br><span class="line">|  2 | compute    | error  | True   | &lt;----</span><br><span class="line">+----+------------+--------+--------+</span><br></pre></td></tr></table></figure>
+
+<p>Get the err from puppet log, this means the plugin was not</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># ssh node-2 "egrep '(err)' /var/log/puppet.log  -A2 | tail"</span></span><br><span class="line"></span><br><span class="line">2019-01-20 14:56:02 +0000 Puppet (err): Could not run: Could not find file puppet/manifests/install.pp</span><br><span class="line">/usr/lib/ruby/vendor_ruby/puppet/application/apply.rb:179:<span class="keyword">in</span> `main<span class="string">'</span></span><br><span class="line"><span class="string">/usr/lib/ruby/vendor_ruby/puppet/application/apply.rb:159:in `run_command'</span></span><br><span class="line">--</span><br><span class="line">2019-01-20 14:56:04 +0000 Puppet (err): Could not run: Could not find file puppet/manifests/install.pp</span><br><span class="line">/usr/lib/ruby/vendor_ruby/puppet/application/apply.rb:179:<span class="keyword">in</span> `main<span class="string">'</span></span><br><span class="line"><span class="string">/usr/lib/ruby/vendor_ruby/puppet/application/apply.rb:159:in `run_command'</span></span><br></pre></td></tr></table></figure>
+
+<p>The plugin was not placed</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ fuel node --node 1 2 3 --tasks upload_configuration plugins_rsync setup_repositories --force</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Debug-tips"><a href="#Debug-tips" class="headerlink" title="Debug tips"></a>Debug tips</h1><blockquote>
+<p>Some tips were got from days of painful practice…</p>
+</blockquote>
+<h2 id="fuel-plugin-update-distribute"><a href="#fuel-plugin-update-distribute" class="headerlink" title="fuel plugin update/ distribute"></a>fuel plugin update/ distribute</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># not always working</span></span><br><span class="line">yum -y reinstall --disablerepo=<span class="string">'*'</span> /var/www/nailgun/&lt;path&gt;/fuel-plugins/plugin_foo.rpm</span><br><span class="line">yum -y install --disablerepo=<span class="string">'*'</span> /var/www/nailgun/&lt;path&gt;/fuel-plugins/plugin_foo.rpm</span><br><span class="line"><span class="comment"># obvirously you could do so</span></span><br><span class="line">rpm -i /var/www/nailgun/&lt;path&gt;/fuel-plugins/plugin_foo.rpm --force</span><br><span class="line">[root@fuel ~]<span class="comment"># fuel plugins --sync</span></span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel node --node &lt;nodes-id&gt; --tasks upload_configuration setup_repositories plugins_rsync --force</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>directly calling a <code>.pp</code> file on target node</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[node-0]<span class="comment"># cd /etc/fuel/plugins/&lt;plugin_foo-1.0&gt;</span></span><br><span class="line">[node-0]<span class="comment"># puppet apply --debug \</span></span><br><span class="line">    --modulepath=puppet/modules:/etc/puppet/modules:&lt;path_plugin_bar-1.0&gt;/puppet/modules \</span><br><span class="line">    puppet/manifests/plugin_foo_task_01.pp</span><br><span class="line"></span><br><span class="line">// or sanity <span class="built_in">test</span> only without actually executing changes with --noop</span><br><span class="line">[node-0]<span class="comment"># puppet apply --debug --noop \</span></span><br><span class="line">    --modulepath=puppet/modules:/etc/puppet/modules:&lt;path_plugin_bar-1.0&gt;/puppet/modules \</span><br><span class="line">    puppet/manifests/plugin_foo_task_01.pp</span><br></pre></td></tr></table></figure>
+
+<h2 id="task-order-debugging"><a href="#task-order-debugging" class="headerlink" title="task order debugging"></a>task order debugging</h2><p>The deployment process is a graph.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># grep ".dot" /var/log/astute/astute.log</span></span><br><span class="line">:graph_dot_dir: /var/lib/astute/graphs</span><br><span class="line">:graph_dot_dir: /var/lib/astute/graphs</span><br><span class="line">2019-01-18 03:33:46 INFO [26377] Check graph into file /var/lib/astute/graphs/graph-7395c5dc-bd42-40ab-9367-9ec5dc29ff05.dot</span><br><span class="line"><span class="comment"># or generate yourself</span></span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel graph --env 1 --download &gt; graph.dot</span></span><br></pre></td></tr></table></figure>
+
+<p>Use <code>graphviz</code> to read it or even render it as picture file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ brew install graphviz <span class="comment"># or apt-get install graphviz</span></span><br><span class="line">$ dot -Tpng graph.dot -o graph.png</span><br><span class="line">$ brew reinstall graphviz --with-app <span class="comment"># mac with GUI</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Modify, debug and dry run tasks graph</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># fuel2 graph download -e 1 -a</span></span><br><span class="line">Tasks were downloaded to /root/cluster_graph.yaml</span><br><span class="line">[root@fuel ~]<span class="comment"># vim cluster_graph.yaml</span></span><br><span class="line"></span><br><span class="line">// <span class="keyword">do</span> changes here</span><br><span class="line"></span><br><span class="line">[root@fuel ~]<span class="comment"># fuel2 graph upload -e 1  -t default -f cluster_graph.yaml</span></span><br><span class="line"></span><br><span class="line">// quickly check <span class="keyword">if</span> loop detected --noop is doing the magic</span><br><span class="line">[root@fuel ~]<span class="comment"># fuel2 graph execute -e 1 -t default --noop --force</span></span><br><span class="line"></span><br><span class="line">// error example see `foo_task` below: </span><br><span class="line"><span class="string">"Method task_deploy. Cluster[]: Loop detected! Path: Task[audit_logging_configuration/1], Task[deploy_end/virtual_sync_node], Task[post_deployment_start/virtual_sync_node], Task[foo_task/3], Task[bar_task_0/1], Task[bar_task_2/3], Task[foo_task/3].\nInspect Astute logs for the details"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>Tip: Run a range of tasks</strong></p>
+<p>For testing purposes you might want to run not one task, but a range of them. To do this use the following form of command <code>fuel node</code>:</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fuel node --node &lt;node-id&gt; \</span><br><span class="line">  --start &lt;name of the first task&gt; \</span><br><span class="line">  --end &lt;name of the last task&gt; \</span><br><span class="line">[ --skip &lt;list of the tasks that should be skipped&gt; ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="yaql"><a href="#yaql" class="headerlink" title="yaql"></a>yaql</h2><blockquote>
+<p>ref: </p>
+<ul>
+<li><a href="https://github.com/openstack/yaql" target="_blank" rel="noopener">https://github.com/openstack/yaql</a></li>
+<li><a href="https://github.com/openstack/fuel-web/tree/master/nailgun/nailgun/fuyaql" target="_blank" rel="noopener">https://github.com/openstack/fuel-web/tree/master/nailgun/nailgun/fuyaql</a></li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@fuel ~]<span class="comment"># manage.py yaql -c 1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>#Reference</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[0]: https://docs.openstack.org/fuel-docs/mitaka/devdocs/develop.html   <span class="string">"Fuel Develop Guide"</span></span><br><span class="line">[1]: https://docs.openstack.org/fuel-docs/newton/plugindocs/fuel-plugin-sdk-guide.html  <span class="string">"F.P. SDK Guide"</span></span><br><span class="line">[2]: https://wiki.openstack.org/wiki/Fuel_CLI   <span class="string">"Fuel CLI cheatsheet"</span></span><br><span class="line">[3]: https://goo.gl/BRB6vR  <span class="string">"Fuel plugin handbook"</span></span><br><span class="line">[4]: https://docs.openstack.org/fuel-docs/mitaka/devdocs/develop/sequence.html  <span class="string">"Fuel Sequence Diagrams"</span></span><br><span class="line">[5]: https://github.com/openstack/nova-docker/blob/4923a7d53024e0d476befe3a8b6dd841537569b6/README.rst  <span class="string">"nova-docker"</span></span><br><span class="line">[6]: http://docs.ocselected.org/openstack-manuals/juno/fuel-docs/reference-architecture.html    <span class="string">"Fuel 中文"</span></span><br><span class="line">[7]: https://docs.mirantis.com/fuel-docs/mitaka/devdocs/develop/modular-architecture.html   <span class="string">"Modular Arch"</span></span><br><span class="line">[8]: https://wiki.openstack.org/wiki/Fuel/Plugins   <span class="string">"Fuel Plugins Wiki"</span></span><br><span class="line">[9]: https://wiki.opnfv.org/display/ds/Build+fuel-plugin-opendaylight   <span class="string">"Another Example"</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://note.siwei.info/notes-after-creating-a-fuel-plugin/" title="notes after creating a fuel plugin">https://note.siwei.info/notes-after-creating-a-fuel-plugin/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/openstack/" rel="tag"># openstack</a>
+              <a href="/tags/fuel-plugin/" rel="tag"># fuel-plugin</a>
+              <a href="/tags/puppet/" rel="tag"># puppet</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/leetcode-notes/" rel="prev" title="leetcode notes">
+      <i class="fa fa-chevron-left"></i> leetcode notes
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/git-notes/" rel="next" title="git notes">
+      git notes <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于"><span class="nav-number">1.</span> <span class="nav-text">关于</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-a-fuel-plugin-from-scrash"><span class="nav-number">2.</span> <span class="nav-text">Build a fuel plugin from scrash</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-fuel-plugin-for-nova-docker"><span class="nav-number">2.1.</span> <span class="nav-text">Create fuel plugin for nova-docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-0-Initiate-the-project"><span class="nav-number">2.1.1.</span> <span class="nav-text">[Step 0] Initiate the project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Installation-packages"><span class="nav-number">2.1.2.</span> <span class="nav-text">[Step 1] Installation packages</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nova-docker"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">nova-docker</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Fetch-the-nova-docker-source-code"><span class="nav-number">2.1.2.1.1.</span> <span class="nav-text">&gt;&gt; Fetch the nova-docker source code</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Build-nova-docker"><span class="nav-number">2.1.2.1.2.</span> <span class="nav-text">&gt;&gt; Build nova-docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Install-nova-docker"><span class="nav-number">2.1.2.1.3.</span> <span class="nav-text">&gt;&gt; Install nova-docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Include-nova-docker"><span class="nav-number">2.1.2.1.4.</span> <span class="nav-text">&gt;&gt; Include nova-docker</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">docker</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-debugging-puppet-code"><span class="nav-number">2.1.2.2.1.</span> <span class="nav-text">&gt;&gt; debugging puppet code</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Configuration"><span class="nav-number">2.1.3.</span> <span class="nav-text">[Step 2] Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fuel-plugin-file-structure"><span class="nav-number">2.1.4.</span> <span class="nav-text">Fuel plugin [file structure]</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Entry-for-nova-docker-install"><span class="nav-number">2.1.4.0.1.</span> <span class="nav-text">&gt;&gt; Entry for nova_docker-install</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-gt-Entry-for-nova-docker-configure"><span class="nav-number">2.1.4.0.2.</span> <span class="nav-text">&gt;&gt; Entry for nova_docker-configure</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Metadata-change"><span class="nav-number">2.1.5.</span> <span class="nav-text">Metadata change</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-fuel-plugin-deployment"><span class="nav-number">2.1.6.</span> <span class="nav-text">Debug fuel plugin deployment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-plugin"><span class="nav-number">2.1.7.</span> <span class="nav-text">Install plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-status"><span class="nav-number">2.1.8.</span> <span class="nav-text">Check status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-Plugin"><span class="nav-number">2.1.9.</span> <span class="nav-text">Deploy Plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gt-gt-debugging-plugin-deployment"><span class="nav-number">2.1.10.</span> <span class="nav-text">&gt;&gt; debugging plugin deployment</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Debug-tips"><span class="nav-number">3.</span> <span class="nav-text">Debug tips</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fuel-plugin-update-distribute"><span class="nav-number">3.1.</span> <span class="nav-text">fuel plugin update&#x2F; distribute</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#task-order-debugging"><span class="nav-number">3.2.</span> <span class="nav-text">task order debugging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaql"><span class="nav-number">3.3.</span> <span class="nav-text">yaql</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">Build things.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/littlewey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:littlewey@gmail.com" title="E-Mail → mailto:littlewey@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/littlewey" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/littlewey" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/littlewey" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/littlewey" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '90bb84dab80e142752cb',
+      clientSecret: '26f2fb897afc6becceae244ae33738ba8c51a0b7',
+      repo        : 'littlewey.github.io',
+      owner       : 'littlewey',
+      admin       : ['littlewey'],
+      id          : 'b512190bc007d22f046388cd7c08ea51',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/ 
+Allow: /resources/ 
+Allow: /js/
+Allow: /css/
+Allow: /fonts/
+Disallow: /vendors/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: https://note.siwei.info/sitemap.xml
+Sitemap: https://note.siwei.info/baidusitemap.xml

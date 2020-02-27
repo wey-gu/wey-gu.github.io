@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Build things.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Siwei notes">
+<meta property="og:url" content="https://note.siwei.info/index.html">
+<meta property="og:site_name" content="Siwei notes">
+<meta property="og:description" content="Build things.">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://note.siwei.info/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false
+  };
+</script>
+
+  <title>Siwei notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Siwei notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-résumé">
+
+    <a href="/about/resume.pdf" rel="section"><i class="fa fa-fw fa-book"></i>Résumé</a>
+
+  </li>
+        <li class="menu-item menu-item-简历">
+
+    <a href="/about/resume_chs.pdf" rel="section"><i class="fa fa-fw fa-book"></i>简历</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/upstart-related/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/upstart-related/" class="post-title-link" itemprop="url">upstart related</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-07-02 13:03:26" itemprop="dateCreated datePublished" datetime="2019-07-02T13:03:26+08:00">2019-07-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-29 20:02:08" itemprop="dateModified" datetime="2019-08-29T20:02:08+08:00">2019-08-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>虽然 <code>upstart</code> 已经被替代，生产环境中还是会有老系统使用，这里记录一下这个主题的东西。</p>
+<blockquote>
+<p>good reference</p>
+<ul>
+<li><a href="http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf" target="_blank" rel="noopener">http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf</a></li>
+<li><a href="http://upstart.ubuntu.com/cookbook/#ubuntu-well-known-events-ubuntu-specific" target="_blank" rel="noopener">http://upstart.ubuntu.com/cookbook/#ubuntu-well-known-events-ubuntu-specific</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/jupyter-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/jupyter-notes/" class="post-title-link" itemprop="url">jupyter pyenv and virtualenv in macOS</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-27 14:53:50" itemprop="dateCreated datePublished" datetime="2019-03-27T14:53:50+08:00">2019-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-04-02 11:33:40" itemprop="dateModified" datetime="2019-04-02T11:33:40+08:00">2019-04-02</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Conbined with <code>pyenv</code>  <code>virtualenv</code> and <code>Jupyter kernal specification</code>, we could have different versions of project-specific python wrapper as below.</p>
+<p>This article includes needed information on enabling this.</p>
+</blockquote>
+<h1 id="pyenv"><a href="#pyenv" class="headerlink" title="pyenv"></a>pyenv</h1><blockquote>
+<p>ref: <a href="https://github.com/pyenv/pyenv/issues/1219" target="_blank" rel="noopener">https://github.com/pyenv/pyenv/issues/1219</a></p>
+</blockquote>
+<p><code>zlib not available</code>, one thing to highlight is to enable zlib, we have to do this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br><span class="line">sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /</span><br></pre></td></tr></table></figure>
+
+<p>Below are things we need to ensure pyenv magically modified our enviroment variables to point specific version of python.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ brew install pyenv</span><br><span class="line">$ <span class="built_in">cd</span> &lt;project_path&gt;</span><br><span class="line">$ pyenv install 3.6.8</span><br><span class="line">$ pyenv <span class="built_in">local</span> 3.6.8</span><br><span class="line">$ pyenv init</span><br><span class="line"><span class="comment"># Load pyenv automatically by appending</span></span><br><span class="line"><span class="comment"># the following to ~/.zshrc:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv init -)</span>"</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/python</span><br><span class="line">$ <span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv init -)</span>"</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/Users/&lt;user&gt;/.pyenv/shims/python</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="jupyter-IPython-kernel-management"><a href="#jupyter-IPython-kernel-management" class="headerlink" title="jupyter/IPython kernel management"></a>jupyter/IPython kernel management</h2><blockquote>
+<p>ref: <a href="https://ipython.readthedocs.io/en/latest/install/kernel_install.html" target="_blank" rel="noopener">https://ipython.readthedocs.io/en/latest/install/kernel_install.html</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br><span class="line"></span><br><span class="line">$ python -m virtualenv py36</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">source</span> py36/bin/activate</span><br><span class="line"></span><br><span class="line">$ pip install ipykernel</span><br><span class="line"></span><br><span class="line">$ python -m ipykernel install --user --name py36 --display-name <span class="string">"ProjectName py36"</span></span><br><span class="line"></span><br><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  py36       /Users/&lt;user&gt;/Library/Jupyter/kernels/py36</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br></pre></td></tr></table></figure>
+
+<p>Then, from the jupyter notebook webpage, you could select kernels from <code>Kernel: Change Kernel</code></p>
+<h2 id="matplotlib-calling-latex-failed-on-macOS"><a href="#matplotlib-calling-latex-failed-on-macOS" class="headerlink" title="matplotlib calling latex failed on macOS"></a><code>matplotlib</code> calling <code>latex</code> failed on macOS</h2><blockquote>
+<p>plot call failed due to latex could not be invoked</p>
+</blockquote>
+<h3 id="Root-cause"><a href="#Root-cause" class="headerlink" title="Root cause"></a>Root cause</h3><p>LaTeX was not installed or cannot be called from<code>latex</code></p>
+<h3 id="Minimal-reproducing"><a href="#Minimal-reproducing" class="headerlink" title="Minimal reproducing"></a>Minimal reproducing</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import subprocess; subprocess.check_call(<span class="string">"latex"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># FileNotFoundError: [Errno 2] No such file or directory: 'latex': 'latex'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># or from shell</span></span><br><span class="line"></span><br><span class="line">$ latex</span><br><span class="line"><span class="comment"># latex not found</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h3><ul>
+<li>install Tex Live for macOS</li>
+<li>append <code>PATH</code> for <code>/Library/TeX/texbin</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://tug.org/cgi-bin/mactex-download/MacTeX.pkg</span><br><span class="line"><span class="comment"># checksum and install MacTeX.pkg</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using zsh</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'export PATH="$PATH:/Library/TeX/texbin"'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using bash</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'export PATH="$PATH:/Library/TeX/texbin"'</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h3 id="Verify-it"><a href="#Verify-it" class="headerlink" title="Verify it"></a>Verify it</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$PATH</span>:/Library/TeX/texbin"</span></span><br><span class="line">$ latex --version</span><br><span class="line">pdfTeX 3.14159265-2.6-1.40.19 (TeX Live 2018)</span><br><span class="line">kpathsea version 6.3.0</span><br><span class="line">Copyright 2018 Han The Thanh (pdfTeX) et al.</span><br><span class="line">There is NO warranty.  Redistribution of this software is</span><br><span class="line">covered by the terms of both the pdfTeX copyright and</span><br><span class="line">the Lesser GNU General Public License.</span><br><span class="line">For more information about these matters, see the file</span><br><span class="line">named COPYING and the pdfTeX <span class="built_in">source</span>.</span><br><span class="line">Primary author of pdfTeX: Han The Thanh (pdfTeX) et al.</span><br><span class="line">Compiled with libpng 1.6.34; using libpng 1.6.34</span><br><span class="line">Compiled with zlib 1.2.11; using zlib 1.2.11</span><br><span class="line">Compiled with xpdf version 4.00</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" class="post-title-link" itemprop="url">Project Resource Board: a scalable webapp with Flask socketio and Vue.js</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-16 22:27:28" itemprop="dateCreated datePublished" datetime="2019-02-16T22:27:28+08:00">2019-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-04-06 13:35:44" itemprop="dateModified" datetime="2019-04-06T13:35:44+08:00">2019-04-06</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <img src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
+
+<h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。</p>
+<p>本文是我在写第一个发布版本之前持续更新的记录。</p>
+<blockquote>
+<p>updated in <code>2019-April-6</code></p>
+<p>以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码：</p>
+<p><a href="https://github.com/littlewey/resource-board" target="_blank" rel="noopener">https://github.com/littlewey/resource-board</a></p>
+<p>之后我会花时间迭代下去，不过现在课余时间在做一个机器学习调优的项目，这个优先级只能降低。</p>
+</blockquote>
+<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><blockquote>
+<p>为什么开始</p>
+</blockquote>
+<p>在云计算研发部门搬砖半年，一直做一些很小的feature开发，连着几个月早出晚归加上牺牲周末时间的赶进度让我内心很不平静。我需要做点什么，因为本质上我热爱的是 <code>build things</code>，做一个<code>proper side project</code> 的主意在脑子里转了好久了，我决定先做一个简单的东西出来。</p>
+<p>这个东西就是一个 <code>resource board</code> 。</p>
+<blockquote>
+<p>学到什么</p>
+</blockquote>
+<p><code>resourece borard</code> 是我起的名字，其实就是一份在线的表格、面板，本质上用 <code>O365</code> / <code>onedrive for business</code> 完全可以实现类似的功效。不过我还是想造这样一个轮子，涉及一下产品开发的全生命周期的从无到有的创造、学习、实践：</p>
+<ul>
+<li>planning, prototyping</li>
+<li>architecture</li>
+<li>front end</li>
+<li>back end</li>
+<li>CI/ CD</li>
+<li>maintenance</li>
+<li>refactoring<ul>
+<li>for test</li>
+<li>for scale</li>
+</ul>
+</li>
+<li>tuning</li>
+</ul>
+<blockquote>
+<p>User story of resource board</p>
+</blockquote>
+<p><code>resource board</code> 主要解决异地团队协作中对共享资源使用的问题，它是一个电子化的资源使用白板。</p>
+<p>试想一下没有资源占用白板的时候，团队里的人共享10个虚拟化数据中心，我们简称 <code>DC</code> ，对于它的使用分几个场景：</p>
+<ul>
+<li>CI <ul>
+<li>被CI占用，没有再触发CI调用它的人不可以干预</li>
+</ul>
+</li>
+<li>testing<ul>
+<li>被非独占式的人使用中，特定的人可以并行使用它，（理想情况下）不会干扰到彼此</li>
+</ul>
+</li>
+<li>occupied<ul>
+<li>被人独占使用，不可与别人共享</li>
+</ul>
+</li>
+<li>free<ul>
+<li>任何人可以使用它，或者挪作其他用途</li>
+</ul>
+</li>
+</ul>
+<p>这种情况下，使用它的A同学需要站起来告诉所有人，或者群发邮件，说我要用 <code>DC123</code> 独占调试一个代码，有人在用么？ 10分钟后，在注意到没人回复的情况下，ta就在 <code>DC123</code>上开始<del>做坏事</del> 调试ta的代码了。然而刚从厕所回来的B同学，却发现ta的环境被破坏了，半天白忙活了😢。</p>
+<p>如果这个资源共享的工作方式之中引入了记录资源占用情况的白板，A同学只需要看一下白板上空闲的DC，发现<code>DC125</code> 可以使用，他可以做到：</p>
+<ul>
+<li>无需等待确认广播信息的回复立刻使用 <code>DC125</code></li>
+<li>不会破坏任何被占用的资源环境比如 <code>DC123</code> </li>
+</ul>
+<p>看起来比较自然。</p>
+<h1 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h1><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><ul>
+<li>数字化白板应该是一个Wep App</li>
+<li>它需要是实时的<ul>
+<li>支持面向连接的(server —&gt; client)</li>
+</ul>
+</li>
+<li>可扩展，可扩容<ul>
+<li>后端<ul>
+<li>只做api</li>
+<li>分布式，可scale up</li>
+</ul>
+</li>
+<li>前端<ul>
+<li>single page client</li>
+<li>websocket</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="简单原型"><a href="#简单原型" class="headerlink" title="简单原型"></a>简单原型</h2><p>我用Balsamiq Mockups 简单做了一个原型：</p>
+<ul>
+<li>用卡片表示每一个资源的信息</li>
+<li>不同的section表示资源被使用的状态，或者分类</li>
+<li>提供面向资源的历史查看页面</li>
+</ul>
+<p>我没有花更多时间去画更详细的原型图，只是在画这个初始的版本的过程中引导我思考我初始的数据schema，前后端最开始要做的事情，一旦雏形确定下来，我就直接进入前后端的开发，在开发中直接实现业务逻辑的进化。</p>
+<blockquote>
+<p> 这里是我截取的原型图的demo动画 😁</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/git-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/git-notes/" class="post-title-link" itemprop="url">git notes</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-23 10:36:35" itemprop="dateCreated datePublished" datetime="2019-01-23T10:36:35+08:00">2019-01-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-05 22:33:59" itemprop="dateModified" datetime="2019-03-05T22:33:59+08:00">2019-03-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Change-commits-author"><a href="#Change-commits-author" class="headerlink" title="Change commits author"></a>Change commits author</h1><blockquote>
+<p>reference: <a href="https://help.github.com/articles/changing-author-info/" target="_blank" rel="noopener">https://help.github.com/articles/changing-author-info/</a></p>
+</blockquote>
+<h1 id="Edit-a-previous-commit"><a href="#Edit-a-previous-commit" class="headerlink" title="Edit a previous commit"></a>Edit a previous commit</h1><blockquote>
+<p>reference: <a href="https://stackoverflow.com/questions/1186535/how-to-modify-a-specified-commit" target="_blank" rel="noopener">https://stackoverflow.com/questions/1186535/how-to-modify-a-specified-commit</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase --interactive &lt;hash_before_the_ones_you_would_like_to_edit&gt;</span><br><span class="line">//change `pick` to `edit` <span class="keyword">for</span> the commit you would like to edit</span><br><span class="line">$ git commit --all --amend --no-edit</span><br><span class="line"></span><br><span class="line">$ git rebase --<span class="built_in">continue</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/notes-after-creating-a-fuel-plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/notes-after-creating-a-fuel-plugin/" class="post-title-link" itemprop="url">notes after creating a fuel plugin</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-17 10:15:12" itemprop="dateCreated datePublished" datetime="2019-01-17T10:15:12+08:00">2019-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-20 14:30:19" itemprop="dateModified" datetime="2019-11-20T14:30:19+08:00">2019-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/openstack-stuff/" itemprop="url" rel="index"><span itemprop="name">openstack stuff</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>这篇文章是我做一个内部 knowledge sharing准备的文档，介绍了如何基于MIranis fuel的平台开发一个fuel plugin，我用了一个死了的项目 nova-docker作为实际的例子。</p>
+<h1 id="Build-a-fuel-plugin-from-scrash"><a href="#Build-a-fuel-plugin-from-scrash" class="headerlink" title="Build a fuel plugin from scrash"></a>Build a fuel plugin from scrash</h1><blockquote>
+<p><strong>Live demo:</strong></p>
+<p>Let’s try to build a fuel plugin enables nova-docker</p>
+<p>Code put here: <a href="https://github.com/littlewey/fuel-plugin-nova-docker" target="_blank" rel="noopener">https://github.com/littlewey/fuel-plugin-nova-docker</a></p>
+</blockquote>
+<h2 id="Create-fuel-plugin-for-nova-docker"><a href="#Create-fuel-plugin-for-nova-docker" class="headerlink" title="Create fuel plugin for nova-docker"></a>Create fuel plugin for <code>nova-docker</code></h2><p><strong>Steps needed:</strong></p>
+<ul>
+<li>Step 1 Installation packages<ul>
+<li>install nova-docker</li>
+<li>install dependency (docker)</li>
+</ul>
+</li>
+<li>Step 2 configuration<ul>
+<li>configuration on nova compute</li>
+<li>configuration on nova controller</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/notes-after-creating-a-fuel-plugin/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/leetcode-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/leetcode-notes/" class="post-title-link" itemprop="url">leetcode notes</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-03 20:15:39" itemprop="dateCreated datePublished" datetime="2019-01-03T20:15:39+08:00">2019-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-05 22:33:59" itemprop="dateModified" datetime="2019-03-05T22:33:59+08:00">2019-03-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode-notes/" itemprop="url" rel="index"><span itemprop="name">leetcode notes</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天开始做一下LeetCode的算法题，做一下记录。</p>
+<h1 id="Two-Sum"><a href="#Two-Sum" class="headerlink" title="Two Sum"></a>Two Sum</h1><p>我最初的实现是暴利遍历，看了答案学习到这个O(n)的实现。</p>
+<p>关键在于这里对于number 元素 index的字典索引是一个<code>hash table</code>，它的查询是时间复杂度<code>O(1)</code>的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># number-index map, also as the iteration record</span></span><br><span class="line">        numIndex_map = dict()</span><br><span class="line">        <span class="keyword">for</span> index, element <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            co_element = target - element</span><br><span class="line">            <span class="keyword">if</span> co_element <span class="keyword">in</span> numIndex_map:</span><br><span class="line">                <span class="keyword">return</span> numIndex_map[co_element], index</span><br><span class="line">            <span class="comment"># append numIndex_map</span></span><br><span class="line">            numIndex_map[element] = index</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Add-two-numbers"><a href="#Add-two-numbers" class="headerlink" title="Add two numbers"></a>Add two numbers</h1><p>第二题是单链表逆序表示十进制正整数实现加法。</p>
+<p>我的实现考虑了下面的情况:</p>
+<ul>
+<li>在相加一方位数大于另一方时候，在没有进位<code>tenFlag</code>的时候，加和的<code>ListNode</code>的<code>next</code>指针直接指向大位数的那些高位<code>node</code>，而非继续遍历大位数的所有位。</li>
+</ul>
+<p>另外，这是我第一次学习链表已经它的python实现，觉得很开心。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1, l2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type l1: ListNode</span></span><br><span class="line"><span class="string">        :type l2: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        tenFlag, lowestDigi = divmod(l1.val + l2.val, <span class="number">10</span>)</span><br><span class="line">        result = ListNode(lowestDigi)</span><br><span class="line">        cursor_1, cursor_2, cursor_result = l1, l2, result </span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cursor_1.next <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>) <span class="keyword">and</span> (cursor_2.next <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):</span><br><span class="line">            tenFlag, added_Val = divmod(cursor_1.next.val + cursor_2.next.val + tenFlag, <span class="number">10</span>)</span><br><span class="line">            cursor_result.next = ListNode(added_Val)</span><br><span class="line">            cursor_1, cursor_2, cursor_result = cursor_1.next, cursor_2.next, cursor_result.next</span><br><span class="line"></span><br><span class="line">        cursor_result.next = (cursor_1.next <span class="keyword">or</span> cursor_2.next)</span><br><span class="line">        <span class="keyword">while</span> tenFlag == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> cursor_result.next <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cursor_result.next = ListNode(<span class="number">0</span>)</span><br><span class="line">            tenFlag, added_Val = divmod(cursor_result.next.val + tenFlag, <span class="number">10</span>)</span><br><span class="line">            cursor_result.next.val = added_Val</span><br><span class="line">            cursor_result = cursor_result.next</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<h1 id="Longest-substring-without-repeating-characters"><a href="#Longest-substring-without-repeating-characters" class="headerlink" title="Longest substring without repeating characters"></a>Longest substring without repeating characters</h1><p>第三题是找出字符串里最长的无重复字母子字符串。</p>
+<p>我的最初实现是从两侧移动指针，两边的字母如果属于被指针包裹的子字符串，则向内移动。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        start, end = (<span class="number">0</span>, len(s) - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">while</span> (len(set(s[start:end+<span class="number">1</span>])) &lt; (end + <span class="number">1</span> - start)) <span class="keyword">and</span> start &lt; end:</span><br><span class="line">            <span class="keyword">if</span> s[start] <span class="keyword">in</span> s[start + <span class="number">1</span>:end + <span class="number">1</span>]:</span><br><span class="line">                start = start + <span class="number">1</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                end = end - <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> end - start + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>这是很傻的，因为它粗暴地假设先触及重复字母一定不包含于最终的最长子字符串。<br>反例:  <code>&quot;pwwkew&quot;</code> 作为输入之后，选择的最长子字符串是 <code>&quot;pw&quot;</code>， 而非 <code>&quot;wke&quot;</code> 。</p>
+<p>修改之后的初步算法如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(s)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">duplicated_char_exists</span><span class="params">(s)</span>:</span></span><br><span class="line">            <span class="keyword">for</span> i, c <span class="keyword">in</span> enumerate(s):</span><br><span class="line">                <span class="keyword">if</span> c <span class="keyword">in</span> s[i + <span class="number">1</span>:]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        subStrLenMax = len(set(s))</span><br><span class="line">        <span class="comment">#print("Possibly max substr length by len(set(s)) is %s" % subStrLenMax)</span></span><br><span class="line">        lenOfStr = len(s)</span><br><span class="line">        <span class="keyword">for</span> delta <span class="keyword">in</span> range(subStrLenMax + <span class="number">1</span>):</span><br><span class="line">            lenOfSubstr = subStrLenMax - delta</span><br><span class="line">            start = <span class="number">0</span></span><br><span class="line">            end = start + lenOfSubstr</span><br><span class="line">            <span class="keyword">while</span> end &lt; lenOfStr + <span class="number">1</span>:</span><br><span class="line">                <span class="comment">#if len(set(s[start:end])) &lt; lenOfSubstr:</span></span><br><span class="line">                <span class="keyword">if</span> duplicated_char_exists(s[start:end]):</span><br><span class="line">                    start += <span class="number">1</span></span><br><span class="line">                    end += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#print("first result sub-string is %s" % s[start:end])</span></span><br><span class="line">                    <span class="keyword">return</span> lenOfSubstr</span><br><span class="line">        <span class="keyword">return</span> lenOfSubstr</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        list_ = []</span><br><span class="line">        max_ = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> i <span class="keyword">in</span> list_:</span><br><span class="line">                <span class="keyword">del</span> list_[<span class="number">0</span>:list_.index(i)+<span class="number">1</span>]</span><br><span class="line">                list_.append(i)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                list_.append(i)</span><br><span class="line">                <span class="keyword">if</span> len(list_) &gt; max_:</span><br><span class="line">                    max_ = len(list_)</span><br><span class="line">        <span class="keyword">return</span> max_</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>to be continued…</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/openstack-basic-for-newbie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/openstack-basic-for-newbie/" class="post-title-link" itemprop="url">Openstack Basic for newbie</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-01 14:27:30" itemprop="dateCreated datePublished" datetime="2019-01-01T14:27:30+08:00">2019-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 14:47:07" itemprop="dateModified" datetime="2019-03-08T14:47:07+08:00">2019-03-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/openstack-stuff/" itemprop="url" rel="index"><span itemprop="name">openstack stuff</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>整理了一下2017年8月份内部做的一个training的slide，去除了不能公布的部分，放在<a href="https://github.com/littlewey/workshops/blob/master/00-Openstack-Basic/release/Openstack_Basic_Blog.pdf" target="_blank" rel="noopener">这里</a>。</p>
+<p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
+<p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/" class="post-title-link" itemprop="url">deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-01 14:04:47" itemprop="dateCreated datePublished" datetime="2019-01-01T14:04:47+08:00">2019-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 14:46:25" itemprop="dateModified" datetime="2019-03-08T14:46:25+08:00">2019-03-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/openstack-stuff/" itemprop="url" rel="index"><span itemprop="name">openstack stuff</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。</p>
+</blockquote>
+<h1 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h1><p>Latest version: <a href="https://github.com/littlewey/workshops/blob/master/00-Openstack-Basic/installation-openstack-ubuntu-note.md" target="_blank" rel="noopener">installation-openstack-ubuntu-note.md</a> hosted on <em>Github.com/littlewey</em></p>
+<blockquote>
+<p>ref: <a href="https://docs.openstack.org/install-guide" target="_blank" rel="noopener">https://docs.openstack.org/install-guide</a></p>
+</blockquote>
+<p>Ubuntu was chosen as host OS.</p>
+<blockquote>
+<p>“It’s a good way to learn by installing it manually for as many services as you could :-) .”</p>
+<p>​                                                                                                           Wey Gu </p>
+</blockquote>
+<h2 id="Host-networking"><a href="#Host-networking" class="headerlink" title="Host networking"></a>Host networking</h2><blockquote>
+<p>ref: <a href="https://docs.openstack.org/install-guide/environment-networking.html" target="_blank" rel="noopener">https://docs.openstack.org/install-guide/environment-networking.html</a></p>
+</blockquote>
+<blockquote>
+<p>ref: <a href="https://help.ubuntu.com/lts/serverguide/network-configuration.html" target="_blank" rel="noopener">https://help.ubuntu.com/lts/serverguide/network-configuration.html</a></p>
+</blockquote>
+<p>The example architectures assume use of the following networks:</p>
+<ul>
+<li><p>Management on 10.0.0.0/24 with gateway 10.0.0.1</p>
+<p>This network requires a gateway to provide Internet access to all nodes for administrative purposes such as package installation, security updates, DNS, and NTP.</p>
+</li>
+<li><p>Provider on 203.0.113.0/24 with gateway 203.0.113.1</p>
+<p>This network requires a gateway to provide Internet access to instances in your OpenStack environment.</p>
+</li>
+</ul>
+<h3 id="My-network-solution"><a href="#My-network-solution" class="headerlink" title="My network solution"></a>My network solution</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Net0:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter</span><br><span class="line">	Purpose: administrator / management network</span><br><span class="line">	IP block: 10.20.0.0/24</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	Linux device: eth0</span><br><span class="line"></span><br><span class="line">Net1:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#2</span></span><br><span class="line">	Purpose: Provider network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 172.16.0.0/24</span><br><span class="line">	Linux device: eth1</span><br><span class="line"></span><br><span class="line">Net2：</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#3</span></span><br><span class="line">	Purpose: Storage network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 192.168.99.0/24</span><br><span class="line">	Linux device: eth2</span><br><span class="line"></span><br><span class="line">Net3：</span><br><span class="line">	Network name: VirtualBox  Bridged or NAT // <span class="keyword">for</span> accessing network or remote access purpose</span><br><span class="line">	Purpose: Internet</span><br><span class="line">	DHCP: <span class="built_in">enable</span></span><br><span class="line">	IP block: &lt;depend on your network&gt;</span><br><span class="line">	Linux device: eth3</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>Edit the <code>/etc/network/interfaces</code> file to contain the following:</p>
+<p>Replace <code>INTERFACE_NAME</code> with the actual interface name. For example, <em>eth1</em> or <em>ens224</em>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The provider network interface</span></span><br><span class="line">auto INTERFACE_NAME</span><br><span class="line">iface INTERFACE_NAME inet manual</span><br><span class="line">up ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> up</span><br><span class="line">down ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> down</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/upgrade-hexo-theme/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/upgrade-hexo-theme/" class="post-title-link" itemprop="url">upgrade hexo, theme</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-30 15:35:25" itemprop="dateCreated datePublished" datetime="2018-12-30T15:35:25+08:00">2018-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-06-26 20:06:27" itemprop="dateModified" datetime="2019-06-26T20:06:27+08:00">2019-06-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>之前贪图省事儿，我把整个 hexo 的 folder 作为一个repository 放在了私有库里管理，在这个假设之下，我今天更新了hexo和主题。</p>
+<h1 id="更新-hexo"><a href="#更新-hexo" class="headerlink" title="更新 hexo"></a>更新 hexo</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo -U</span><br><span class="line">npm install hexo-cli -U</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h1><p>我之前删除了本地的主题文件中的 <code>.git</code> 文件，所以我的做法是：</p>
+<blockquote>
+<p>找出来之前的base, 得到delta的部分，<code>cherry-pick</code>到最新的branch。</p>
+</blockquote>
+<p>首先，找出来之前的base。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;repo-of-the-theme&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;repo-of-the-theme&gt;</span><br><span class="line">git <span class="built_in">log</span> <span class="comment"># and to find the date last time I modified theme files and got the &lt;git-hash-for-mod-base&gt;</span></span><br><span class="line">git checkout &lt;git-hash-for-mod-base&gt;</span><br><span class="line">git checkout -b mod_branch</span><br></pre></td></tr></table></figure>
+
+<p>把现在的theme文件通过copy来apply上去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -r &lt;path_of_previous_theme&gt;/* &lt;repo-of-the-theme&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;repo-of-the-theme&gt;</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"my_mod"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>cherry-pick</code>到最新的branch。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git cherry-pick mod_branch</span><br></pre></td></tr></table></figure>
+
+<p>这时候如果遇到需要手动解决的conflict，手动解决一下，解决完之后，做<code>cherry-pick</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git cherry-pick --<span class="built_in">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>至此，主题的local repo就已经是 <code>latest + mod_by_me</code> 的了。</p>
+<h3 id="管理自己的主题-repo"><a href="#管理自己的主题-repo" class="headerlink" title="管理自己的主题 repo"></a>管理自己的主题 repo</h3><p>在主题文件中创建自己的branch</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b my_branch</span><br></pre></td></tr></table></figure>
+
+<p>设定 upstream branch 为远端的分支，比如这里是master</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/master my_branch</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure>
+
+<p>设定 push 远端为自己的 (private) repo，然后 push到自己的远端 repo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">❯ git remote -v</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (fetch)</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (push)</span><br><span class="line">~/note/themes/next ⇡</span><br><span class="line">❯ git remote <span class="built_in">set</span>-url --push origin git@github.com:littlewey/hexo-theme-next</span><br><span class="line"></span><br><span class="line">~/note/themes/next ⇡</span><br><span class="line">❯ git remote -v</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (fetch)</span><br><span class="line">origin	git@github.com:littlewey/hexo-theme-next (push)</span><br><span class="line"></span><br><span class="line">❯ git push origin HEAD</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/my-hhkb-and-macos-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/my-hhkb-and-macos-setup/" class="post-title-link" itemprop="url">my HHKB and macOS setup</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-21 17:32:39" itemprop="dateCreated datePublished" datetime="2018-12-21T17:32:39+08:00">2018-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-05 22:33:59" itemprop="dateModified" datetime="2019-03-05T22:33:59+08:00">2019-03-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Key-mapping"><a href="#Key-mapping" class="headerlink" title="Key mapping"></a>Key mapping</h1><blockquote>
+<p>几个月前，我从 <code>HHKB Lite2 for Mac</code>  切换到了  <code>HHKB Pro 2 Type-S</code>，方向键需要map成 <code>Ctrl + h/ j/ k/ l</code> ，参考了@zjun 的 <a href="http://www.zjunothing.com/2017/05/28/hhkb%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/" target="_blank" rel="noopener">best practise</a> ，用到了 <a href="http://www.hammerspoon.org/" target="_blank" rel="noopener">Hammerspoon</a>，这里记录一下配置。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/.hammerspoon</span><br><span class="line">❯ cat init.lua</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressFn</span><span class="params">(mods, key)</span></span></span><br><span class="line">	<span class="keyword">if</span> key == <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">		key = mods</span><br><span class="line">		mods = &#123;&#125;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span> hs.eventtap.keyStroke(mods, key, <span class="number">1000</span>) <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">remap</span><span class="params">(mods, key, pressFn)</span></span></span><br><span class="line">	hs.hotkey.bind(mods, key, pressFn, <span class="literal">nil</span>, pressFn)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'h'</span>, pressFn(<span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'j'</span>, pressFn(<span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'k'</span>, pressFn(<span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'l'</span>, pressFn(<span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">Build things.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/littlewey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:littlewey@gmail.com" title="E-Mail → mailto:littlewey@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/littlewey" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/littlewey" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/littlewey" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/littlewey" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+</body>
+</html>
