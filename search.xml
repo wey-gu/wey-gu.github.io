@@ -78,11 +78,10 @@
 <p>By checking the packet with <code>no.482</code>, whose client NTP call was not responded(others around it got responded), something intresting was found:</p>
 <ul>
 <li>The Source Port of this packet is not the well-known <code>123</code> port, instead, it’s <code>108</code>.</li>
-<li>For those got resonped in this cluster, they are in source port <code>123</code>.<br>&lt;!–<br><img src="distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" alt="tcpdump_vrouter_ntp"></li>
-<li>-&gt;<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" class="">
-
-</li>
+<li>For those got resonped in this cluster, they are in source port <code>123</code>.</li>
 </ul>
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" class="">
+
 <p>This was something close to the turth, still more questions to answer😀:</p>
 <ul>
 <li>Was other cluster(without issues) in samliar situation? <code>src.port==108</code>?<ul>

@@ -36,13 +36,12 @@
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpq_cpn_hypervisor.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png">
-<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpd_bug_diff.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png">
 <meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png">
 <meta property="article:published_time" content="2020-02-28T02:10:02.000Z">
-<meta property="article:modified_time" content="2020-02-28T09:24:57.211Z">
+<meta property="article:modified_time" content="2020-02-28T09:35:13.113Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta property="article:tag" content="openstack">
 <meta property="article:tag" content="distributed system">
@@ -248,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-28 10:10:02 / Modified: 17:24:57" itemprop="dateCreated datePublished" datetime="2020-02-28T10:10:02+08:00">2020-02-28</time>
+              <time title="Created: 2020-02-28 10:10:02 / Modified: 17:35:13" itemprop="dateCreated datePublished" datetime="2020-02-28T10:10:02+08:00">2020-02-28</time>
             </span>
 
           
@@ -337,11 +336,10 @@
 <p>By checking the packet with <code>no.482</code>, whose client NTP call was not responded(others around it got responded), something intresting was found:</p>
 <ul>
 <li>The Source Port of this packet is not the well-known <code>123</code> port, instead, it’s <code>108</code>.</li>
-<li>For those got resonped in this cluster, they are in source port <code>123</code>.<br>&lt;!–<br><img src="distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" alt="tcpdump_vrouter_ntp"></li>
-<li>-&gt;<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" class="">
-
-</li>
+<li>For those got resonped in this cluster, they are in source port <code>123</code>.</li>
 </ul>
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" class="">
+
 <p>This was something close to the turth, still more questions to answer😀:</p>
 <ul>
 <li>Was other cluster(without issues) in samliar situation? <code>src.port==108</code>?<ul>
@@ -592,6 +590,9 @@
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e58de1403eb729d" async="async"></script>
   </div>
 
         
