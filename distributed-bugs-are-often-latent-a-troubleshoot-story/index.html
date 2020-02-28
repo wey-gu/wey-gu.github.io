@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="AbstractOpenStack, as a nested distributed system(where some of the subsystems are distributed systems), to troubleshoot on it could be quite tricky, not to mention its interdependence with other dist">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Distributed bugs are often latent: a Troubleshoot Story">
+<meta property="og:url" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/index.html">
+<meta property="og:site_name" content="Siwei notes">
+<meta property="og:description" content="AbstractOpenStack, as a nested distributed system(where some of the subsystems are distributed systems), to troubleshoot on it could be quite tricky, not to mention its interdependence with other dist">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_OS_to_external_NTP.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_OS_to_external_NTP.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpq_cpn_hypervisor.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpq_cpn_hypervisor.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpd_bug_diff.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png">
+<meta property="og:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png">
+<meta property="article:published_time" content="2020-02-28T02:10:02.000Z">
+<meta property="article:modified_time" content="2020-02-28T09:24:57.211Z">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="openstack">
+<meta property="article:tag" content="distributed system">
+<meta property="article:tag" content="troubleshoot">
+<meta property="article:tag" content="NTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png">
+
+<link rel="canonical" href="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Distributed bugs are often latent: a Troubleshoot Story | Siwei notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Siwei notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-résumé">
+
+    <a href="/about/resume.pdf" rel="section"><i class="fa fa-fw fa-book"></i>Résumé</a>
+
+  </li>
+        <li class="menu-item menu-item-简历">
+
+    <a href="/about/resume_chs.pdf" rel="section"><i class="fa fa-fw fa-book"></i>简历</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">23</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Distributed bugs are often latent: a Troubleshoot Story
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-02-28 10:10:02 / Modified: 17:24:57" itemprop="dateCreated datePublished" datetime="2020-02-28T10:10:02+08:00">2020-02-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>OpenStack, as a nested distributed system(where some of the subsystems are distributed systems), to troubleshoot on it could be quite tricky, not to mention its interdependence with other distributed systems in real word.</p>
+<p>We all share the feelings on how hard it is to solve a hidden issue in a distributed system as each call during a chain of invocation is unpredictable, the methods/ tools for sniffing/ tracking each part are either too hard, incapable, outside of control, or too expensive.</p>
+<p>The trigger made me composing this blog is the article: <a href="https://aws.amazon.com/builders-library/challenges-with-distributed-systems/" target="_blank" rel="noopener">Challenges with distributed systems</a> from <a href="https://twitter.com/jacobgabrielson" target="_blank" rel="noopener">Jacob Gabrielson</a>, where Jacob expounded how and why designing/ managing a request/response distributed system is challenging. I recommend to read it 😊. </p>
+<p>The story in this blog is a troubleshoot case I solved in a customer staging network years ago, where OpenStack clusters were integrated with some other different (virtual) Network Function clusters.</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>There were many OpenStack Clusters onsite, with different VNFs running on top of them. </p>
+<ul>
+<li><p>Two months before I arrived the customer site, the alarm <code>[NTP Upstream Server Failure]</code> was raised in one of the OpenStack Cluster.</p>
+</li>
+<li><p>Every party involved on this issue had looked into it jointly and each of them claimed they are all good: no clue to move on, and after the whole site’s yearly power down and up activity, the issue was gone. </p>
+</li>
+<li><p>One week ago, after a control plane nodes reboot, this alarm was raised again on another OpenStack Cluster.</p>
+</li>
+</ul>
+<p>Reviewing everything to have the pattern of the issue:</p>
+<ul>
+<li><p>There were two types of servers acted as upstream NTP for Openstack Clusters. Let’s say NTP-A and NTP-B, they were actually not dedicated NTP servers but a more heavy network function(NF):</p>
+<!--
+<img src="./distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png" alt="NTP_Openstack_0" style="zoom:50%;" />
+-->
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png" class="">
+
+<ul>
+<li>NTP-A was the one associated with the issue OpenStack Clusters, which was a VNF running in Linux.</li>
+<li>NTP-B was a native NF in Solaris, to be repalced by NTP-A in future. #Customer has reasons to worry the issue more 😜.</li>
+</ul>
+</li>
+<li><p>The OpenStack side claimed they were good because they captured the NTP client packet sent to NTP-A and no response recieved.</p>
+</li>
+<li><p>The other side checked everything around NTP configuration, network etc. nothing abnormal was sorted out. Thus they had to blame the OpenStack side as there were other systems utilizing their NTP-A as upstream NTP, while no issues had encounterred.</p>
+</li>
+<li><p>Then both side suspected the packet was dropped somehow between NTP-A and OpenStack Cluster: the networking/ switches.</p>
+<ul>
+<li>The switch team observed nothing pointing to packet drop from the traffic .</li>
+<li>Even though there was chance they didn’t capture the drop on right time, why only OpenStack’s NTP request not responded?</li>
+<li>Was this issue happening in small frequency?</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Troubleshoot-Story"><a href="#Troubleshoot-Story" class="headerlink" title="Troubleshoot Story"></a>Troubleshoot Story</h2><p>Luckily yet unfortunately, the alarm was kept being raised from OpenStack Cluster a, let’s call it OS-a, I started to look into this issue from it.</p>
+<p>First, allow me to explain how this OS-a call upstream NTP.</p>
+<p>From below figure, I used blue arrow to show a NTP client to server call, we could see all nodes include control-plane node(cpn), and other nodes configured their upstream NTP server as the control-plane hypervisor. Thus the alarm actually means something is wrong around the circle in the figure.</p>
+<blockquote>
+<p>note, in this OpenStack Cluster, the control-plane nodes were VMs hosted by cpn hypervisor node</p>
+</blockquote>
+<!--
+<img src="./distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_OS_to_external_NTP.png" alt="NTP_Openstack_OS_to_external_NTP" style="zoom:60%;" />
+-->
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_OS_to_external_NTP.png" class="">
+
+<p>And let’s check NTP stats from the cpn hypervisor node, from below we could tell the [NTP server side packet not being recieved] frequency was hard to say small: in last <code>256 * 8</code> seconds of the moment, 3 of 8 NTP polling hadn’t get responded packet. By checking the alarm triggerring code, it’s found only after more than 1800 seconds a upstream NTP server not responding, a alarm will be raised, which is a slightly high threhold.</p>
+<blockquote>
+<p>note, please refer to <strong><a href="#Appendix">Appendix: <code>ntpd -pn</code> explained</a></strong> on how we get this information from below printout.</p>
+</blockquote>
+<!--  
+<img src="./distributed-bugs-are-often-latent-a-troubleshoot-story/ntpq_cpn_hypervisor.png" alt="ntpq_cpn_hypervisor" style="zoom:70%;" />
+-->
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpq_cpn_hypervisor.png" class="">
+<p>It’s a good sign to know this issue was actually easier to have the minimum reproduction: just query it directly from cpn hypervisor node, and, it’s in high frequency(easy to repoduce). </p>
+<p>Then we have below questions:</p>
+<ul>
+<li>What made our NTP call different from other systems(to possibly cause this issue)?</li>
+<li>Why it’s not happening not for always? And related to reboot?</li>
+</ul>
+<p>With above questions, I looked into the above blue circle between cpn hypervisor node and external NTP. The external NTP server is only reachable from OaM Network, under the hood cpn hypervisor node actually reached external NTP-A via a vRouter running inside cpn. That is, the last path of above blue circle is actually this orange circle below, aka, not from cpn hypervisor node itself.</p>
+<!--
+<img src="distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png" alt="vrouter_to_external_NTP" style="zoom:67%;" />
+--> 
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/vrouter_to_external_NTP.png" class="">
+
+<p>With above knowledge, packet from its cpn vRouter was captured:</p>
+<p>By checking the packet with <code>no.482</code>, whose client NTP call was not responded(others around it got responded), something intresting was found:</p>
+<ul>
+<li>The Source Port of this packet is not the well-known <code>123</code> port, instead, it’s <code>108</code>.</li>
+<li>For those got resonped in this cluster, they are in source port <code>123</code>.<br>&lt;!–<br><img src="distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" alt="tcpdump_vrouter_ntp"></li>
+<li>-&gt;<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/tcpdump_vrouter_ntp.png" class="">
+
+</li>
+</ul>
+<p>This was something close to the turth, still more questions to answer😀:</p>
+<ul>
+<li>Was other cluster(without issues) in samliar situation? <code>src.port==108</code>?<ul>
+<li>Yes and No, I checked on other Openstack Cluster, all other clusters had one <code>non-123 port</code> being used when reaching NTP servers, while only this cluster encounted issues.<ul>
+<li>Should client source port be the well-known 123? <ul>
+<li>No, it’s not mandatory in <code>non-symmetric modes</code> referring to <a href="https://tools.ietf.org/html/rfc5905" target="_blank" rel="noopener">rfc5905</a></li>
+</ul>
+</li>
+<li>Seemed like a dead end!</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Why was source port being modified?<ul>
+<li>The vRouter used masquerade NAT, if at the same time(close enough) more than one NTP requests from different cpn hypervisor nodes were sent to same remote NTP, inside vRouter it would trigger source ports modification.<ul>
+<li>The modification was randomly chosen and fixed in first time in memory.<ul>
+<li>This also explained why it’s related to system reboot.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Now we know information on how and why source port was modified in the alarm-raising cluster, but still cannot figure out why only that cluster encountered issue. At that time I really didn’t have more ideas, but the difference seemed to be related to in the random source port it chosed. I guessed something could be wrong on handling non-123 src.port NTP requests, then I googled this with keyword like:</p>
+<ul>
+<li><a href="https://lmgtfy.com/?q=ntp+non-123+port+drop" target="_blank" rel="noopener">ntp non-123 port drop</a></li>
+</ul>
+<p>And yes, I got some clue here: <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1171630" target="_blank" rel="noopener">https://bugzilla.redhat.com/show_bug.cgi?id=1171630</a>.</p>
+<p>From the bug page we could tell, in certain verison of ntpd (like 4.2.7) , there was a bug to drop ntp request with source port number below 123, and it was fixexd in 4.2.8:</p>
+<!--  
+![ntpd_bug_diff](distributed-bugs-are-often-latent-a-troubleshoot-story/ntpd_bug_diff.png)
+-->
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/ntpd_bug_diff.png" class="">
+
+<h2 id="TLDR"><a href="#TLDR" class="headerlink" title="TLDR;"></a>TLDR;</h2><p>Then I asked the NTP-A administorator to confirm the ntpd version, it was 4.2.7😜. </p>
+<p>To solution will be: upgrade nptd from NTP-A.</p>
+<blockquote>
+<p>also, we come to know that the NTP-B was too old to have this NTP bug in its ntpd.</p>
+</blockquote>
+<p>Well, I am not a story-teller but, I really consider this troubleshoot case intresting, and it’s true as Jacob’s article: <em>Distributed bugs are often latent</em>.</p>
+<h2 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h2><h3 id="ntpq-pn-explained"><a href="#ntpq-pn-explained" class="headerlink" title="ntpq -pn explained"></a><code>ntpq -pn</code> explained</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">$ man ntpq</span><br><span class="line">NTPQ(1)                      BSD General Commands Manual                     NTPQ(1)</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">     ntpq — standard NTP query program</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">     ntpq [-flags] [-flag [value]] [--option-name[[=| ]value]] [ host ...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">     -n, --numeric</span><br><span class="line">                 numeric host addresses.</span><br><span class="line"></span><br><span class="line">                 Output all host addresses <span class="keyword">in</span> dotted-quad numeric format rather than</span><br><span class="line">                 converting to the canonical host names.</span><br><span class="line"></span><br><span class="line">     -p, --peers</span><br><span class="line">                 Print a list of the peers.  This option must not appear <span class="keyword">in</span> combina‐</span><br><span class="line">                 tion with any of the following options: interactive.</span><br><span class="line"></span><br><span class="line">                 Print a list of the peers known to the server as well as a summary</span><br><span class="line">                 of their state. This is equivalent to the <span class="string">'peers'</span> interactive com‐</span><br><span class="line">                 mand.</span><br><span class="line"></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line">           peers      Display a list of peers <span class="keyword">in</span> the form:</span><br><span class="line"></span><br><span class="line">                            Variable   Description</span><br><span class="line">                            remote     host name (or IP number) of peer.  The value</span><br><span class="line">                                       displayed will be truncated to 15 characters</span><br><span class="line">                                       unless the -w flag is given, <span class="keyword">in</span> <span class="built_in">which</span> <span class="keyword">case</span></span><br><span class="line">                                       the full value will be displayed on the first</span><br><span class="line">                                       line, and the remaining data is displayed on</span><br><span class="line">                                       the next line.</span><br><span class="line"><span class="comment">#...</span></span><br><span class="line">                            when       sec/min/hr since last received packet <span class="comment"># &lt;----</span></span><br><span class="line">                            poll       poll interval (log2 s)                <span class="comment"># &lt;----</span></span><br><span class="line">                            reach      reach <span class="built_in">shift</span> register (octal)          <span class="comment"># &lt;----</span></span><br><span class="line">                            delay      roundtrip delay</span><br><span class="line">                            offset     offset of server relative to this host</span><br><span class="line">                            jitter     jitter</span><br></pre></td></tr></table></figure>
+
+<p>We could focus on three columns of <code>when</code>, <code>poll</code>, <code>reach</code> as explained in above manual and below square. It told us:</p>
+<ul>
+<li>The stats will poll remote NTP servers in interval: 256 s</li>
+<li>For remote server<code>172.21.96.29</code> marked in purple arrow:<ul>
+<li>It received last packet since 204 seconds.</li>
+<li>And for last 8 times stats, 3 times of the service side respond were not recieved</li>
+</ul>
+</li>
+<li>For remote server<code>172.21.81.189</code> marked in purple arrow:<ul>
+<li>It received last packet since 32 seconds.</li>
+<li>And for last 8 times stats, 0 times of the service side respond were not recieved</li>
+</ul>
+</li>
+</ul>
+<!--
+<img src="distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png" alt="appendix_ntpq_stats" style="zoom:70%;" />
+--> 
+<img src="/distributed-bugs-are-often-latent-a-troubleshoot-story/appendix_ntpq_stats.png" class="">
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/" title="Distributed bugs are often latent: a Troubleshoot Story">https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/openstack/" rel="tag"># openstack</a>
+              <a href="/tags/distributed-system/" rel="tag"># distributed system</a>
+              <a href="/tags/troubleshoot/" rel="tag"># troubleshoot</a>
+              <a href="/tags/ntp/" rel="tag"># NTP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/upstart-related/" rel="prev" title="upstart related">
+      <i class="fa fa-chevron-left"></i> upstart related
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">2.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Troubleshoot-Story"><span class="nav-number">3.</span> <span class="nav-text">Troubleshoot Story</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TLDR"><span class="nav-number">4.</span> <span class="nav-text">TLDR;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Appendix"><span class="nav-number">5.</span> <span class="nav-text">Appendix</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ntpq-pn-explained"><span class="nav-number">5.1.</span> <span class="nav-text">ntpq -pn explained</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">Build things.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/littlewey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:littlewey@gmail.com" title="E-Mail → mailto:littlewey@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/littlewey" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/littlewey" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/littlewey" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/littlewey" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '90bb84dab80e142752cb',
+      clientSecret: '26f2fb897afc6becceae244ae33738ba8c51a0b7',
+      repo        : 'littlewey.github.io',
+      owner       : 'littlewey',
+      admin       : ['littlewey'],
+      id          : '70a42b2f5eb6d00325763a92fc730b8f',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
