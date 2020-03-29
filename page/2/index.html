@@ -135,7 +135,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">23</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">26</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -145,7 +145,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">13</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">14</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
@@ -200,6 +200,106 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/upgrade-hexo-theme/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="Build things.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/upgrade-hexo-theme/" class="post-title-link" itemprop="url">upgrade hexo, theme</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-30 15:35:25" itemprop="dateCreated datePublished" datetime="2018-12-30T15:35:25+08:00">2018-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-06-26 20:06:27" itemprop="dateModified" datetime="2019-06-26T20:06:27+08:00">2019-06-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>之前贪图省事儿，我把整个 hexo 的 folder 作为一个repository 放在了私有库里管理，在这个假设之下，我今天更新了hexo和主题。</p>
+<h1 id="更新-hexo"><a href="#更新-hexo" class="headerlink" title="更新 hexo"></a>更新 hexo</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo -U</span><br><span class="line">npm install hexo-cli -U</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h1><p>我之前删除了本地的主题文件中的 <code>.git</code> 文件，所以我的做法是：</p>
+<blockquote>
+<p>找出来之前的base, 得到delta的部分，<code>cherry-pick</code>到最新的branch。</p>
+</blockquote>
+<p>首先，找出来之前的base。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;repo-of-the-theme&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;repo-of-the-theme&gt;</span><br><span class="line">git <span class="built_in">log</span> <span class="comment"># and to find the date last time I modified theme files and got the &lt;git-hash-for-mod-base&gt;</span></span><br><span class="line">git checkout &lt;git-hash-for-mod-base&gt;</span><br><span class="line">git checkout -b mod_branch</span><br></pre></td></tr></table></figure>
+
+<p>把现在的theme文件通过copy来apply上去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -r &lt;path_of_previous_theme&gt;/* &lt;repo-of-the-theme&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;repo-of-the-theme&gt;</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"my_mod"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>cherry-pick</code>到最新的branch。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git cherry-pick mod_branch</span><br></pre></td></tr></table></figure>
+
+<p>这时候如果遇到需要手动解决的conflict，手动解决一下，解决完之后，做<code>cherry-pick</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git cherry-pick --<span class="built_in">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>至此，主题的local repo就已经是 <code>latest + mod_by_me</code> 的了。</p>
+<h3 id="管理自己的主题-repo"><a href="#管理自己的主题-repo" class="headerlink" title="管理自己的主题 repo"></a>管理自己的主题 repo</h3><p>在主题文件中创建自己的branch</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b my_branch</span><br></pre></td></tr></table></figure>
+
+<p>设定 upstream branch 为远端的分支，比如这里是master</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/master my_branch</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure>
+
+<p>设定 push 远端为自己的 (private) repo，然后 push到自己的远端 repo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">❯ git remote -v</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (fetch)</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (push)</span><br><span class="line">~/note/themes/next ⇡</span><br><span class="line">❯ git remote <span class="built_in">set</span>-url --push origin git@github.com:littlewey/hexo-theme-next</span><br><span class="line"></span><br><span class="line">~/note/themes/next ⇡</span><br><span class="line">❯ git remote -v</span><br><span class="line">origin	https://github.com/theme-next/hexo-theme-next (fetch)</span><br><span class="line">origin	git@github.com:littlewey/hexo-theme-next (push)</span><br><span class="line"></span><br><span class="line">❯ git push origin HEAD</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -541,7 +641,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -554,7 +654,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
