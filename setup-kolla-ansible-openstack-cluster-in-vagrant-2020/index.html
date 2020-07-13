@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
+  <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="This is a note on setting up kolla ansible openstack develop envrionment in your working machine. I referred to this document: https:&#x2F;&#x2F;docs.openstack.org&#x2F;kolla-ansible&#x2F;latest&#x2F;contributor&#x2F;vagrant-dev-e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Setup Kolla-ansible OpenStack Cluster in Vagrant 2020">
+<meta property="og:url" content="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/index.html">
+<meta property="og:site_name" content="Siwei Notes">
+<meta property="og:description" content="This is a note on setting up kolla ansible openstack develop envrionment in your working machine. I referred to this document: https:&#x2F;&#x2F;docs.openstack.org&#x2F;kolla-ansible&#x2F;latest&#x2F;contributor&#x2F;vagrant-dev-e">
+<meta property="article:published_time" content="2020-05-26T10:31:36.000Z">
+<meta property="article:modified_time" content="2020-07-06T06:43:05.838Z">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="openstack">
+<meta property="article:tag" content="vagrant">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>Setup Kolla-ansible OpenStack Cluster in Vagrant 2020 | Siwei Notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Siwei Notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-résumé">
+
+    <a href="/resume/" rel="section"><i class="book fa-fw"></i>Résumé</a>
+
+  </li>
+        <li class="menu-item menu-item-简历">
+
+    <a href="/resume_chs/" rel="section"><i class="book fa-fw"></i>简历</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="heartbeat fa-fw"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preparation"><span class="nav-number">1.</span> <span class="nav-text">Preparation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-vagrant-and-plugins-needed"><span class="nav-number">1.1.</span> <span class="nav-text">Install vagrant and plugins needed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clone-kolla-repo"><span class="nav-number">1.2.</span> <span class="nav-text">Clone kolla repo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Customise-Vagrant-scripts"><span class="nav-number">1.3.</span> <span class="nav-text">Customise Vagrant scripts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-virtual-networks-in-VirtualBox"><span class="nav-number">1.4.</span> <span class="nav-text">Configure virtual networks in VirtualBox</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vagrant-Up-and-access-to-Operator-node"><span class="nav-number">2.</span> <span class="nav-text">Vagrant Up and access to Operator node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Kolla-Docker-Images"><span class="nav-number">3.</span> <span class="nav-text">Build Kolla Docker Images</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deploy-Kolla-Openstack-Cluster"><span class="nav-number">4.</span> <span class="nav-text">Deploy Kolla Openstack Cluster</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">4.1.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issues-and-workarounds"><span class="nav-number">4.2.</span> <span class="nav-text">Issues and workarounds</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verify-the-openstack-cluster"><span class="nav-number">5.</span> <span class="nav-text">Verify the openstack cluster</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/wey_pixel_tinified.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">I build things</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:weyl.gu@gmail.com" title="E-Mail → mailto:weyl.gu@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/siweigu" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;siweigu" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wey_gu" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wey_gu" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/Weyl.GU" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;Weyl.GU" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="I build things">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Setup Kolla-ansible OpenStack Cluster in Vagrant 2020
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-26 18:31:36" itemprop="dateCreated datePublished" datetime="2020-05-26T18:31:36+08:00">2020-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-06 14:43:05" itemprop="dateModified" datetime="2020-07-06T14:43:05+08:00">2020-07-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This is a note on setting up kolla ansible openstack develop envrionment in your working machine.</p>
+<p>I referred to this document: <a href="https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html" target="_blank" rel="noopener">https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html</a></p>
+<p>I had done this in 2020 May on my old mac mini with Catalina ;-). With 20 GiB disk and 6GiB RAM assigned to one Vagrant spawned (virtualbox), the OpenStack Cluster is running pretty well, comparing to my previous setups ( multi-VMs based manually deployment and VM based Mirantis Fuel 9.0 deployment), it’s obviously more reponsive with the help of the single node setup.</p>
+<p>Here I leave the notes as a reference for you to have a playground easier.</p>
+<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><h3 id="Install-vagrant-and-plugins-needed"><a href="#Install-vagrant-and-plugins-needed" class="headerlink" title="Install vagrant and plugins needed"></a>Install vagrant and plugins needed</h3><p>Below is an example to do this on a macOS machine, to do that from other OS, refer to <a href="https://www.vagrantup.com/docs/installation/" target="_blank" rel="noopener">here</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew cask install virtualbox vagrant</span><br><span class="line"></span><br><span class="line">vagrant plugin install vagrant-hostmanager vagrant-vbguest</span><br><span class="line"></span><br><span class="line"><span class="comment"># if we need to resize disks after vagrant up</span></span><br><span class="line">vagrant plugin install vagrant-disksize</span><br><span class="line"><span class="comment"># if we need to make vagrant VM behind a proxy</span></span><br><span class="line">vagrant plugin install vagrant-proxyconf</span><br></pre></td></tr></table></figure>
+
+<h3 id="Clone-kolla-repo"><a href="#Clone-kolla-repo" class="headerlink" title="Clone kolla repo"></a>Clone kolla repo</h3><p>We need to clone below three repositories.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-cli</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-ansible</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla</span><br></pre></td></tr></table></figure>
+
+<h3 id="Customise-Vagrant-scripts"><a href="#Customise-Vagrant-scripts" class="headerlink" title="Customise Vagrant scripts"></a>Customise Vagrant scripts</h3><p>I found the configuration file out-of-box is no longer working/ out of repair for some time, below changes on <code>Vagrantfile</code>, <code>Vagrantfile.custom</code>,  and <code>bootstrap.sh</code> are needed.</p>
+<p>For Vagrantfile.custom, we need to use Ubuntu 18.04 instead of 16.04, which comes with python3.6+ in apt repo.</p>
+<a id="more"></a>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> kolla-ansible/contrib/dev/vagrant</span><br><span class="line">cp Vagrantfile.custom.example Vagrantfile.custom</span><br><span class="line"></span><br><span class="line">cat Vagrantfile.custom | grep -v <span class="string">"^#"</span></span><br><span class="line">PROVIDER = <span class="string">"virtualbox"</span></span><br><span class="line"></span><br><span class="line">DISTRO = <span class="string">"ubuntu"</span></span><br><span class="line"></span><br><span class="line">PROVIDER_DEFAULTS = &#123;</span><br><span class="line">  virtualbox: &#123;</span><br><span class="line">    ubuntu: &#123;</span><br><span class="line">      base_image: <span class="string">"ubuntu/bionic64"</span>,</span><br><span class="line">      bridge_interface: <span class="string">"en0"</span>,</span><br><span class="line">      vagrant_shared_folder: <span class="string">"/home/vagrant/sync"</span>,</span><br><span class="line">      sync_method: <span class="string">"virtualbox"</span>,</span><br><span class="line">      username: <span class="string">"ubuntu"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">WIFI = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>git diff</code></p>
+</blockquote>
+<p><code>VagrantFile</code> was also changed to increase operator VM root disk spec and RAM size.</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/contrib/dev/vagrant/Vagrantfile b/contrib/dev/vagrant/Vagrantfile</span><br><span class="line">index 26b6294da..d248b302d 100644</span><br><span class="line"><span class="comment">--- a/contrib/dev/vagrant/Vagrantfile</span></span><br><span class="line"><span class="comment">+++ b/contrib/dev/vagrant/Vagrantfile</span></span><br><span class="line">@@ -234,6 +234,10 @@ Vagrant.configure(2) do |config|</span><br><span class="line">     end</span><br><span class="line">   end</span><br><span class="line"></span><br><span class="line"><span class="addition">+  # Resize the spec of operator and config proxy</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line"><span class="addition">+  config.disksize.size = '50GB'</span></span><br><span class="line"><span class="addition">+  config.apt_proxy.http = ""</span></span><br><span class="line"><span class="addition">+  config.apt_proxy.https = ""</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line">   # The operator controls the deployment</span><br><span class="line">   config.vm.define "operator", primary: true do |admin|</span><br><span class="line">     admin.vm.hostname = "operator.local"</span><br><span class="line">@@ -251,6 +255,7 @@ Vagrant.configure(2) do |config|</span><br><span class="line">         vm.graphics_ip = GRAPHICSIP</span><br><span class="line">       end</span><br><span class="line">       configure_wifi_if_enabled(vm)</span><br><span class="line"><span class="addition">+      vm.customize ["modifyvm", :id, "--memory", 6144]</span></span><br><span class="line">     end</span><br><span class="line">     admin.hostmanager.aliases = "operator"</span><br><span class="line">   end</span><br></pre></td></tr></table></figure>
+
+<p><code>bootstrap.sh</code>  was modified for adaptations on ubuntu 18.04 with docker and python3 configured.</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/contrib/dev/vagrant/bootstrap.sh b/contrib/dev/vagrant/bootstrap.sh</span><br><span class="line">index d7260a323..d4f8b7baf 100644</span><br><span class="line"><span class="comment">--- a/contrib/dev/vagrant/bootstrap.sh</span></span><br><span class="line"><span class="comment">+++ b/contrib/dev/vagrant/bootstrap.sh</span></span><br><span class="line">@@ -80,13 +80,15 @@ function prep_work &#123;</span><br><span class="line">             systemctl disable ufw</span><br><span class="line">         fi</span><br><span class="line">         apt-get update</span><br><span class="line"><span class="deletion">-        apt-get -y install python-mysqldb python-pip python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev</span></span><br><span class="line"><span class="addition">+        apt-get -y install python3-mysqldb python3-pip python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev</span></span><br><span class="line"><span class="addition">+        update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10</span></span><br><span class="line"><span class="addition">+        update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10</span></span><br><span class="line">     else</span><br><span class="line">         echo "Unsupported Distro: $DISTRO" 1&gt;&amp;2</span><br><span class="line">         exit 1</span><br><span class="line">     fi</span><br><span class="line"></span><br><span class="line"><span class="deletion">-    pip install --upgrade docker</span></span><br><span class="line"><span class="addition">+    pip install --upgrade pip docker</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> # Do some cleanup after the installation of kolla</span><br><span class="line">@@ -124,11 +126,9 @@ EOF</span><br><span class="line"></span><br><span class="line">         usermod -aG docker vagrant</span><br><span class="line">     elif is_ubuntu; then</span><br><span class="line"><span class="deletion">-        apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D</span></span><br><span class="line"><span class="deletion">-        echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" &gt; /etc/apt/sources.list.d/docker.list</span></span><br><span class="line">         apt-get update</span><br><span class="line"><span class="deletion">-        apt-get -y install docker-engine</span></span><br><span class="line"><span class="deletion">-        sed -i -r "s|(ExecStart)=(.+)|\1=/usr/bin/docker daemon --insecure-registry $&#123;REGISTRY&#125; --registry-mirror=http://$&#123;REGISTRY&#125;|" /lib/systemd/system/docker.service</span></span><br><span class="line"><span class="addition">+        apt-get -y install docker.io</span></span><br><span class="line"><span class="addition">+        sed -i -r "s|(ExecStart)=(.+)|\1=/usr/bin/dockerd --insecure-registry $&#123;REGISTRY&#125; --registry-mirror=http://$&#123;REGISTRY&#125; --host fd:// --containerd=/run/containerd/containerd.sock|" /lib/systemd/system/docker.service</span></span><br><span class="line">     else</span><br><span class="line">         echo "Unsupported Distro: $DISTRO" 1&gt;&amp;2</span><br><span class="line">         exit 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configure-virtual-networks-in-VirtualBox"><a href="#Configure-virtual-networks-in-VirtualBox" class="headerlink" title="Configure virtual networks in VirtualBox"></a>Configure virtual networks in VirtualBox</h3><p>Note, below are lines in <code>Vagrantfile</code>, it comes with nic name in <code>eth*</code>, we will change them accordingly later on this to <code>en*</code>.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">configure_wifi_vbox_networking</span><span class="params">(vm)</span></span></span><br><span class="line">  <span class="comment"># Even if adapters 1 &amp; 2 don't need to be modified, if the order is to be</span></span><br><span class="line">  <span class="comment"># maintained, some modification has to be done to them. This will maintain</span></span><br><span class="line">  <span class="comment"># the association inside the guest OS: NIC1 -&gt; eth0, NIC2 -&gt; eth1, NIC3 -&gt;</span></span><br><span class="line">  <span class="comment"># eht2. The modifications for adapters 1 &amp; 2 only change optional properties.</span></span><br><span class="line">  <span class="comment"># Adapter 3 is enabled and connected to the NAT-Network named "OSNetwork",</span></span><br><span class="line">  <span class="comment"># while also changing its optional properties. Since adapter 3 is used by</span></span><br><span class="line">  <span class="comment"># Neutron for the external network, promiscuous mode is set to "allow-all".</span></span><br><span class="line">  <span class="comment"># Also, use virtio as the adapter type, for better performance.</span></span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nictype1"</span>, <span class="string">"virtio"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cableconnected1"</span>, <span class="string">"on"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nicpromisc2"</span>, <span class="string">"deny"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nictype2"</span>, <span class="string">"virtio"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cableconnected2"</span>, <span class="string">"on"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nic3"</span>, <span class="string">"natnetwork"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nat-network3"</span>, <span class="string">"OSNetwork"</span>] <span class="comment"># &lt;------ this one</span></span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nicpromisc3"</span>, <span class="string">"allow-all"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--nictype3"</span>, <span class="string">"virtio"</span>]</span><br><span class="line">  vm.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cableconnected3"</span>, <span class="string">"on"</span>]</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>Thus a NAT network named <code>OSNetwork</code> should be created, we can create it manually before next steps.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">VBoxManage natnetwork list</span><br><span class="line">NAT Networks:</span><br><span class="line"></span><br><span class="line">Name:        OSNetwork</span><br><span class="line">Network:     100.0.0.0/24</span><br><span class="line">Gateway:     100.0.0.1</span><br><span class="line">IPv6:        No</span><br><span class="line">Enabled:     Yes</span><br><span class="line"></span><br><span class="line">1 network found</span><br></pre></td></tr></table></figure>
+
+<h2 id="Vagrant-Up-and-access-to-Operator-node"><a href="#Vagrant-Up-and-access-to-Operator-node" class="headerlink" title="Vagrant Up and access to Operator node"></a>Vagrant Up and access to Operator node</h2><p>A VM named <code>operator</code> will be spawned by <code>vagrant up</code> under <code>kolla-ansible/contrib/dev/vagrant</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant up</span><br><span class="line">vagrant ssh operator  <span class="comment"># to access "operator" VM</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Build-Kolla-Docker-Images"><a href="#Build-Kolla-Docker-Images" class="headerlink" title="Build Kolla Docker Images"></a>Build Kolla Docker Images</h2><p>In this VM, if the <code>bootstrap.sh</code> went well, we should have kolla-build usable out of box.</p>
+<p>We could refer to <a href="https://docs.openstack.org/kolla/latest/admin/image-building.html" target="_blank" rel="noopener">this doc</a> on <code>kolla-build</code>, and to enable minimal usable OpenStack cluster, you could use the profile <code>default</code> or even define your own profiles.</p>
+<p>Also, here we are using ubuntu as linux distro type and openstack release in Train cycle a.k.a. <code>9.1.0</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kolla-build --base ubuntu --profile default --openstack-release <span class="string">"9.1.0"</span> --skip-existing</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>logs for building images</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">INFO:kolla.common.utils:=========================</span><br><span class="line">INFO:kolla.common.utils:Successfully built images</span><br><span class="line">INFO:kolla.common.utils:=========================</span><br><span class="line">INFO:kolla.common.utils:barbican-base</span><br><span class="line">INFO:kolla.common.utils:barbican-keystone-listener</span><br><span class="line">INFO:kolla.common.utils:base</span><br><span class="line">INFO:kolla.common.utils:chrony</span><br><span class="line">INFO:kolla.common.utils:cron</span><br><span class="line">INFO:kolla.common.utils:fluentd</span><br><span class="line">INFO:kolla.common.utils:glance-api</span><br><span class="line">INFO:kolla.common.utils:glance-base</span><br><span class="line">INFO:kolla.common.utils:glance-registry</span><br><span class="line">INFO:kolla.common.utils:haproxy</span><br><span class="line">INFO:kolla.common.utils:heat-api</span><br><span class="line">INFO:kolla.common.utils:heat-api-cfn</span><br><span class="line">INFO:kolla.common.utils:heat-base</span><br><span class="line">INFO:kolla.common.utils:heat-engine</span><br><span class="line">INFO:kolla.common.utils:horizon</span><br><span class="line">INFO:kolla.common.utils:keepalived</span><br><span class="line">INFO:kolla.common.utils:keystone</span><br><span class="line">INFO:kolla.common.utils:keystone-base</span><br><span class="line">INFO:kolla.common.utils:keystone-fernet</span><br><span class="line">INFO:kolla.common.utils:keystone-ssh</span><br><span class="line">INFO:kolla.common.utils:kolla-toolbox</span><br><span class="line">INFO:kolla.common.utils:mariadb</span><br><span class="line">INFO:kolla.common.utils:mariadb-base</span><br><span class="line">INFO:kolla.common.utils:mariadb-clustercheck</span><br><span class="line">INFO:kolla.common.utils:mariadb-server</span><br><span class="line">INFO:kolla.common.utils:memcached</span><br><span class="line">INFO:kolla.common.utils:neutron-base</span><br><span class="line">INFO:kolla.common.utils:neutron-bgp-dragent</span><br><span class="line">INFO:kolla.common.utils:neutron-dhcp-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-infoblox-ipam-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-l3-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-linuxbridge-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-metadata-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-metadata-agent-ovn</span><br><span class="line">INFO:kolla.common.utils:neutron-metering-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-openvswitch-agent</span><br><span class="line">INFO:kolla.common.utils:neutron-server</span><br><span class="line">INFO:kolla.common.utils:neutron-server-opendaylight</span><br><span class="line">INFO:kolla.common.utils:neutron-server-ovn</span><br><span class="line">INFO:kolla.common.utils:neutron-sriov-agent</span><br><span class="line">INFO:kolla.common.utils:nova-api</span><br><span class="line">INFO:kolla.common.utils:nova-base</span><br><span class="line">INFO:kolla.common.utils:nova-compute</span><br><span class="line">INFO:kolla.common.utils:nova-compute-ironic</span><br><span class="line">INFO:kolla.common.utils:nova-conductor</span><br><span class="line">INFO:kolla.common.utils:nova-libvirt</span><br><span class="line">INFO:kolla.common.utils:nova-novncproxy</span><br><span class="line">INFO:kolla.common.utils:nova-scheduler</span><br><span class="line">INFO:kolla.common.utils:nova-serialproxy</span><br><span class="line">INFO:kolla.common.utils:nova-spicehtml5proxy</span><br><span class="line">INFO:kolla.common.utils:nova-ssh</span><br><span class="line">INFO:kolla.common.utils:openstack-base</span><br><span class="line">INFO:kolla.common.utils:openvswitch-base</span><br><span class="line">INFO:kolla.common.utils:openvswitch-db-server</span><br><span class="line">INFO:kolla.common.utils:openvswitch-vswitchd</span><br><span class="line">INFO:kolla.common.utils:placement-api</span><br><span class="line">INFO:kolla.common.utils:placement-base</span><br><span class="line">INFO:kolla.common.utils:prometheus-base</span><br><span class="line">INFO:kolla.common.utils:prometheus-haproxy-exporter</span><br><span class="line">INFO:kolla.common.utils:prometheus-memcached-exporter</span><br><span class="line">INFO:kolla.common.utils:rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>This will take a while and it depends on your network situation and CPU ;-), then we could have needed images being built</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">root@operator: <span class="comment"># docker images</span></span><br><span class="line">REPOSITORY                                                                TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-compute                    9.1.0               9977333ea15b        9 days ago          921MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-horizon                         9.1.0               0941e5ae7d17        9 days ago          619MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-server-opendaylight     9.1.0               c8e56fa7cd1f        9 days ago          669MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-compute-ironic             9.1.0               3a8e3df9a0f0        9 days ago          764MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-api                        9.1.0               ac54264a362a        9 days ago          634MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-novncproxy                 9.1.0               5aa3c338d32e        9 days ago          645MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-serialproxy                9.1.0               7215c20ad3f3        9 days ago          621MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-server-ovn              9.1.0               37e94257a188        9 days ago          561MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-ssh                        9.1.0               cf17afc42b35        9 days ago          623MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-infoblox-ipam-agent     9.1.0               ecb358c6737e        9 days ago          561MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-spicehtml5proxy            9.1.0               d31423b9ba82        9 days ago          621MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-conductor                  9.1.0               2c94a0f01bb5        9 days ago          621MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-scheduler                  9.1.0               5c02b566ab17        9 days ago          621MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-openvswitch-agent       9.1.0               b33f0acd2837        9 days ago          555MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-metering-agent          9.1.0               f454ed7952f5        9 days ago          555MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-metadata-agent          9.1.0               2725dd9625f7        9 days ago          557MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-server                  9.1.0               d6cf6dd854b8        9 days ago          561MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-linuxbridge-agent       9.1.0               98b7d2516b36        9 days ago          555MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-base                       9.1.0               a6927b74ce5f        9 days ago          618MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-heat-engine                     9.1.0               dd468972a5db        9 days ago          513MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-sriov-agent             9.1.0               f060e2b828c3        9 days ago          555MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-heat-api                        9.1.0               62e36e9c42a5        9 days ago          513MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-l3-agent                9.1.0               fc4e3f30a385        9 days ago          561MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-dhcp-agent              9.1.0               0ba2190cf331        9 days ago          558MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-bgp-dragent             9.1.0               bcd7e971ed94        9 days ago          556MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-glance-api                      9.1.0               c3e7869f6699        9 days ago          519MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-keystone-fernet                 9.1.0               1b1f533bb04f        9 days ago          494MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-metadata-agent-ovn      9.1.0               24ce264a051c        9 days ago          552MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-glance-registry                 9.1.0               af21156994b5        9 days ago          503MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-placement-api                   9.1.0               98f72efcee88        9 days ago          532MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-keystone                        9.1.0               a9e16ba897c7        9 days ago          490MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-keystone-ssh                    9.1.0               3d21db1b5ec5        9 days ago          496MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-neutron-base                    9.1.0               660e301b004a        9 days ago          552MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-heat-api-cfn                    9.1.0               104f841db4fa        9 days ago          513MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-kolla-toolbox                   9.1.0               4c3902489674        9 days ago          933MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-glance-base                     9.1.0               4023044bafab        9 days ago          503MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-keystone-base                   9.1.0               ff5441d42802        9 days ago          487MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-barbican-keystone-listener      9.1.0               b1528a8d4e5b        9 days ago          459MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-placement-base                  9.1.0               00df0fe7ff13        9 days ago          494MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-heat-base                       9.1.0               743f6a651c8f        9 days ago          435MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-barbican-base                   9.1.0               8435e7bb5a8c        9 days ago          424MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-openstack-base                  9.1.0               9a7befd0cc64        9 days ago          422MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-nova-libvirt                    9.1.0               a414aa4d1512        9 days ago          883MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-mariadb-server                  9.1.0               c8f1254995ea        9 days ago          536MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-fluentd                         9.1.0               a3e62fa48f3e        10 days ago         537MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-openvswitch-db-server           9.1.0               d5280ad49720        10 days ago         224MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-openvswitch-vswitchd            9.1.0               026b50773723        10 days ago         224MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-prometheus-haproxy-exporter     9.1.0               7920e8c72603        10 days ago         219MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-prometheus-memcached-exporter   9.1.0               076e0eded872        10 days ago         220MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-mariadb-clustercheck            9.1.0               317d9e7365be        10 days ago         241MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-openvswitch-base                9.1.0               ea128655d138        10 days ago         224MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-memcached                       9.1.0               b6af2f329240        10 days ago         208MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-mariadb                         9.1.0               2c2fe1fbf961        10 days ago         535MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-rabbitmq                        9.1.0               d1b1aaacc73a        10 days ago         249MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-cron                            9.1.0               d084f268e0dc        10 days ago         208MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-chrony                          9.1.0               43fc123294e3        10 days ago         213MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-prometheus-base                 9.1.0               a36c132b3c48        10 days ago         206MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-haproxy                         9.1.0               507836be5c42        10 days ago         214MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-mariadb-base                    9.1.0               3b2ea2e71fae        10 days ago         240MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-keepalived                      9.1.0               5970aa989513        10 days ago         216MB</span><br><span class="line">operator.local:4000/lokolla/ubuntu-binary-base                            9.1.0               d4bed93756bc        10 days ago         206MB</span><br><span class="line">ubuntu                                                                    18.04               c3c304cb4f22        4 weeks ago         64.2MB</span><br><span class="line">registry                                                                  2                   708bc6af7e5e        4 months ago        25.8MB</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Deploy-Kolla-Openstack-Cluster"><a href="#Deploy-Kolla-Openstack-Cluster" class="headerlink" title="Deploy Kolla Openstack Cluster"></a>Deploy Kolla Openstack Cluster</h2><blockquote>
+<p>Generate password</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kolla-genpwd</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line">cp /etc/kolla/globals.yml /etc/kolla/globals.yml.original</span><br><span class="line">vim /etc/kolla/globals.yml</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>changed configurations</p>
+</blockquote>
+<p><code>root@operator:/etc/kolla# diff -u globals.yml.original globals.yml</code></p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@@ -684,7 +684,9 @@</span></span><br><span class="line"> docker_registry: "operator.local:4000"</span><br><span class="line"> docker_namespace: "lokolla"</span><br><span class="line"> docker_insecure_registry: "True"</span><br><span class="line"><span class="deletion">-network_interface: "eth1"</span></span><br><span class="line"><span class="deletion">-neutron_external_interface: "eth2"</span></span><br><span class="line"><span class="deletion">-kolla_internal_vip_address: "172.28.128.254"</span></span><br><span class="line"><span class="deletion">-</span></span><br><span class="line"><span class="addition">+network_interface: "enp0s3"</span></span><br><span class="line"><span class="addition">+neutron_external_interface: "enp0s8"</span></span><br><span class="line"><span class="addition">+kolla_internal_vip_address: "10.0.2.254"</span></span><br><span class="line"><span class="addition">+kolla_base_distro: "ubuntu"</span></span><br><span class="line"><span class="addition">+neutron_plugin_agent: "linuxbridge"</span></span><br><span class="line"><span class="addition">+openstack_release: "9.1.0"</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@operator:/etc/kolla<span class="comment"># ll /usr/share/kolla-ansible/ansible/inventory/all-in-one</span></span><br><span class="line">-rw-r--r-- 1 vagrant vagrant 9620 May 14 14:52 /usr/share/kolla-ansible/ansible/inventory/all-in-one</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>Let’s deploy it</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kolla-ansible deploy -vvv</span><br><span class="line">kolla-ansible post-deploy</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Issues-and-workarounds"><a href="#Issues-and-workarounds" class="headerlink" title="Issues and workarounds"></a>Issues and workarounds</h3><ol>
+<li><p>rabbitmq cannot restart</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@operator:/etc/kolla<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID        IMAGE                                                           COMMAND                  CREATED              STATUS                          PORTS                    NAMES</span><br><span class="line">e8f160fbd3fd        operator.local:4000/lokolla/ubuntu-binary-rabbitmq:9.1.0        <span class="string">"dumb-init --single-…"</span>   About a minute ago   Restarting (1) 28 seconds ago</span><br><span class="line"></span><br><span class="line">root@operator:/etc/kolla<span class="comment"># cat /var/log/kolla/rabbitmq/startup_log</span></span><br><span class="line"></span><br><span class="line">ERROR: epmd error <span class="keyword">for</span> host: operator address (cannot connect to host/port) kolla</span><br></pre></td></tr></table></figure>
+
+<p>This was caused by <code>/etc/hosts</code> not properly handled <a href="https://ask.openstack.org/en/question/124223/kolla-ansible-deploy-fail-for-rabbitmq/" target="_blank" rel="noopener">ref</a>.</p>
+<p>We need to modify <code>/etc/hosts</code> and ensure operator to be resolved as <code>10.0.2.15</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@operator:<span class="comment"># cat /etc/hosts</span></span><br><span class="line">127.0.0.1	localhost	localhost.localdomain	localhost4	localhost4.localdomain4</span><br><span class="line"></span><br><span class="line"><span class="comment"># The following lines are desirable for IPv6 capable hosts</span></span><br><span class="line">::1	ip6-localhost	ip6-loopback</span><br><span class="line">fe00::0	ip6-localnet</span><br><span class="line">ff00::0	ip6-mcastprefix</span><br><span class="line">ff02::1	ip6-allnodes</span><br><span class="line">ff02::2	ip6-allrouters</span><br><span class="line">ff02::3	ip6-allhosts</span><br><span class="line"></span><br><span class="line"><span class="comment">## vagrant-hostmanager-start</span></span><br><span class="line">172.28.128.9	operator.local</span><br><span class="line"><span class="comment">#172.28.128.9	operator</span></span><br><span class="line"><span class="comment">## vagrant-hostmanager-end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#127.0.1.1	operator.local	operator</span></span><br><span class="line">127.0.1.1	ubuntu-bionic	ubuntu-bionic</span><br><span class="line"></span><br><span class="line">10.0.2.15 operator</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="Verify-the-openstack-cluster"><a href="#Verify-the-openstack-cluster" class="headerlink" title="Verify the openstack cluster"></a>Verify the openstack cluster</h2><p>All running containers are there ;-).</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root@operator:/etc/kolla<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID        IMAGE                                                                       COMMAND                  CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">7cfde211e496        operator.local:4000/lokolla/ubuntu-binary-horizon:9.1.0                     <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    horizon</span><br><span class="line">2e3ada5b2cdc        operator.local:4000/lokolla/ubuntu-binary-heat-engine:9.1.0                 <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    heat_engine</span><br><span class="line">eadd81997eef        operator.local:4000/lokolla/ubuntu-binary-heat-api-cfn:9.1.0                <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    heat_api_cfn</span><br><span class="line">f672776e5016        operator.local:4000/lokolla/ubuntu-binary-heat-api:9.1.0                    <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    heat_api</span><br><span class="line">306e2ea602ca        operator.local:4000/lokolla/ubuntu-binary-neutron-metadata-agent:9.1.0      <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    neutron_metadata_agent</span><br><span class="line">fec8dd1a453e        operator.local:4000/lokolla/ubuntu-binary-neutron-l3-agent:9.1.0            <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    neutron_l3_agent</span><br><span class="line">61ea63284f97        operator.local:4000/lokolla/ubuntu-binary-neutron-dhcp-agent:9.1.0          <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    neutron_dhcp_agent</span><br><span class="line">8fa34d62a754        operator.local:4000/lokolla/ubuntu-binary-neutron-linuxbridge-agent:9.1.0   <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    neutron_linuxbridge_agent</span><br><span class="line">de7ed9268b49        operator.local:4000/lokolla/ubuntu-binary-neutron-server:9.1.0              <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    neutron_server</span><br><span class="line">e49be1d477cb        operator.local:4000/lokolla/ubuntu-binary-nova-compute:9.1.0                <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_compute</span><br><span class="line">cbc188c0a8a1        operator.local:4000/lokolla/ubuntu-binary-nova-libvirt:9.1.0                <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_libvirt</span><br><span class="line">af34d5d17a15        operator.local:4000/lokolla/ubuntu-binary-nova-ssh:9.1.0                    <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_ssh</span><br><span class="line">9125b5301adc        operator.local:4000/lokolla/ubuntu-binary-nova-novncproxy:9.1.0             <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_novncproxy</span><br><span class="line">aa7f19fc8079        operator.local:4000/lokolla/ubuntu-binary-nova-conductor:9.1.0              <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_conductor</span><br><span class="line">43269b434d5c        operator.local:4000/lokolla/ubuntu-binary-nova-api:9.1.0                    <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_api</span><br><span class="line">650dbf084fa7        operator.local:4000/lokolla/ubuntu-binary-nova-scheduler:9.1.0              <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    nova_scheduler</span><br><span class="line">f84e5f5443ec        operator.local:4000/lokolla/ubuntu-binary-placement-api:9.1.0               <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    placement_api</span><br><span class="line">34af2bc9124e        operator.local:4000/lokolla/ubuntu-binary-glance-api:9.1.0                  <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    glance_api</span><br><span class="line">1ed48ba03c97        operator.local:4000/lokolla/ubuntu-binary-keystone-fernet:9.1.0             <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    keystone_fernet</span><br><span class="line">a7a3b569ae2f        operator.local:4000/lokolla/ubuntu-binary-keystone-ssh:9.1.0                <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    keystone_ssh</span><br><span class="line">e5d4b0e94e2e        operator.local:4000/lokolla/ubuntu-binary-keystone:9.1.0                    <span class="string">"dumb-init --single-…"</span>   4 days ago          Up 4 days                                    keystone</span><br><span class="line">820e8bf1c713        operator.local:4000/lokolla/ubuntu-binary-rabbitmq:9.1.0                    <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    rabbitmq</span><br><span class="line">87d818f7aee9        operator.local:4000/lokolla/ubuntu-binary-memcached:9.1.0                   <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    memcached</span><br><span class="line">36c9d3b5ec48        operator.local:4000/lokolla/ubuntu-binary-mariadb:9.1.0                     <span class="string">"dumb-init -- kolla_…"</span>   9 days ago          Up 4 days                                    mariadb</span><br><span class="line">f34118e04e65        operator.local:4000/lokolla/ubuntu-binary-keepalived:9.1.0                  <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    keepalived</span><br><span class="line">4a835502bbc6        operator.local:4000/lokolla/ubuntu-binary-haproxy:9.1.0                     <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    haproxy</span><br><span class="line">6048403886a0        operator.local:4000/lokolla/ubuntu-binary-chrony:9.1.0                      <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    chrony</span><br><span class="line">20c995a51ddd        operator.local:4000/lokolla/ubuntu-binary-cron:9.1.0                        <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    cron</span><br><span class="line">77670d8cafe8        operator.local:4000/lokolla/ubuntu-binary-kolla-toolbox:9.1.0               <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    kolla_toolbox</span><br><span class="line">93426ea2dae4        operator.local:4000/lokolla/ubuntu-binary-fluentd:9.1.0                     <span class="string">"dumb-init --single-…"</span>   9 days ago          Up 4 days                                    fluentd</span><br><span class="line">f9208a01d0ec        registry:2                                                                  <span class="string">"/entrypoint.sh /etc…"</span>   10 days ago         Up 4 days           0.0.0.0:4000-&gt;5000/tcp   registry</span><br></pre></td></tr></table></figure>
+
+<p>And we could try openstack client calls:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root@operator:/etc/kolla<span class="comment"># . /etc/kolla/admin-openrc.sh</span></span><br><span class="line">root@operator:/etc/kolla<span class="comment"># openstack service list</span></span><br><span class="line">+----------------------------------+-------------+----------------+</span><br><span class="line">| ID                               | Name        | Type           |</span><br><span class="line">+----------------------------------+-------------+----------------+</span><br><span class="line">| 16c0c5e034a145f4815fb3d242d393bf | keystone    | identity       |</span><br><span class="line">| 4adf583360da4e5a95f091efd1fd9343 | placement   | placement      |</span><br><span class="line">| 837d588b2f6f41c7a1d41d85e99e8906 | nova_legacy | compute_legacy |</span><br><span class="line">| 88807288c83b445e8a03fccbc8453cc0 | heat-cfn    | cloudformation |</span><br><span class="line">| b74e3c61de794de3a0bc34a3fdf86ab7 | nova        | compute        |</span><br><span class="line">| d975a75ca12b4b44b5c8423783e47b76 | neutron     | network        |</span><br><span class="line">| e4860fe43a624f19a1001801d6eec511 | glance      | image          |</span><br><span class="line">| f776a802710840ee9003c1b91fa91a41 | heat        | orchestration  |</span><br><span class="line">+----------------------------------+-------------+----------------+</span><br><span class="line"></span><br><span class="line">root@operator:/etc/kolla<span class="comment"># openstack network agent list</span></span><br><span class="line">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span><br><span class="line">| ID                                   | Agent Type         | Host     | Availability Zone | Alive | State | Binary                    |</span><br><span class="line">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span><br><span class="line">| 05a9fcb8-14a5-46a8-b6b7-1430153d7246 | Linux bridge agent | operator | None              | :-)   | UP    | neutron-linuxbridge-agent |</span><br><span class="line">| 16a0abce-a33c-4dda-b13b-d74523ed9b3b | L3 agent           | operator | nova              | :-)   | UP    | neutron-l3-agent          |</span><br><span class="line">| 8e7f251e-243f-4721-97a7-7cb4060ffa18 | Metadata agent     | operator | None              | :-)   | UP    | neutron-metadata-agent    |</span><br><span class="line">| e4e7c5f0-6c79-40ea-9d8c-1da7673e80a5 | DHCP agent         | operator | nova              | :-)   | UP    | neutron-dhcp-agent        |</span><br><span class="line">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span><br><span class="line"></span><br><span class="line">root@operator:/etc/kolla<span class="comment"># openstack compute service list</span></span><br><span class="line">+----+----------------+----------+----------+---------+-------+----------------------------+</span><br><span class="line">| ID | Binary         | Host     | Zone     | Status  | State | Updated At                 |</span><br><span class="line">+----+----------------+----------+----------+---------+-------+----------------------------+</span><br><span class="line">|  4 | nova-scheduler | operator | internal | enabled | up    | 2020-05-21T15:34:28.000000 |</span><br><span class="line">|  1 | nova-conductor | operator | internal | enabled | up    | 2020-05-21T15:34:35.000000 |</span><br><span class="line">|  2 | nova-compute   | operator | nova     | enabled | up    | 2020-05-21T15:34:36.000000 |</span><br><span class="line">+----+----------------+----------+----------+---------+-------+----------------------------+</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/" title="Setup Kolla-ansible OpenStack Cluster in Vagrant 2020">https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/openstack/" rel="tag"># openstack</a>
+              <a href="/tags/vagrant/" rel="tag"># vagrant</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/setup-your-ubuntu-server-in-ipados-with-utm/" rel="prev" title="Setup your ubuntu server in iPadOS with UTM">
+      <i class="fa fa-chevron-left"></i> Setup your ubuntu server in iPadOS with UTM
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '458d0826a0f8a2a81f82',
+      clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
+      repo        : 'wey-gu.github.io',
+      owner       : 'wey-gu',
+      admin       : ['wey-gu'],
+      id          : '3b3a35d9d51cb17fd8bc3892f569b508',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

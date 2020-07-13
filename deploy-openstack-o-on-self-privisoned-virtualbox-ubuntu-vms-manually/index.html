@@ -4,32 +4,35 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
+  <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
   <meta name="msapplication-config" content="/images/browserconfig.xml">
   <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
 
-<script id="hexo-configurations">
+<script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。  Installation GuideLatest version: installation-openstack-ubuntu-note.md hosted on Github.c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually">
 <meta property="og:url" content="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/index.html">
-<meta property="og:site_name" content="Siwei notes">
+<meta property="og:site_name" content="Siwei Notes">
 <meta property="og:description" content="今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。  Installation GuideLatest version: installation-openstack-ubuntu-note.md hosted on Github.c">
 <meta property="article:published_time" content="2019-01-01T06:04:47.000Z">
-<meta property="article:modified_time" content="2019-03-08T06:46:25.272Z">
+<meta property="article:modified_time" content="2020-07-06T06:43:00.949Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta property="article:tag" content="openstack">
 <meta name="twitter:card" content="summary">
@@ -37,16 +40,17 @@
 <link rel="canonical" href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">
 
 
-<script id="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
   };
 </script>
 
-  <title>deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually | Siwei notes</title>
+  <title>deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually | Siwei Notes</title>
   
 
 
@@ -56,24 +60,36 @@
 
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
@@ -83,26 +99,25 @@
   <div class="container use-motion">
     <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Siwei notes</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <p class="site-subtitle">思为笔记</p>
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Siwei Notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">思为笔记</p>
   </div>
 
   <div class="site-nav-right">
@@ -113,47 +128,47 @@
 </div>
 
 
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
 
   </li>
         <li class="menu-item menu-item-résumé">
 
-    <a href="/about/resume.pdf" rel="section"><i class="fa fa-fw fa-book"></i>Résumé</a>
+    <a href="/resume/" rel="section"><i class="book fa-fw"></i>Résumé</a>
 
   </li>
         <li class="menu-item menu-item-简历">
 
-    <a href="/about/resume_chs.pdf" rel="section"><i class="fa fa-fw fa-book"></i>简历</a>
+    <a href="/resume_chs/" rel="section"><i class="book fa-fw"></i>简历</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">26</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives<span class="badge">11</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
 
-    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+    <a href="/404/" rel="section"><i class="heartbeat fa-fw"></i>Commonweal 404</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -161,16 +176,18 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
@@ -178,45 +195,137 @@
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
-    </header>
 
-    
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Installation-Guide"><span class="nav-number">1.</span> <span class="nav-text">Installation Guide</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Host-networking"><span class="nav-number">1.1.</span> <span class="nav-text">Host networking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#My-network-solution"><span class="nav-number">1.1.1.</span> <span class="nav-text">My network solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Base-Machine"><span class="nav-number">1.2.</span> <span class="nav-text">Base Machine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Controller-node-actions"><span class="nav-number">1.3.</span> <span class="nav-text">Controller node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#management-network-eth0-enp0s3"><span class="nav-number">1.3.1.</span> <span class="nav-text">management network eth0 (enp0s3)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostname-and-hosts"><span class="nav-number">1.3.2.</span> <span class="nav-text">hostname and hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-database"><span class="nav-number">1.3.3.</span> <span class="nav-text">SQL database</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-queue"><span class="nav-number">1.3.4.</span> <span class="nav-text">Message queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memcached"><span class="nav-number">1.3.5.</span> <span class="nav-text">Memcached</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compute-node-actions"><span class="nav-number">1.4.</span> <span class="nav-text">Compute node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#management-network-eth0-enp0s3-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">management network eth0 (enp0s3)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-NTP-by-editing-etc-chrony-chrony-conf"><span class="nav-number">1.4.2.</span> <span class="nav-text">configure NTP by editing &#x2F;etc&#x2F;chrony&#x2F;chrony.conf</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Keystone-installation"><span class="nav-number">1.5.</span> <span class="nav-text">Keystone installation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Apache-HTTP-server"><span class="nav-number">1.5.1.</span> <span class="nav-text">Configure the Apache HTTP server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-the-installation"><span class="nav-number">1.5.2.</span> <span class="nav-text">Finalize the installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-domain-projects-users-and-roles"><span class="nav-number">1.5.3.</span> <span class="nav-text">Create a domain, projects, users, and roles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation"><span class="nav-number">1.5.4.</span> <span class="nav-text">Verify operation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-OpenStack-client-environment-scripts"><span class="nav-number">1.5.5.</span> <span class="nav-text">Create OpenStack client environment scripts</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Creating-the-scripts"><span class="nav-number">1.5.5.1.</span> <span class="nav-text">Creating the scripts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-the-scripts"><span class="nav-number">1.5.5.2.</span> <span class="nav-text">Using the scripts</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Glance-installation"><span class="nav-number">1.6.</span> <span class="nav-text">Glance installation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure"><span class="nav-number">1.6.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites"><span class="nav-number">1.6.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components"><span class="nav-number">1.6.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation"><span class="nav-number">1.6.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-1"><span class="nav-number">1.6.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-installation"><span class="nav-number">1.7.</span> <span class="nav-text">Nova installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-install-and-configure-controller-node"><span class="nav-number">1.8.</span> <span class="nav-text">Nova install and configure controller node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-1"><span class="nav-number">1.8.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-1"><span class="nav-number">1.8.2.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-1"><span class="nav-number">1.8.3.</span> <span class="nav-text">Finalize installation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-Install-and-configure-a-compute-node"><span class="nav-number">1.9.</span> <span class="nav-text">Nova Install and configure a compute node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-2"><span class="nav-number">1.9.1.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-the-compute-node-to-the-cell-database"><span class="nav-number">1.9.2.</span> <span class="nav-text">Add the compute node to the cell database</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-installation"><span class="nav-number">1.10.</span> <span class="nav-text">Neutron installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tenant-Project-network-configuration"><span class="nav-number">1.11.</span> <span class="nav-text">Tenant&#x2F;Project network configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-Install-and-configure-controller-node"><span class="nav-number">1.12.</span> <span class="nav-text">Neutron Install and configure controller node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-2"><span class="nav-number">1.12.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-networking-options"><span class="nav-number">1.12.2.</span> <span class="nav-text">Configure networking options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Networking-Option-1-Provider-networks"><span class="nav-number">1.12.3.</span> <span class="nav-text">Networking Option 1: Provider networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-the-components"><span class="nav-number">1.12.4.</span> <span class="nav-text">Install the components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-server-component"><span class="nav-number">1.12.5.</span> <span class="nav-text">Configure the server component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Modular-Layer-2-ML2-plug-in"><span class="nav-number">1.12.6.</span> <span class="nav-text">Configure the Modular Layer 2 (ML2) plug-in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Linux-bridge-agent"><span class="nav-number">1.12.7.</span> <span class="nav-text">Configure the Linux bridge agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-DHCP-agent"><span class="nav-number">1.12.8.</span> <span class="nav-text">Configure the DHCP agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-metadata-agent"><span class="nav-number">1.12.9.</span> <span class="nav-text">Configure the metadata agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Compute-service-to-use-the-Networking-service"><span class="nav-number">1.12.10.</span> <span class="nav-text">Configure the Compute service to use the Networking service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-2"><span class="nav-number">1.12.11.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-2"><span class="nav-number">1.12.12.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-Install-and-configure-compute-node"><span class="nav-number">1.13.</span> <span class="nav-text">Neutron Install and configure compute node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-the-components-1"><span class="nav-number">1.13.1.</span> <span class="nav-text">Install the components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-common-component"><span class="nav-number">1.13.2.</span> <span class="nav-text">Configure the common component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-networking-options-1"><span class="nav-number">1.13.3.</span> <span class="nav-text">Configure networking options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Linux-bridge-agent-1"><span class="nav-number">1.13.4.</span> <span class="nav-text">Configure the Linux bridge agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Compute-service-to-use-the-Networking-service-1"><span class="nav-number">1.13.5.</span> <span class="nav-text">Configure the Compute service to use the Networking service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-3"><span class="nav-number">1.13.6.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-3"><span class="nav-number">1.13.7.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Congratulations-Let’s-try-booting-an-instance"><span class="nav-number">1.14.</span> <span class="nav-text">Congratulations! Let’s try booting an instance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-provider-network-subnetwork"><span class="nav-number">1.14.1.</span> <span class="nav-text">Create provider network&#x2F;subnetwork</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-flavor"><span class="nav-number">1.14.2.</span> <span class="nav-text">Create flavor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-security-group-rules"><span class="nav-number">1.14.3.</span> <span class="nav-text">Add security group rules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Launch-an-instance"><span class="nav-number">1.14.4.</span> <span class="nav-text">Launch an instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-instance-options"><span class="nav-number">1.14.5.</span> <span class="nav-text">Determine instance options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Launch-the-instance"><span class="nav-number">1.14.6.</span> <span class="nav-text">Launch the instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-the-instance-using-the-virtual-console"><span class="nav-number">1.14.7.</span> <span class="nav-text">Access the instance using the virtual console</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-the-instance-remotely"><span class="nav-number">1.14.8.</span> <span class="nav-text">Access the instance remotely</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-DHCP-failure-in-VM-troubleshooting"><span class="nav-number">1.15.</span> <span class="nav-text">[ISSUE] DHCP failure in VM troubleshooting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-it-is-like"><span class="nav-number">1.15.1.</span> <span class="nav-text">what it is like</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.15.2.</span> <span class="nav-text">Conclusion:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder"><span class="nav-number">1.16.</span> <span class="nav-text">Cinder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-controller"><span class="nav-number">1.17.</span> <span class="nav-text">Cinder on controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-controller-node"><span class="nav-number">1.17.1.</span> <span class="nav-text">Install and configure controller node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-3"><span class="nav-number">1.17.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-3"><span class="nav-number">1.17.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-Compute-to-use-Block-Storage"><span class="nav-number">1.17.4.</span> <span class="nav-text">Configure Compute to use Block Storage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-4"><span class="nav-number">1.17.5.</span> <span class="nav-text">Finalize installation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-block-storage-node"><span class="nav-number">1.18.</span> <span class="nav-text">Cinder on block storage node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-storage-network-for-compute"><span class="nav-number">1.18.1.</span> <span class="nav-text">configure storage network for compute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-cinder-machine-storage"><span class="nav-number">1.18.2.</span> <span class="nav-text">Create cinder machine: storage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Storage-node-actions"><span class="nav-number">1.19.</span> <span class="nav-text">Storage node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Management-net-eth0-enp0s3-and-storage-net-eth2-enp0s9"><span class="nav-number">1.19.1.</span> <span class="nav-text">Management net eth0 (enp0s3) and storage net eth2 (enp0s9)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-NTP-by-editing-etc-chrony-chrony-conf-1"><span class="nav-number">1.19.2.</span> <span class="nav-text">configure NTP by editing &#x2F;etc&#x2F;chrony&#x2F;chrony.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-new-disk-was-there-already"><span class="nav-number">1.19.3.</span> <span class="nav-text">Check new disk was there already</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-storage-node"><span class="nav-number">1.20.</span> <span class="nav-text">Cinder on storage node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-a-storage-node"><span class="nav-number">1.20.1.</span> <span class="nav-text">Install and configure a storage node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-4"><span class="nav-number">1.20.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-4"><span class="nav-number">1.20.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-5"><span class="nav-number">1.20.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-4"><span class="nav-number">1.20.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Let’s-try-something-on-block-storage"><span class="nav-number">1.21.</span> <span class="nav-text">Let’s try something on block storage!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-volume"><span class="nav-number">1.21.1.</span> <span class="nav-text">Create a volume</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heat"><span class="nav-number">1.22.</span> <span class="nav-text">Heat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-1"><span class="nav-number">1.22.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-5"><span class="nav-number">1.22.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-5"><span class="nav-number">1.22.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-6"><span class="nav-number">1.22.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-5"><span class="nav-number">1.22.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-list-heat-service-failure"><span class="nav-number">1.23.</span> <span class="nav-text">[ISSUE] list heat service failure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error-occurred-during-openstack-orchestration-service-list"><span class="nav-number">1.23.1.</span> <span class="nav-text">error occurred during openstack orchestration service list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution"><span class="nav-number">1.23.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-Orchestration-let’s-start-from-a-single-instance-HOT"><span class="nav-number">1.24.</span> <span class="nav-text">Start Orchestration! let’s start from a single instance HOT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-template"><span class="nav-number">1.24.1.</span> <span class="nav-text">Create a template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-stack"><span class="nav-number">1.24.2.</span> <span class="nav-text">Create a stack</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-about-Design-a-fake-vAPG-VNF-and-instantiate-it"><span class="nav-number">1.25.</span> <span class="nav-text">How about Design a fake vAPG VNF and instantiate it?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HOT"><span class="nav-number">1.25.1.</span> <span class="nav-text">HOT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instantiation-vAPG"><span class="nav-number">1.25.2.</span> <span class="nav-text">Instantiation vAPG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Horizon-dashboard"><span class="nav-number">1.26.</span> <span class="nav-text">Horizon dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-2"><span class="nav-number">1.26.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-7"><span class="nav-number">1.26.2.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-6"><span class="nav-number">1.26.3.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-Horizon-500-internal-error"><span class="nav-number">1.27.</span> <span class="nav-text">[ISSUE] Horizon 500 internal error</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fault-reproduce-in-cli"><span class="nav-number">1.27.1.</span> <span class="nav-text">Fault reproduce in cli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-1"><span class="nav-number">1.27.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-RabbitMQ-web-admin-for-studying"><span class="nav-number">1.28.</span> <span class="nav-text">Enable RabbitMQ web admin for studying</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-reconfigure-as-Linux-bridge-with-vlan"><span class="nav-number">1.29.</span> <span class="nav-text">Neutron reconfigure as Linux bridge with vlan</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller-configuration"><span class="nav-number">1.29.1.</span> <span class="nav-text">Controller configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compute-node-configuration"><span class="nav-number">1.29.2.</span> <span class="nav-text">Compute node configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-7"><span class="nav-number">1.29.3.</span> <span class="nav-text">Verify operation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-initial-networks"><span class="nav-number">1.29.4.</span> <span class="nav-text">Create initial networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-network-operation"><span class="nav-number">1.29.5.</span> <span class="nav-text">Verify network operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-Troubleshooting-vlan-dhcp"><span class="nav-number">1.30.</span> <span class="nav-text">[ISSUE] Troubleshooting vlan dhcp</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/wey_pixel_tinified.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">I build things</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:weyl.gu@gmail.com" title="E-Mail → mailto:weyl.gu@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/siweigu" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;siweigu" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wey_gu" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wey_gu" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/Weyl.GU" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;Weyl.GU" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
   <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
-    <main class="main">
+
       <div class="main-inner">
-        <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
           
 
-          <div class="content">
-            
-
-  <div class="posts-expand">
-      
+    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="default">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
     <link itemprop="mainEntityOfPage" href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
       <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="Build things.">
+      <meta itemprop="description" content="I build things">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei notes">
+      <meta itemprop="name" content="Siwei Notes">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -226,7 +335,7 @@
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
@@ -234,18 +343,18 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-03-08 14:46:25" itemprop="dateModified" datetime="2019-03-08T14:46:25+08:00">2019-03-08</time>
+                <time title="Modified: 2020-07-06 14:43:00" itemprop="dateModified" datetime="2020-07-06T14:43:00+08:00">2020-07-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/openstack-stuff/" itemprop="url" rel="index"><span itemprop="name">openstack stuff</span></a>
+                  <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
                 </span>
             </span>
 
@@ -263,7 +372,7 @@
         <blockquote>
 <p>今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。</p>
 </blockquote>
-<h1 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h1><p>Latest version: <a href="https://github.com/littlewey/workshops/blob/master/00-Openstack-Basic/installation-openstack-ubuntu-note.md" target="_blank" rel="noopener">installation-openstack-ubuntu-note.md</a> hosted on <em>Github.com/littlewey</em></p>
+<h1 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h1><p>Latest version: <a href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/installation-openstack-ubuntu-note.md" target="_blank" rel="noopener">installation-openstack-ubuntu-note.md</a> hosted on <em>Github.com/wey-gu</em></p>
 <blockquote>
 <p>ref: <a href="https://docs.openstack.org/install-guide" target="_blank" rel="noopener">https://docs.openstack.org/install-guide</a></p>
 </blockquote>
@@ -343,7 +452,7 @@
 <p>Upgrade the packages on all nodes:</p>
 <blockquote>
 <p>Set apt proxy before doing that will help save your life</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/apt/apt.conf.d/90proxy</span></span><br><span class="line">Acquire::http::Proxy <span class="string">"http://www-proxy.exu.ericsson.se:8080"</span>;</span><br><span class="line">Acquire::https::Proxy <span class="string">"http://www-proxy.exu.ericsson.se:8080"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># sed -i -e 's/cn/us/g' /etc/apt/sources.list</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/apt/apt.conf.d/90proxy</span></span><br><span class="line">Acquire::http::Proxy <span class="string">"http://&lt;&gt;:8080"</span>;</span><br><span class="line">Acquire::https::Proxy <span class="string">"http://&lt;&gt;:8080"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># sed -i -e 's/cn/us/g' /etc/apt/sources.list</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># apt update &amp;&amp; apt dist-upgrade -y</span></span><br></pre></td></tr></table></figure>
 
@@ -664,7 +773,7 @@
 
 <blockquote>
 <p>tip: add proxy to improve speed in office network</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ export http_proxy&#x3D;http:&#x2F;&#x2F;www-proxy.exu.ericsson.se:8080</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; after wget</span><br><span class="line"></span><br><span class="line">$ unset http_proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ export http_proxy&#x3D;http:&#x2F;&#x2F;&lt;&gt;:8080</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; after wget</span><br><span class="line"></span><br><span class="line">$ unset http_proxy</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>Install <code>wget</code> if your distribution does not include it.</p>
 </li>
@@ -909,9 +1018,7 @@ By default, Compute uses an internal firewall service. Since Networking includes
 </li>
 <li><p>In the <code>[glance]</code> section, configure the location of the Image service API:</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[glance]</span><br><span class="line">...</span><br><span class="line">api_servers = http://controller:9292</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>In the <code>[oslo_concurrency]</code> section, configure the lock path:</p>
-   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[oslo_concurrency]</span><br><span class="line">...</span><br><span class="line">lock_path = /var/lib/nova/tmp</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- In the &#96;[oslo_concurrency]&#96; section, configure the lock path:</span><br><span class="line"></span><br><span class="line">     &#96;&#96;&#96;bash</span><br><span class="line">     [oslo_concurrency]</span><br><span class="line">     ...</span><br><span class="line">     lock_path &#x3D; &#x2F;var&#x2F;lib&#x2F;nova&#x2F;tmp</span><br></pre></td></tr></table></figure>
 
 
 </li>
@@ -923,11 +1030,10 @@ By default, Compute uses an internal firewall service. Since Networking includes
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[placement]</span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">os_region_name = RegionOne</span><br><span class="line">project_domain_name = Default</span><br><span class="line">project_name = service</span><br><span class="line">auth_type = password</span><br><span class="line">user_domain_name = Default</span><br><span class="line">auth_url = http://controller:35357/v3</span><br><span class="line">username = placement</span><br><span class="line">password = placement</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
 
 <p>Replace <code>placement</code> with the password you choose for the <code>placement</code> user in the Identity service. Comment out any other options in the <code>[placement]</code> section.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### Finalize installation</span><br><span class="line"></span><br><span class="line">Determine whether your compute node supports hardware acceleration for virtual machines:</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;bash</span><br><span class="line">$ egrep -c &#39;(vmx|svm)&#39; &#x2F;proc&#x2F;cpuinfo</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
-<h3 id="Finalize-installation-2"><a href="#Finalize-installation-2" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><p>Determine whether your compute node supports hardware acceleration for virtual machines:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ egrep -c <span class="string">'(vmx|svm)'</span> /proc/cpuinfo</span><br></pre></td></tr></table></figure>
-
 <p>If this command returns a value of <code>one or greater</code>, your compute node supports hardware acceleration which typically requires no additional configuration.</p>
 <p>If this command returns a value of <code>zero</code>, your compute node does not support hardware acceleration and you must configure <code>libvirt</code> to use QEMU instead of KVM.</p>
 <ul>
@@ -1131,7 +1237,7 @@ By default, Compute uses an internal firewall service. Since Networking includes
 </ul>
 </li>
 </ul>
-<h3 id="Finalize-installation-3"><a href="#Finalize-installation-3" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
+<h3 id="Finalize-installation-2"><a href="#Finalize-installation-2" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
 <li><p>Populate the database:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \</span></span><br><span class="line">  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head<span class="string">" neutron</span></span><br></pre></td></tr></table></figure>
 
@@ -1208,7 +1314,7 @@ By default, Compute uses an internal firewall service. Since Networking includes
 </ul>
 </li>
 </ul>
-<h3 id="Finalize-installation-4"><a href="#Finalize-installation-4" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
+<h3 id="Finalize-installation-3"><a href="#Finalize-installation-3" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
 <li><p>Restart the Compute service:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service nova-compute restart</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -1347,7 +1453,7 @@ By default, Compute uses an internal firewall service. Since Networking includes
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">root@controller:~<span class="comment"># tcpdump -i  brq2a33434f-ba -vv port 67 or port 68 -e -n</span></span><br><span class="line">tcpdump: listening on brq2a33434f-ba, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">04:04:22.830138 fa:16:3e:bb:c6:13 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 332: (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 318)</span><br><span class="line">    0.0.0.0.68 &gt; 255.255.255.255.67: [udp sum ok] BOOTP/DHCP, Request from fa:16:3e:bb:c6:13, length 290, xid 0x1fac2751, Flags [none] (0x0000)</span><br><span class="line">          Client-Ethernet-Address fa:16:3e:bb:c6:13</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: Discover</span><br><span class="line">            Client-ID Option 61, length 7: ether fa:16:3e:bb:c6:13</span><br><span class="line">            MSZ Option 57, length 2: 576</span><br><span class="line">            Parameter-Request Option 55, length 9:</span><br><span class="line">              Subnet-Mask, Default-Gateway, Domain-Name-Server, Hostname</span><br><span class="line">              Domain-Name, MTU, BR, NTP</span><br><span class="line">              Classless-Static-Route</span><br><span class="line">            Vendor-Class Option 60, length 12: <span class="string">"udhcp 1.20.1"</span></span><br><span class="line">            Hostname Option 12, length 6: <span class="string">"cirros"</span></span><br><span class="line">04:04:22.831801 fa:16:3e:8b:53:5e &gt; fa:16:3e:bb:c6:13, ethertype IPv4 (0x0800), length 370: (tos 0xc0, ttl 64, id 3044, offset 0, flags [none], proto UDP (17), length 356)</span><br><span class="line">    146.11.41.230.67 &gt; 146.11.41.232.68: [udp sum ok] BOOTP/DHCP, Reply, length 328, xid 0x1fac2751, Flags [none] (0x0000)</span><br><span class="line">          Your-IP 146.11.41.232</span><br><span class="line">          Server-IP 146.11.41.230</span><br><span class="line">          Client-Ethernet-Address fa:16:3e:bb:c6:13</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: Offer</span><br><span class="line">            Server-ID Option 54, length 4: 146.11.41.230</span><br><span class="line">            Lease-Time Option 51, length 4: 86400</span><br><span class="line">            RN Option 58, length 4: 43200</span><br><span class="line">            RB Option 59, length 4: 75600</span><br><span class="line">            Subnet-Mask Option 1, length 4: 255.255.254.0</span><br><span class="line">            BR Option 28, length 4: 146.11.41.255</span><br><span class="line">            Domain-Name Option 15, length 14: <span class="string">"openstacklocal"</span></span><br><span class="line">            Default-Gateway Option 3, length 4: 146.11.40.1</span><br><span class="line">            Classless-Static-Route Option 121, length 14: (169.254.169.254/32:146.11.41.230),(default:146.11.40.1)</span><br><span class="line">            Domain-Name-Server Option 6, length 4: 147.128.5.12</span><br><span class="line">            MTU Option 26, length 2: 1500</span><br><span class="line">04:04:52.504181 08:2e:5f:5d:63:00 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 358: (tos 0x0, ttl 120, id 5320, offset 0, flags [DF], proto UDP (17), length 344)</span><br></pre></td></tr></table></figure>
 
 <p>While from compute , tcpdump the br-int bridge shows it’s not received </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root@compute:~<span class="comment"># tcpdump -i brq2a33434f-ba -vv port 67 or port 68 -e -n</span></span><br><span class="line">tcpdump: listening on brq2a33434f-ba, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">03:51:04.456668 fa:16:3e:bb:c6:13 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 332: (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 318)</span><br><span class="line">    0.0.0.0.68 &gt; 255.255.255.255.67: [udp sum ok] BOOTP/DHCP, Request from fa:16:3e:bb:c6:13, length 290, xid 0xe5e8f024, Flags [none] (0x0000)</span><br><span class="line">          Client-Ethernet-Address fa:16:3e:bb:c6:13</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: Discover</span><br><span class="line">            Client-ID Option 61, length 7: ether fa:16:3e:bb:c6:13</span><br><span class="line">            MSZ Option 57, length 2: 576</span><br><span class="line">            Parameter-Request Option 55, length 9:</span><br><span class="line">              Subnet-Mask, Default-Gateway, Domain-Name-Server, Hostname</span><br><span class="line">              Domain-Name, MTU, BR, NTP</span><br><span class="line">              Classless-Static-Route</span><br><span class="line">            Vendor-Class Option 60, length 12: <span class="string">"udhcp 1.20.1"</span></span><br><span class="line">            Hostname Option 12, length 6: <span class="string">"cirros"</span></span><br><span class="line">03:51:30.022360 08:2e:5f:5d:63:00 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 358: (tos 0x0, ttl 120, id 29901, offset 0, flags [DF], proto UDP (17), length 344)</span><br><span class="line">    147.128.5.12.67 &gt; 255.255.255.255.68: [udp sum ok] BOOTP/DHCP, Reply, length 316, xid 0x4a42e788, Flags [Broadcast] (0x8000)</span><br><span class="line">          Client-IP 146.11.40.250</span><br><span class="line">          Gateway-IP 146.11.40.1</span><br><span class="line">          Client-Ethernet-Address d0:bf:9c:df:7a:a5</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: ACK</span><br><span class="line">            Server-ID Option 54, length 4: 147.128.5.12</span><br><span class="line">            Subnet-Mask Option 1, length 4: 255.255.254.0</span><br><span class="line">            Vendor-Option Option 43, length 5: 220.3.78.65.80</span><br><span class="line">            Domain-Name Option 15, length 18: <span class="string">"cn.ao.ericsson.se^@"</span></span><br><span class="line">            Default-Gateway Option 3, length 4: 146.11.40.1</span><br><span class="line">            Domain-Name-Server Option 6, length 12: 147.128.5.12,193.181.14.11,193.181.14.10</span><br><span class="line">            Netbios-Name-Server Option 44, length 8: 146.11.115.50,146.11.116.30</span><br><span class="line">            Netbios-Node Option 46, length 1: h-node</span><br><span class="line">03:51:30.023490 2c:76:8a:1f:47:00 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 358: (tos 0x0, ttl 119, id 2187, offset 0, flags [DF], proto UDP (17), length 344)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root@compute:~<span class="comment"># tcpdump -i brq2a33434f-ba -vv port 67 or port 68 -e -n</span></span><br><span class="line">tcpdump: listening on brq2a33434f-ba, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">03:51:04.456668 fa:16:3e:bb:c6:13 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 332: (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 318)</span><br><span class="line">    0.0.0.0.68 &gt; 255.255.255.255.67: [udp sum ok] BOOTP/DHCP, Request from fa:16:3e:bb:c6:13, length 290, xid 0xe5e8f024, Flags [none] (0x0000)</span><br><span class="line">          Client-Ethernet-Address fa:16:3e:bb:c6:13</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: Discover</span><br><span class="line">            Client-ID Option 61, length 7: ether fa:16:3e:bb:c6:13</span><br><span class="line">            MSZ Option 57, length 2: 576</span><br><span class="line">            Parameter-Request Option 55, length 9:</span><br><span class="line">              Subnet-Mask, Default-Gateway, Domain-Name-Server, Hostname</span><br><span class="line">              Domain-Name, MTU, BR, NTP</span><br><span class="line">              Classless-Static-Route</span><br><span class="line">            Vendor-Class Option 60, length 12: <span class="string">"udhcp 1.20.1"</span></span><br><span class="line">            Hostname Option 12, length 6: <span class="string">"cirros"</span></span><br><span class="line">03:51:30.022360 08:2e:5f:5d:63:00 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 358: (tos 0x0, ttl 120, id 29901, offset 0, flags [DF], proto UDP (17), length 344)</span><br><span class="line">    147.128.5.12.67 &gt; 255.255.255.255.68: [udp sum ok] BOOTP/DHCP, Reply, length 316, xid 0x4a42e788, Flags [Broadcast] (0x8000)</span><br><span class="line">          Client-IP 146.11.40.250</span><br><span class="line">          Gateway-IP 146.11.40.1</span><br><span class="line">          Client-Ethernet-Address d0:bf:9c:df:7a:a5</span><br><span class="line">          Vendor-rfc1048 Extensions</span><br><span class="line">            Magic Cookie 0x63825363</span><br><span class="line">            DHCP-Message Option 53, length 1: ACK</span><br><span class="line">            Server-ID Option 54, length 4: 147.128.5.12</span><br><span class="line">            Subnet-Mask Option 1, length 4: 255.255.254.0</span><br><span class="line">            Vendor-Option Option 43, length 5: 220.3.78.65.80</span><br><span class="line">            Domain-Name Option 15, length 18: <span class="string">"^@"</span></span><br><span class="line">            Default-Gateway Option 3, length 4: 146.11.40.1</span><br><span class="line">            Domain-Name-Server Option 6, length 12: 147.128.5.12,193.181.14.11,193.181.14.10</span><br><span class="line">            Netbios-Name-Server Option 44, length 8: 146.11.115.50,146.11.116.30</span><br><span class="line">            Netbios-Node Option 46, length 1: h-node</span><br><span class="line">03:51:30.023490 2c:76:8a:1f:47:00 &gt; ff:ff:ff:ff:ff:ff, ethertype IPv4 (0x0800), length 358: (tos 0x0, ttl 119, id 2187, offset 0, flags [DF], proto UDP (17), length 344)</span><br></pre></td></tr></table></figure>
 
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion:"></a>Conclusion:</h3><p>the DHCP offer was sent out from DHCP agent dnsmasq, but the package cannot be captured from host bridge connecting to vm eth0. the issue is located in the provider network router, the ECN router 146.11.40.1 in our office.</p>
 <p>By searching online, there is a tech called DHCP snooping to prevent multiple dhcp server in one LAN from router, which makes sense. </p>
@@ -1478,7 +1584,7 @@ Replace `CINDER_DBPASS` with a suitable password.</code></pre><ul>
 
 </li>
 </ul>
-<h3 id="Finalize-installation-5"><a href="#Finalize-installation-5" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
+<h3 id="Finalize-installation-4"><a href="#Finalize-installation-4" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
 <li><p>Restart the Compute API service:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service nova-api restart</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -1603,7 +1709,7 @@ glance_api_servers = http://controller:9292
 </ul>
 </li>
 </ul>
-<h3 id="Finalize-installation-6"><a href="#Finalize-installation-6" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
+<h3 id="Finalize-installation-5"><a href="#Finalize-installation-5" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
 <li><p>Restart the Block Storage volume service including its dependencies:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service tgt restart</span></span><br><span class="line"><span class="comment"># service cinder-volume restart</span></span><br></pre></td></tr></table></figure>
 
@@ -1786,7 +1892,7 @@ glance_api_servers = http://controller:9292
 <p>Ignore any deprecation messages in this output.</p>
 </li>
 </ol>
-<h3 id="Finalize-installation-7"><a href="#Finalize-installation-7" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
+<h3 id="Finalize-installation-6"><a href="#Finalize-installation-6" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ol>
 <li><p>Restart the Orchestration services:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service heat-api restart</span></span><br><span class="line"><span class="comment"># service heat-api-cfn restart</span></span><br><span class="line"><span class="comment"># service heat-engine restart</span></span><br></pre></td></tr></table></figure>
 
@@ -1842,7 +1948,7 @@ glance_api_servers = http://controller:9292
 <li><p>Create the <code>HOT-demo.yml</code> file with the following content:</p>
 <blockquote>
 <p>You could fetch it from here to avoid format error: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https:&#x2F;&#x2F;github.com&#x2F;littlewey&#x2F;workshops&#x2F;raw&#x2F;master&#x2F;00-Openstack-Basic&#x2F;HOT-demo.yml</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https:&#x2F;&#x2F;github.com&#x2F;wey-gu&#x2F;workshops&#x2F;raw&#x2F;master&#x2F;00-Openstack-Basic&#x2F;HOT-demo.yml</span><br></pre></td></tr></table></figure>
 </blockquote>
 </li>
 </ul>
@@ -1882,7 +1988,7 @@ glance_api_servers = http://controller:9292
 </blockquote>
 <h3 id="HOT"><a href="#HOT" class="headerlink" title="HOT"></a>HOT</h3><blockquote>
 <p>fetch it here:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wget https://github.com/littlewey/workshops/raw/master/00-Openstack-Basic/HOT-vAPG.yml</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wget https://github.com/wey-gu/workshops/raw/master/00-Openstack-Basic/HOT-vAPG.yml</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">heat_template_version:</span> <span class="number">2015</span><span class="number">-10</span><span class="number">-15</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Fake</span> <span class="string">vAPG</span> <span class="string">with</span> <span class="string">CirrOS</span> <span class="string">image</span> <span class="string">using</span> <span class="string">the</span></span><br><span class="line">             <span class="string">``m1.nano``</span> <span class="string">flavor,</span>  <span class="string">and</span> <span class="string">one</span> <span class="string">network.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="attr">NetID:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">Network</span> <span class="string">ID</span> <span class="string">to</span> <span class="string">use</span> <span class="string">for</span> <span class="string">the</span> <span class="string">instance.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">resources:</span></span><br><span class="line">  <span class="attr">nodeA:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Nova::Server</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">cirros</span></span><br><span class="line">      <span class="attr">flavor:</span> <span class="string">m1.nano</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">network:</span> <span class="string">&#123;</span> <span class="attr">get_param:</span> <span class="string">NetID</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">nodeB:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Nova::Server</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">cirros</span></span><br><span class="line">      <span class="attr">flavor:</span> <span class="string">m1.nano</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">network:</span> <span class="string">&#123;</span> <span class="attr">get_param:</span> <span class="string">NetID</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">diskA:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Cinder::Volume</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">size:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">diskB:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Cinder::Volume</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">size:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">NodeAvolume_attachment:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Cinder::VolumeAttachment</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">volume_id:</span> <span class="string">&#123;</span> <span class="attr">get_resource:</span> <span class="string">diskA</span> <span class="string">&#125;</span></span><br><span class="line">      <span class="attr">instance_uuid:</span> <span class="string">&#123;</span> <span class="attr">get_resource:</span> <span class="string">nodeA</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">NodeBvolume_attachment:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">OS::Cinder::VolumeAttachment</span></span><br><span class="line">    <span class="attr">properties:</span></span><br><span class="line">      <span class="attr">volume_id:</span> <span class="string">&#123;</span> <span class="attr">get_resource:</span> <span class="string">diskB</span> <span class="string">&#125;</span></span><br><span class="line">      <span class="attr">instance_uuid:</span> <span class="string">&#123;</span> <span class="attr">get_resource:</span> <span class="string">nodeB</span> <span class="string">&#125;</span></span><br><span class="line"><span class="attr">outputs:</span></span><br><span class="line">  <span class="attr">nodeA:</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">Name</span> <span class="string">of</span> <span class="string">the</span> <span class="string">instance.</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#123;</span> <span class="attr">get_attr:</span> <span class="string">[</span> <span class="string">nodeA,</span> <span class="string">name</span> <span class="string">]</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">nodeA_ip:</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">IP</span> <span class="string">address</span> <span class="string">of</span> <span class="string">the</span> <span class="string">instance.</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#123;</span> <span class="attr">get_attr:</span> <span class="string">[</span> <span class="string">nodeA,</span> <span class="string">first_address</span> <span class="string">]</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">nodeB:</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">Name</span> <span class="string">of</span> <span class="string">the</span> <span class="string">instance.</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#123;</span> <span class="attr">get_attr:</span> <span class="string">[</span> <span class="string">nodeB,</span> <span class="string">name</span> <span class="string">]</span> <span class="string">&#125;</span></span><br><span class="line">  <span class="attr">nodeB_ip:</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">IP</span> <span class="string">address</span> <span class="string">of</span> <span class="string">the</span> <span class="string">instance.</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#123;</span> <span class="attr">get_attr:</span> <span class="string">[</span> <span class="string">nodeB,</span> <span class="string">first_address</span> <span class="string">]</span> <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 
@@ -1944,7 +2050,7 @@ Comment out any other session storage configuration.</code></pre><ul>
 </ul>
 </li>
 </ul>
-<h3 id="Finalize-installation-8"><a href="#Finalize-installation-8" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ul>
+<h3 id="Finalize-installation-7"><a href="#Finalize-installation-7" class="headerlink" title="Finalize installation"></a>Finalize installation</h3><ul>
 <li><p>Reload the web server configuration:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service apache2 reloadetc</span></span><br></pre></td></tr></table></figure>
 
@@ -2136,7 +2242,7 @@ Comment out any other session storage configuration.</code></pre><ul>
     <a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/" title="deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually">https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
 </div>
@@ -2153,8 +2259,8 @@ Comment out any other session storage configuration.</code></pre><ul>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/upgrade-hexo-theme/" rel="prev" title="upgrade hexo, theme">
-      <i class="fa fa-chevron-left"></i> upgrade hexo, theme
+    <a href="/my-hhkb-and-macos-setup/" rel="prev" title="my HHKB and macOS setup">
+      <i class="fa fa-chevron-left"></i> my HHKB and macOS setup
     </a></div>
       <div class="post-nav-item">
     <a href="/openstack-basic-for-newbie/" rel="next" title="Openstack Basic for newbie">
@@ -2168,16 +2274,15 @@ Comment out any other session storage configuration.</code></pre><ul>
   
   
 
-  </div>
 
 
-          </div>
-          
+        </div>
+        
     <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -2197,96 +2302,6 @@ Comment out any other session storage configuration.</code></pre><ul>
   }
 </script>
 
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Installation-Guide"><span class="nav-number">1.</span> <span class="nav-text">Installation Guide</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Host-networking"><span class="nav-number">1.1.</span> <span class="nav-text">Host networking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#My-network-solution"><span class="nav-number">1.1.1.</span> <span class="nav-text">My network solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Base-Machine"><span class="nav-number">1.2.</span> <span class="nav-text">Base Machine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Controller-node-actions"><span class="nav-number">1.3.</span> <span class="nav-text">Controller node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#management-network-eth0-enp0s3"><span class="nav-number">1.3.1.</span> <span class="nav-text">management network eth0 (enp0s3)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostname-and-hosts"><span class="nav-number">1.3.2.</span> <span class="nav-text">hostname and hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-database"><span class="nav-number">1.3.3.</span> <span class="nav-text">SQL database</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-queue"><span class="nav-number">1.3.4.</span> <span class="nav-text">Message queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memcached"><span class="nav-number">1.3.5.</span> <span class="nav-text">Memcached</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compute-node-actions"><span class="nav-number">1.4.</span> <span class="nav-text">Compute node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#management-network-eth0-enp0s3-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">management network eth0 (enp0s3)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-NTP-by-editing-etc-chrony-chrony-conf"><span class="nav-number">1.4.2.</span> <span class="nav-text">configure NTP by editing &#x2F;etc&#x2F;chrony&#x2F;chrony.conf</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Keystone-installation"><span class="nav-number">1.5.</span> <span class="nav-text">Keystone installation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Apache-HTTP-server"><span class="nav-number">1.5.1.</span> <span class="nav-text">Configure the Apache HTTP server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-the-installation"><span class="nav-number">1.5.2.</span> <span class="nav-text">Finalize the installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-domain-projects-users-and-roles"><span class="nav-number">1.5.3.</span> <span class="nav-text">Create a domain, projects, users, and roles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation"><span class="nav-number">1.5.4.</span> <span class="nav-text">Verify operation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-OpenStack-client-environment-scripts"><span class="nav-number">1.5.5.</span> <span class="nav-text">Create OpenStack client environment scripts</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Creating-the-scripts"><span class="nav-number">1.5.5.1.</span> <span class="nav-text">Creating the scripts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-the-scripts"><span class="nav-number">1.5.5.2.</span> <span class="nav-text">Using the scripts</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Glance-installation"><span class="nav-number">1.6.</span> <span class="nav-text">Glance installation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure"><span class="nav-number">1.6.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites"><span class="nav-number">1.6.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components"><span class="nav-number">1.6.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation"><span class="nav-number">1.6.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-1"><span class="nav-number">1.6.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-installation"><span class="nav-number">1.7.</span> <span class="nav-text">Nova installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-install-and-configure-controller-node"><span class="nav-number">1.8.</span> <span class="nav-text">Nova install and configure controller node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-1"><span class="nav-number">1.8.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-1"><span class="nav-number">1.8.2.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-1"><span class="nav-number">1.8.3.</span> <span class="nav-text">Finalize installation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nova-Install-and-configure-a-compute-node"><span class="nav-number">1.9.</span> <span class="nav-text">Nova Install and configure a compute node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-2"><span class="nav-number">1.9.1.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-2"><span class="nav-number">1.9.2.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-the-compute-node-to-the-cell-database"><span class="nav-number">1.9.3.</span> <span class="nav-text">Add the compute node to the cell database</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-installation"><span class="nav-number">1.10.</span> <span class="nav-text">Neutron installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tenant-Project-network-configuration"><span class="nav-number">1.11.</span> <span class="nav-text">Tenant&#x2F;Project network configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-Install-and-configure-controller-node"><span class="nav-number">1.12.</span> <span class="nav-text">Neutron Install and configure controller node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-2"><span class="nav-number">1.12.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-networking-options"><span class="nav-number">1.12.2.</span> <span class="nav-text">Configure networking options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Networking-Option-1-Provider-networks"><span class="nav-number">1.12.3.</span> <span class="nav-text">Networking Option 1: Provider networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-the-components"><span class="nav-number">1.12.4.</span> <span class="nav-text">Install the components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-server-component"><span class="nav-number">1.12.5.</span> <span class="nav-text">Configure the server component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Modular-Layer-2-ML2-plug-in"><span class="nav-number">1.12.6.</span> <span class="nav-text">Configure the Modular Layer 2 (ML2) plug-in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Linux-bridge-agent"><span class="nav-number">1.12.7.</span> <span class="nav-text">Configure the Linux bridge agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-DHCP-agent"><span class="nav-number">1.12.8.</span> <span class="nav-text">Configure the DHCP agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-metadata-agent"><span class="nav-number">1.12.9.</span> <span class="nav-text">Configure the metadata agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Compute-service-to-use-the-Networking-service"><span class="nav-number">1.12.10.</span> <span class="nav-text">Configure the Compute service to use the Networking service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-3"><span class="nav-number">1.12.11.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-2"><span class="nav-number">1.12.12.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-Install-and-configure-compute-node"><span class="nav-number">1.13.</span> <span class="nav-text">Neutron Install and configure compute node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-the-components-1"><span class="nav-number">1.13.1.</span> <span class="nav-text">Install the components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-common-component"><span class="nav-number">1.13.2.</span> <span class="nav-text">Configure the common component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-networking-options-1"><span class="nav-number">1.13.3.</span> <span class="nav-text">Configure networking options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Linux-bridge-agent-1"><span class="nav-number">1.13.4.</span> <span class="nav-text">Configure the Linux bridge agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-the-Compute-service-to-use-the-Networking-service-1"><span class="nav-number">1.13.5.</span> <span class="nav-text">Configure the Compute service to use the Networking service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-4"><span class="nav-number">1.13.6.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-3"><span class="nav-number">1.13.7.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Congratulations-Let’s-try-booting-an-instance"><span class="nav-number">1.14.</span> <span class="nav-text">Congratulations! Let’s try booting an instance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-provider-network-subnetwork"><span class="nav-number">1.14.1.</span> <span class="nav-text">Create provider network&#x2F;subnetwork</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-flavor"><span class="nav-number">1.14.2.</span> <span class="nav-text">Create flavor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-security-group-rules"><span class="nav-number">1.14.3.</span> <span class="nav-text">Add security group rules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Launch-an-instance"><span class="nav-number">1.14.4.</span> <span class="nav-text">Launch an instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-instance-options"><span class="nav-number">1.14.5.</span> <span class="nav-text">Determine instance options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Launch-the-instance"><span class="nav-number">1.14.6.</span> <span class="nav-text">Launch the instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-the-instance-using-the-virtual-console"><span class="nav-number">1.14.7.</span> <span class="nav-text">Access the instance using the virtual console</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-the-instance-remotely"><span class="nav-number">1.14.8.</span> <span class="nav-text">Access the instance remotely</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-DHCP-failure-in-VM-troubleshooting"><span class="nav-number">1.15.</span> <span class="nav-text">[ISSUE] DHCP failure in VM troubleshooting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-it-is-like"><span class="nav-number">1.15.1.</span> <span class="nav-text">what it is like</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.15.2.</span> <span class="nav-text">Conclusion:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder"><span class="nav-number">1.16.</span> <span class="nav-text">Cinder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-controller"><span class="nav-number">1.17.</span> <span class="nav-text">Cinder on controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-controller-node"><span class="nav-number">1.17.1.</span> <span class="nav-text">Install and configure controller node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-3"><span class="nav-number">1.17.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-3"><span class="nav-number">1.17.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-Compute-to-use-Block-Storage"><span class="nav-number">1.17.4.</span> <span class="nav-text">Configure Compute to use Block Storage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-5"><span class="nav-number">1.17.5.</span> <span class="nav-text">Finalize installation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-block-storage-node"><span class="nav-number">1.18.</span> <span class="nav-text">Cinder on block storage node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-storage-network-for-compute"><span class="nav-number">1.18.1.</span> <span class="nav-text">configure storage network for compute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-cinder-machine-storage"><span class="nav-number">1.18.2.</span> <span class="nav-text">Create cinder machine: storage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Storage-node-actions"><span class="nav-number">1.19.</span> <span class="nav-text">Storage node actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Management-net-eth0-enp0s3-and-storage-net-eth2-enp0s9"><span class="nav-number">1.19.1.</span> <span class="nav-text">Management net eth0 (enp0s3) and storage net eth2 (enp0s9)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-NTP-by-editing-etc-chrony-chrony-conf-1"><span class="nav-number">1.19.2.</span> <span class="nav-text">configure NTP by editing &#x2F;etc&#x2F;chrony&#x2F;chrony.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-new-disk-was-there-already"><span class="nav-number">1.19.3.</span> <span class="nav-text">Check new disk was there already</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cinder-on-storage-node"><span class="nav-number">1.20.</span> <span class="nav-text">Cinder on storage node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-a-storage-node"><span class="nav-number">1.20.1.</span> <span class="nav-text">Install and configure a storage node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-4"><span class="nav-number">1.20.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-4"><span class="nav-number">1.20.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-6"><span class="nav-number">1.20.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-4"><span class="nav-number">1.20.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Let’s-try-something-on-block-storage"><span class="nav-number">1.21.</span> <span class="nav-text">Let’s try something on block storage!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-volume"><span class="nav-number">1.21.1.</span> <span class="nav-text">Create a volume</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heat"><span class="nav-number">1.22.</span> <span class="nav-text">Heat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-1"><span class="nav-number">1.22.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prerequisites-5"><span class="nav-number">1.22.2.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-components-5"><span class="nav-number">1.22.3.</span> <span class="nav-text">Install and configure components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-7"><span class="nav-number">1.22.4.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-5"><span class="nav-number">1.22.5.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-list-heat-service-failure"><span class="nav-number">1.23.</span> <span class="nav-text">[ISSUE] list heat service failure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error-occurred-during-openstack-orchestration-service-list"><span class="nav-number">1.23.1.</span> <span class="nav-text">error occurred during openstack orchestration service list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution"><span class="nav-number">1.23.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-Orchestration-let’s-start-from-a-single-instance-HOT"><span class="nav-number">1.24.</span> <span class="nav-text">Start Orchestration! let’s start from a single instance HOT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-template"><span class="nav-number">1.24.1.</span> <span class="nav-text">Create a template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-stack"><span class="nav-number">1.24.2.</span> <span class="nav-text">Create a stack</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-about-Design-a-fake-vAPG-VNF-and-instantiate-it"><span class="nav-number">1.25.</span> <span class="nav-text">How about Design a fake vAPG VNF and instantiate it?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HOT"><span class="nav-number">1.25.1.</span> <span class="nav-text">HOT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instantiation-vAPG"><span class="nav-number">1.25.2.</span> <span class="nav-text">Instantiation vAPG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Horizon-dashboard"><span class="nav-number">1.26.</span> <span class="nav-text">Horizon dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-and-configure-2"><span class="nav-number">1.26.1.</span> <span class="nav-text">Install and configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Finalize-installation-8"><span class="nav-number">1.26.2.</span> <span class="nav-text">Finalize installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-6"><span class="nav-number">1.26.3.</span> <span class="nav-text">Verify operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-Horizon-500-internal-error"><span class="nav-number">1.27.</span> <span class="nav-text">[ISSUE] Horizon 500 internal error</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fault-reproduce-in-cli"><span class="nav-number">1.27.1.</span> <span class="nav-text">Fault reproduce in cli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-1"><span class="nav-number">1.27.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-RabbitMQ-web-admin-for-studying"><span class="nav-number">1.28.</span> <span class="nav-text">Enable RabbitMQ web admin for studying</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neutron-reconfigure-as-Linux-bridge-with-vlan"><span class="nav-number">1.29.</span> <span class="nav-text">Neutron reconfigure as Linux bridge with vlan</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller-configuration"><span class="nav-number">1.29.1.</span> <span class="nav-text">Controller configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compute-node-configuration"><span class="nav-number">1.29.2.</span> <span class="nav-text">Compute node configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-operation-7"><span class="nav-number">1.29.3.</span> <span class="nav-text">Verify operation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-initial-networks"><span class="nav-number">1.29.4.</span> <span class="nav-text">Create initial networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-network-operation"><span class="nav-number">1.29.5.</span> <span class="nav-text">Verify network operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISSUE-Troubleshooting-vlan-dhcp"><span class="nav-number">1.30.</span> <span class="nav-text">[ISSUE] Troubleshooting vlan dhcp</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
-      src="/images/avatar.png">
-  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
-  <div class="site-description" itemprop="description">Build things.</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">14</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">3</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">26</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/littlewey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:littlewey@gmail.com" title="E-Mail → mailto:littlewey@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://weibo.com/littlewey" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://twitter.com/littlewey" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.facebook.com/littlewey" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://instagram.com/littlewey" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;littlewey" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
       </div>
     </main>
 
@@ -2294,22 +2309,18 @@ Comment out any other session storage configuration.</code></pre><ul>
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
-  </div>
-  <div class="addthis_inline_share_toolbox">
-    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e58de1403eb729d" async="async"></script>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
         
@@ -2327,20 +2338,14 @@ Comment out any other session storage configuration.</code></pre><ul>
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
-
-
 <script src="/js/next-boot.js"></script>
-
-
 
 
   
@@ -2359,6 +2364,26 @@ Comment out any other session storage configuration.</code></pre><ul>
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
@@ -2373,13 +2398,13 @@ Comment out any other session storage configuration.</code></pre><ul>
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
-      clientID    : '90bb84dab80e142752cb',
-      clientSecret: '26f2fb897afc6becceae244ae33738ba8c51a0b7',
-      repo        : 'littlewey.github.io',
-      owner       : 'littlewey',
-      admin       : ['littlewey'],
+      clientID    : '458d0826a0f8a2a81f82',
+      clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
+      repo        : 'wey-gu.github.io',
+      owner       : 'wey-gu',
+      admin       : ['wey-gu'],
       id          : '6548ed315c44095bb1cce7751bf27efc',
-        language: '',
+        language: 'en',
       distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
