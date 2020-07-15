@@ -5,6 +5,7 @@ Allow: /archives/
 Allow: /categories/
 Allow: /css/
 Allow: /fonts/
+Allow: /links/
 Allow: /tags/ 
 Allow: /js/
 Allow: /resources/ 
