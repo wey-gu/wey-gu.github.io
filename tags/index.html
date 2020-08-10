@@ -16,13 +16,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  
-  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
   <meta name="description" content="I build things">
@@ -35,6 +35,7 @@
 <meta property="article:modified_time" content="2018-05-29T16:03:31.000Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta name="twitter:card" content="summary">
+
 
 <link rel="canonical" href="https://note.siwei.info/tags/">
 
@@ -95,18 +96,17 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <main class="main">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header-inner"><div class="site-brand-container">
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
-        <span class="toggle-line toggle-line-first"></span>
-        <span class="toggle-line toggle-line-middle"></span>
-        <span class="toggle-line toggle-line-last"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -192,7 +192,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
@@ -210,12 +210,12 @@
   </div>
 
 </div>
-          
+        
   
   <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
   </div>
 
   <aside class="sidebar">
@@ -297,9 +297,9 @@
   <div id="sidebar-dimmer"></div>
 
 
-      </header>
+    </header>
 
-      
+    
   <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
@@ -310,13 +310,12 @@
 </noscript>
 
 
-      <div class="main-inner">
-        
+    <div class="main-inner page posts-expand">
+      
   
   
 
-        <div class="content page posts-expand">
-          
+      
 
     
     
@@ -339,13 +338,14 @@
       
       <div class="post-body">
           <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              24 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/dhcp-relay/" style="font-size: 12px;" class="tag-cloud-0">DHCP Relay</a> <a href="/tags/hhkb/" style="font-size: 12px;" class="tag-cloud-0">HHKB</a> <a href="/tags/ntp/" style="font-size: 12px;" class="tag-cloud-0">NTP</a> <a href="/tags/utm/" style="font-size: 12px;" class="tag-cloud-0">UTM</a> <a href="/tags/cloud/" style="font-size: 12px;" class="tag-cloud-0">cloud</a> <a href="/tags/cobbler/" style="font-size: 12px;" class="tag-cloud-0">cobbler</a> <a href="/tags/distributed-system/" style="font-size: 12px;" class="tag-cloud-0">distributed system</a> <a href="/tags/flask/" style="font-size: 12px;" class="tag-cloud-0">flask</a> <a href="/tags/fuel-plugin/" style="font-size: 12px;" class="tag-cloud-0">fuel-plugin</a> <a href="/tags/fullstack/" style="font-size: 12px;" class="tag-cloud-0">fullstack</a> <a href="/tags/homework/" style="font-size: 12px;" class="tag-cloud-0">homework</a> <a href="/tags/ipados/" style="font-size: 12px;" class="tag-cloud-0">iPadOS</a> <a href="/tags/jupyter/" style="font-size: 12px;" class="tag-cloud-0">jupyter</a> <a href="/tags/machine-learning/" style="font-size: 12px;" class="tag-cloud-0">machine learning</a> <a href="/tags/openstack/" style="font-size: 30px;" class="tag-cloud-10">openstack</a> <a href="/tags/puppet/" style="font-size: 12px;" class="tag-cloud-0">puppet</a> <a href="/tags/pyenv/" style="font-size: 12px;" class="tag-cloud-0">pyenv</a> <a href="/tags/slide/" style="font-size: 12px;" class="tag-cloud-0">slide</a> <a href="/tags/socketio/" style="font-size: 12px;" class="tag-cloud-0">socketio</a> <a href="/tags/troubleshoot/" style="font-size: 12px;" class="tag-cloud-0">troubleshoot</a> <a href="/tags/vagrant/" style="font-size: 12px;" class="tag-cloud-0">vagrant</a> <a href="/tags/virtualenv/" style="font-size: 12px;" class="tag-cloud-0">virtualenv</a> <a href="/tags/vue-js/" style="font-size: 12px;" class="tag-cloud-0">vue.js</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12px;" class="tag-cloud-0">架构</a>
-            </div>
-          </div>
+  <div class="tag-cloud-title">
+    24 tags in total
+  </div>
+  <div class="tag-cloud-tags">
+    <a href="/tags/dhcp-relay/" style="font-size: 12px;">DHCP Relay</a> <a href="/tags/hhkb/" style="font-size: 12px;">HHKB</a> <a href="/tags/ntp/" style="font-size: 12px;">NTP</a> <a href="/tags/utm/" style="font-size: 12px;">UTM</a> <a href="/tags/cloud/" style="font-size: 12px;">cloud</a> <a href="/tags/cobbler/" style="font-size: 12px;">cobbler</a> <a href="/tags/distributed-system/" style="font-size: 12px;">distributed system</a> <a href="/tags/flask/" style="font-size: 12px;">flask</a> <a href="/tags/fuel-plugin/" style="font-size: 12px;">fuel-plugin</a> <a href="/tags/fullstack/" style="font-size: 12px;">fullstack</a> <a href="/tags/homework/" style="font-size: 12px;">homework</a> <a href="/tags/ipados/" style="font-size: 12px;">iPadOS</a> <a href="/tags/jupyter/" style="font-size: 12px;">jupyter</a> <a href="/tags/machine-learning/" style="font-size: 12px;">machine learning</a> <a href="/tags/openstack/" style="font-size: 30px;">openstack</a> <a href="/tags/puppet/" style="font-size: 12px;">puppet</a> <a href="/tags/pyenv/" style="font-size: 12px;">pyenv</a> <a href="/tags/slide/" style="font-size: 12px;">slide</a> <a href="/tags/socketio/" style="font-size: 12px;">socketio</a> <a href="/tags/troubleshoot/" style="font-size: 12px;">troubleshoot</a> <a href="/tags/vagrant/" style="font-size: 12px;">vagrant</a> <a href="/tags/virtualenv/" style="font-size: 12px;">virtualenv</a> <a href="/tags/vue-js/" style="font-size: 12px;">vue.js</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12px;">架构</a>
+  </div>
+</div>
+
         
       </div>
       
@@ -359,8 +359,7 @@
     
 
 
-        </div>
-        
+      
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -369,7 +368,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -378,20 +377,20 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
 
-      </div>
-    </main>
+    </div>
+  </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
+  <footer class="footer">
+    <div class="footer-inner">
+      
 
-        
+      
 
 <div class="copyright">
   
@@ -405,7 +404,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-        
+      
 
 
 
@@ -414,30 +413,20 @@
 
 
 
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 
 
 
 
-  
-<script src="/js/local-search.js"></script>
-
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -448,16 +437,16 @@
 
 <script>
 document.querySelectorAll('.pdfobject-container').forEach(element => {
-  let url = element.dataset.target;
-  let pdfOpenParams = {
+  const url = element.dataset.target;
+  const pdfOpenParams = {
     navpanes : 0,
     toolbar  : 0,
     statusbar: 0,
     pagemode : 'thumbs',
     view     : 'FitH'
   };
-  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
-  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+  const pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  const fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
 
   if (NexT.utils.supportsPDFs()) {
     element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;

@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://note.siwei.info/resume/index.html</loc>
+    
+    <lastmod>2020-08-05T02:42:22.431Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://note.siwei.info/about/index.html</loc>
+    
+    <lastmod>2020-08-05T02:42:22.429Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://note.siwei.info/links/index.html</loc>
     
     <lastmod>2020-07-15T04:21:37.814Z</lastmod>
@@ -17,13 +31,6 @@
   
   <url>
     <loc>https://note.siwei.info/setup-your-ubuntu-server-in-ipados-with-utm/</loc>
-    
-    <lastmod>2020-07-06T06:43:00.952Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://note.siwei.info/about/index.html</loc>
     
     <lastmod>2020-07-06T06:43:00.952Z</lastmod>
     
@@ -89,13 +96,6 @@
     <loc>https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/</loc>
     
     <lastmod>2020-07-06T06:43:00.947Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://note.siwei.info/resume/index.html</loc>
-    
-    <lastmod>2020-06-03T05:37:23.014Z</lastmod>
     
   </url>
   
