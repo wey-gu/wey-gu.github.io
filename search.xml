@@ -282,15 +282,20 @@
 <blockquote>
 <p>screen captured for machine_0</p>
 </blockquote>
-<p><img data-src="./DHCP.png" alt="DHCP"></p>
-<p><img data-src="./PXE_boot.png" alt="PXE_boot"></p>
+
+
+
+
+
+
 <h3 id="Issue-notes"><a href="#Issue-notes" class="headerlink" title="Issue notes"></a>Issue notes</h3><ol>
 <li><p>I tried to complie cobbler in Ubuntu 18.04 while failed in several phases, to save time switched to epel-release build Cobbler binary package in CentOS 7</p>
 </li>
 <li><p>default vNIC type not working properly on tftp, corrected for machine_0</p>
 </li>
 <li><p>dhcp server configuration, I shouldn’t have put DHCP for subnet A(was removed already), in which case,  machine_0 will be with IP address from subnet A while gateway in subnet B and it led L3 network failure, see below failure:</p>
-<p><img data-src="./L3_failure_after_DHCP.png" alt="L3_failure_after_HDCP"></p>
+
+
 </li>
 </ol>
 ]]></content>
@@ -349,6 +354,26 @@
         <tag>jupyter</tag>
         <tag>pyenv</tag>
         <tag>virtualenv</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>my HHKB and macOS setup</title>
+    <url>/my-hhkb-and-macos-setup/</url>
+    <content><![CDATA[<h1 id="Key-mapping"><a href="#Key-mapping" class="headerlink" title="Key mapping"></a>Key mapping</h1><blockquote>
+<p>几个月前，我从 <code>HHKB Lite2 for Mac</code>  切换到了  <code>HHKB Pro 2 Type-S</code>，方向键需要map成 <code>Ctrl + h/ j/ k/ l</code> ，参考了@zjun 的 <a href="http://www.zjunothing.com/2017/05/28/hhkb%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/" target="_blank" rel="noopener">best practise</a> ，用到了 <a href="http://www.hammerspoon.org/" target="_blank" rel="noopener">Hammerspoon</a>，这里记录一下配置。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/.hammerspoon</span><br><span class="line">❯ cat init.lua</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressFn</span><span class="params">(mods, key)</span></span></span><br><span class="line">	<span class="keyword">if</span> key == <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">		key = mods</span><br><span class="line">		mods = &#123;&#125;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span> hs.eventtap.keyStroke(mods, key, <span class="number">1000</span>) <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">remap</span><span class="params">(mods, key, pressFn)</span></span></span><br><span class="line">	hs.hotkey.bind(mods, key, pressFn, <span class="literal">nil</span>, pressFn)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'h'</span>, pressFn(<span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'j'</span>, pressFn(<span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'k'</span>, pressFn(<span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'l'</span>, pressFn(<span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>random notes</category>
+      </categories>
+      <tags>
+        <tag>HHKB</tag>
       </tags>
   </entry>
   <entry>
@@ -506,305 +531,6 @@
         <tag>distributed system</tag>
         <tag>troubleshoot</tag>
         <tag>NTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>my HHKB and macOS setup</title>
-    <url>/my-hhkb-and-macos-setup/</url>
-    <content><![CDATA[<h1 id="Key-mapping"><a href="#Key-mapping" class="headerlink" title="Key mapping"></a>Key mapping</h1><blockquote>
-<p>几个月前，我从 <code>HHKB Lite2 for Mac</code>  切换到了  <code>HHKB Pro 2 Type-S</code>，方向键需要map成 <code>Ctrl + h/ j/ k/ l</code> ，参考了@zjun 的 <a href="http://www.zjunothing.com/2017/05/28/hhkb%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/" target="_blank" rel="noopener">best practise</a> ，用到了 <a href="http://www.hammerspoon.org/" target="_blank" rel="noopener">Hammerspoon</a>，这里记录一下配置。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/.hammerspoon</span><br><span class="line">❯ cat init.lua</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressFn</span><span class="params">(mods, key)</span></span></span><br><span class="line">	<span class="keyword">if</span> key == <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">		key = mods</span><br><span class="line">		mods = &#123;&#125;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span> hs.eventtap.keyStroke(mods, key, <span class="number">1000</span>) <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">remap</span><span class="params">(mods, key, pressFn)</span></span></span><br><span class="line">	hs.hotkey.bind(mods, key, pressFn, <span class="literal">nil</span>, pressFn)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'h'</span>, pressFn(<span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'j'</span>, pressFn(<span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'k'</span>, pressFn(<span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>&#125;, <span class="string">'l'</span>, pressFn(<span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'cmd'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'shift'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>&#125;, <span class="string">'right'</span>))</span><br><span class="line"></span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'h'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'left'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'j'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'down'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'k'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'up'</span>))</span><br><span class="line">remap(&#123;<span class="string">'ctrl'</span>, <span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'l'</span>, pressFn(&#123;<span class="string">'cmd'</span>, <span class="string">'alt'</span>, <span class="string">'shift'</span>&#125;, <span class="string">'right'</span>))</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>random notes</category>
-      </categories>
-      <tags>
-        <tag>HHKB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Openstack Basic for newbie</title>
-    <url>/openstack-basic-for-newbie/</url>
-    <content><![CDATA[<p>整理了一下2017年8月份内部做的一个training的slide，去除了不能公布的部分，放在<a href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/release/Openstack_Basic_Blog.pdf" target="_blank" rel="noopener">这里</a>。</p>
-<p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
-<p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
-]]></content>
-      <categories>
-        <category>openstack</category>
-      </categories>
-      <tags>
-        <tag>openstack</tag>
-        <tag>slide</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Setup your ubuntu server in iPadOS with UTM</title>
-    <url>/setup-your-ubuntu-server-in-ipados-with-utm/</url>
-    <content><![CDATA[<p>This is the note on serving your Ubuntu server from iPadOS/ iOS with UTM, I am running 0.8 now.</p>
-<blockquote>
-<p>Download image</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Configure Password for the image, here we use chroot instead of config drive, the reason is at bottom.</p>
-</blockquote>
-<p>Use chroot to set password for the cloud image as follow:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sudo</span> modprobe nbd max_part=1</span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --connect=/dev/nbd0 bionic-server-cloudimg-amd64.img</span><br><span class="line"><span class="variable">$mkdir</span> -p /mnt/nbd</span><br><span class="line"><span class="variable">$sudo</span> mount /dev/nbd0p1 /mnt/nbd/ -o noatime</span><br><span class="line"><span class="variable">$chroot</span> /mnt/nbd</span><br><span class="line">ubuntu<span class="comment"># passwd</span></span><br><span class="line">ubuntu<span class="comment"># exit</span></span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line"><span class="variable">$sudo</span> umount /dev/nbd0p1</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>
-
-<blockquote>
-<p>Use cloud drive is with ISSUES on UTM, as the nic mac address was fetched as <code>00:00:00:00</code> and it won’t proceed to configure the user data we put in the cloud drive…</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError Not all expected physical devices present 00:00:00:00</span><br></pre></td></tr></table></figure>
-
-<p>In case it worked someday, you could simply do it as follow:</p>
-<p>Let’s reuse the script created by Jan Walraven, ref: <a href="https://januz.nl/mac/generate-coreos-configdrive-iso-based-cloud-config-file" target="_blank" rel="noopener">here</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install qemu coreutils cdrtools</span><br><span class="line">./createIso.sh --cloud-config cloud-config.yml --name user-data</span><br></pre></td></tr></table></figure>
-
-<p>Or in Debian</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install qemu-utils cloud-utils</span><br><span class="line"></span><br><span class="line">cat &gt; user-data &lt;&lt;EOF</span><br><span class="line"><span class="comment">#cloud-config</span></span><br><span class="line">users:</span><br><span class="line">  - default</span><br><span class="line">  - name: &lt;user&gt;</span><br><span class="line">    passwd: &lt;psw&gt;</span><br><span class="line">    ssh_pwauth: True</span><br><span class="line">    chpasswd: &#123; expire: False &#125;</span><br><span class="line">    sudo: ALL=(ALL) NOPASSWD:ALL</span><br><span class="line">    groups: users, admin</span><br><span class="line">    ssh_authorized_keys:</span><br><span class="line">      - ssh-rsa &lt;key&gt;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">cloud-localds config_drive.iso user-data</span><br></pre></td></tr></table></figure>
-
-<p>Add above iso image to VM and mounted as a CD device, boot from your HDD device(the cloud image), it should configure yor password and ssh key as above user-data.</p>
-]]></content>
-      <categories>
-        <category>random notes</category>
-      </categories>
-      <tags>
-        <tag>iPadOS</tag>
-        <tag>UTM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Project Resource Board: a scalable webapp with Flask socketio and Vue.js</title>
-    <url>/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</url>
-    <content><![CDATA[<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
-
-<h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。</p>
-<p>本文是我在写第一个发布版本之前持续更新的记录。</p>
-<blockquote>
-<p>updated in <code>2019-April-6</code></p>
-<p>以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码：</p>
-<p><a href="https://github.com/wey-gu/resource-board" target="_blank" rel="noopener">https://github.com/wey-gu/resource-board</a></p>
-<p>之后我会花时间迭代下去，不过现在课余时间在做一个机器学习调优的项目，这个优先级只能降低。</p>
-</blockquote>
-<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><blockquote>
-<p>为什么开始</p>
-</blockquote>
-<p>在云计算研发部门搬砖半年，一直做一些很小的feature开发，连着几个月早出晚归加上牺牲周末时间的赶进度让我内心很不平静。我需要做点什么，因为本质上我热爱的是 <code>build things</code>，做一个<code>proper side project</code> 的主意在脑子里转了好久了，我决定先做一个简单的东西出来。</p>
-<p>这个东西就是一个 <code>resource board</code> 。</p>
-<blockquote>
-<p>学到什么</p>
-</blockquote>
-<p><code>resourece borard</code> 是我起的名字，其实就是一份在线的表格、面板，本质上用 <code>O365</code> / <code>onedrive for business</code> 完全可以实现类似的功效。不过我还是想造这样一个轮子，涉及一下产品开发的全生命周期的从无到有的创造、学习、实践：</p>
-<ul>
-<li>planning, prototyping</li>
-<li>architecture</li>
-<li>front end</li>
-<li>back end</li>
-<li>CI/ CD</li>
-<li>maintenance</li>
-<li>refactoring<ul>
-<li>for test</li>
-<li>for scale</li>
-</ul>
-</li>
-<li>tuning</li>
-</ul>
-<blockquote>
-<p>User story of resource board</p>
-</blockquote>
-<p><code>resource board</code> 主要解决异地团队协作中对共享资源使用的问题，它是一个电子化的资源使用白板。</p>
-<p>试想一下没有资源占用白板的时候，团队里的人共享10个虚拟化数据中心，我们简称 <code>DC</code> ，对于它的使用分几个场景：</p>
-<ul>
-<li>CI <ul>
-<li>被CI占用，没有再触发CI调用它的人不可以干预</li>
-</ul>
-</li>
-<li>testing<ul>
-<li>被非独占式的人使用中，特定的人可以并行使用它，（理想情况下）不会干扰到彼此</li>
-</ul>
-</li>
-<li>occupied<ul>
-<li>被人独占使用，不可与别人共享</li>
-</ul>
-</li>
-<li>free<ul>
-<li>任何人可以使用它，或者挪作其他用途</li>
-</ul>
-</li>
-</ul>
-<p>这种情况下，使用它的A同学需要站起来告诉所有人，或者群发邮件，说我要用 <code>DC123</code> 独占调试一个代码，有人在用么？ 10分钟后，在注意到没人回复的情况下，ta就在 <code>DC123</code>上开始<del>做坏事</del> 调试ta的代码了。然而刚从厕所回来的B同学，却发现ta的环境被破坏了，半天白忙活了😢。</p>
-<p>如果这个资源共享的工作方式之中引入了记录资源占用情况的白板，A同学只需要看一下白板上空闲的DC，发现<code>DC125</code> 可以使用，他可以做到：</p>
-<ul>
-<li>无需等待确认广播信息的回复立刻使用 <code>DC125</code></li>
-<li>不会破坏任何被占用的资源环境比如 <code>DC123</code> </li>
-</ul>
-<p>看起来比较自然。</p>
-<h1 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h1><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><ul>
-<li>数字化白板应该是一个Wep App</li>
-<li>它需要是实时的<ul>
-<li>支持面向连接的(server —&gt; client)</li>
-</ul>
-</li>
-<li>可扩展，可扩容<ul>
-<li>后端<ul>
-<li>只做api</li>
-<li>分布式，可scale up</li>
-</ul>
-</li>
-<li>前端<ul>
-<li>single page client</li>
-<li>websocket</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="简单原型"><a href="#简单原型" class="headerlink" title="简单原型"></a>简单原型</h2><p>我用Balsamiq Mockups 简单做了一个原型：</p>
-<ul>
-<li>用卡片表示每一个资源的信息</li>
-<li>不同的section表示资源被使用的状态，或者分类</li>
-<li>提供面向资源的历史查看页面</li>
-</ul>
-<p>我没有花更多时间去画更详细的原型图，只是在画这个初始的版本的过程中引导我思考我初始的数据schema，前后端最开始要做的事情，一旦雏形确定下来，我就直接进入前后端的开发，在开发中直接实现业务逻辑的进化。</p>
-<blockquote>
-<p> 这里是我截取的原型图的demo动画 😁</p>
-</blockquote>
-<a id="more"></a>
-
-<p><video src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/demo-board-history.mp4" controls='controls' width='100%' height='100%'></video></p>
-<h2 id="前端、设计"><a href="#前端、设计" class="headerlink" title="前端、设计"></a>前端、设计</h2><h3 id="基础架子"><a href="#基础架子" class="headerlink" title="基础架子"></a>基础架子</h3><p>因为我不是一个JS guy、UI design guy，我选择了适合轻量级快速实现的方案: vue.js + material design。</p>
-<p><del>一年</del>两年之前，我用：</p>
-<ul>
-<li>一本书(<a href="https://www.amazon.com/Non-Designers-Design-Book-4th/dp/0133966151" target="_blank" rel="noopener">The Non-Designer’s Design Book (4th Edition)</a> )</li>
-<li>一个框架(<a href="https://materializecss.com/getting-started.html" target="_blank" rel="noopener">materialCSS</a>) </li>
-</ul>
-<p>做了一个遗留系统改造的Prove of Concept (<a href="https://github.com/wey-gu/yet-another-GSC-C-lighthouse" target="_blank" rel="noopener">inno-search</a>)，那个过程我尝到了设计甜头，对于我这个没有任何设计经验的人，只是使用几个基本的设计 principle 就做出来明显没有设计缺陷的东西真的很有成就感，我甚至做了一个推广视频来在公司内部电视上播放 ( promo video here: <a href="https://vimeo.com/219328622" target="_blank" rel="noopener">https://vimeo.com/219328622</a> )。</p>
-<p>扯远了，这一次我还想使用 material design 的设计元素，来垒砌这个简单的board。</p>
-<p>因为想尝试一下响应式的前端的开发，我选择 <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue.js</a> 和 <a href="https://vuetifyjs.com/" target="_blank" rel="noopener">Vuetify.js</a> 。</p>
-<ul>
-<li><input disabled="" type="checkbox"> 如果我继续丰富工具的feature，我会考虑用 <a href="http://vma.isocked.com/#/dashboard" target="_blank" rel="noopener">vue matierial admin</a> 堆砌更丰富的功能出来。</li>
-</ul>
-<blockquote>
-<p>另外，<a href="https://element.eleme.io" target="_blank" rel="noopener">element-ui</a> 也是一个选择，也许我之后会用它做点什么 😝。</p>
-</blockquote>
-<h3 id="实时性需求"><a href="#实时性需求" class="headerlink" title="实时性需求"></a>实时性需求</h3><p>为了做到实时性，就是服务端推送实时的数据变化给连接的web客户端，我选择 <a href="https://socket.io/" target="_blank" rel="noopener">Socket.IO</a>，而不是client 去pulling，这样做的好处是：</p>
-<ul>
-<li>WebSocket的connection的延时（ms）远比pull 的interval（s) 小，能做到 <code>真·实时</code></li>
-<li>实时性要求高的pulling带来的后端的开销大于WebSocket连接</li>
-</ul>
-<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><p>还是因为我不是 一个JS guy，没有选择更native的node.js，再来，我最熟悉的是 python，于是也就没有尝鲜 golang（以后可以试试）。</p>
-<p>好久之前我在翻pycon的视频时候，注意到Miguel老师写了 <a href="https://github.com/miguelgrinberg/python-socketio" target="_blank" rel="noopener">python socket-io</a>  实现，还有和他亲自基于此的 <a href="https://flask-socketio.readthedocs.io/en/latest/" target="_blank" rel="noopener">Flask-socketio</a> ，一直都想要研究来试试，所以我还是选择熟悉的Flask 😁。</p>
-<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>因为可扩展架构的需求（分布式数据库、可扩展后端）：</p>
-<ul>
-<li>后端的 server/service instance 在分布式的情况下需要支持对所有client连接的广播</li>
-<li>考虑对数据库的写操作通过基于队列的异步call规避数据并行写入做到一致性</li>
-</ul>
-<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>还有两个个我没有提及的需求是：</p>
-<ul>
-<li>外部 API 周期性调用<ul>
-<li>我们的board之中，resource应该可以通过周期性的call CI系统的API 获取它被CI调用的状态信息。这需要异步执行的周期性任务</li>
-</ul>
-</li>
-<li>resource booking、scheduling<ul>
-<li>后续提供终端用户去预约资源未来使用的功能，需要background task去监测、维护事件的触发和相关数据的读写</li>
-</ul>
-</li>
-</ul>
-<p>终于找到机会研究使用一下 <a href="http://www.celeryproject.org/" target="_blank" rel="noopener">Celery</a> 了。</p>
-<h2 id="生产环境部署"><a href="#生产环境部署" class="headerlink" title="生产环境部署"></a>生产环境部署</h2><p>因为兴趣原因，选择容器化，实践一下k8s的部署。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>Test Driven Develop，做到尽可能高coverage的单元测试。</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>我简单地使用keynote.app 创建了一下架构图草稿如下。</p>
-<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
-
-<p><strong>Note:</strong></p>
-<ul>
-<li>通过 Nginx作为load balancer，以及外部用户的http webSocket 的tls加密解密节点，也就是说tls terminated in loadbalancer。</li>
-<li>数据库的读写操作透过message queue(MQ)，这里它既是cache，又是写操作的queue，考虑使用Radis(<a href="http://python-rq.org/" target="_blank" rel="noopener">rq</a>)。</li>
-<li>后端为计划任务单独做一个instance，board-scheduler：<ul>
-<li>用来处理resource 预约到期事件</li>
-<li>周期地通过call Celery抓取 外部CI 系统的状态</li>
-</ul>
-</li>
-<li>Celary instance处理 async call（非 cpu tense的）<ul>
-<li>抓取 外部系统CI状态</li>
-<li>DB call</li>
-<li>socketIO broadcast</li>
-</ul>
-</li>
-</ul>
-<h1 id="Notes-during-coding"><a href="#Notes-during-coding" class="headerlink" title="Notes during coding"></a>Notes during coding</h1><p>这里放一些我在实现过程中的一点点注意的点。</p>
-<h2 id="It’s-not-reactive"><a href="#It’s-not-reactive" class="headerlink" title="It’s not reactive?!"></a>It’s not reactive?!</h2><p>因为没有看完所有Vue.js的文档，就开始搞，没有意识到Vue.js对对象和数组内部变化的track是有限制的，所以做mutation的时候不可以直接假设嘴边更改都被响应式的反应到view之中，需要用Vue.set或者splice😁。</p>
-<p>我写到中间发现View怎么都无法按照我的预期得到更新，debug 去print值也明明更改了（<code>vuex mutation</code>按照预期执行了），有那么半个小时我的价值观崩坍了，各种Google都无果（大家不响应变化的原因都是实际上mutation没有执行），直到我重头看了Vue.js的文档才发现我犯了最蠢的错误….</p>
-<blockquote>
-<p>ref:</p>
-<ul>
-<li><p><a href="https://vuejs.org/v2/guide/list.html#Replacing-an-Array" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Replacing-an-Array</a></p>
-</li>
-<li><p><a href="https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats</a></p>
-</li>
-</ul>
-</blockquote>
-<h2 id="Time-zone"><a href="#Time-zone" class="headerlink" title="Time zone"></a>Time zone</h2><blockquote>
-<p>ref: <a href="http://momentjs.com/timezone/docs/" target="_blank" rel="noopener">http://momentjs.com/timezone/docs/</a></p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install moment-timezone --save</span><br></pre></td></tr></table></figure>
-
-<p>数据库中存储的时间戳是UTC时区的，在前端转换为浏览器中的local时区只需要用tz这方法</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">moment.tz.(timeString, timezoneString)</span><br></pre></td></tr></table></figure>
-
-<p>我的例子:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">moment.tz(timeString, <span class="string">'UTC'</span>).local().format(<span class="string">'MMMM Do YYYY, h:mm:ss a'</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p>在读这个小书，发现写的不错，有不会的概念去Google学清楚就好了。</p>
-<blockquote>
-<p>ref: <a href="https://www.openmymind.net/2012/1/23/The-Little-Redis-Book" target="_blank" rel="noopener">https://www.openmymind.net/2012/1/23/The-Little-Redis-Book</a></p>
-</blockquote>
-<h2 id="vue-socket-io-authentication-with-flask-socket-io"><a href="#vue-socket-io-authentication-with-flask-socket-io" class="headerlink" title="vue-socket.io authentication with flask-socket.io"></a><code>vue-socket.io</code> authentication with <code>flask-socket.io</code></h2><blockquote>
-<p>flask-login flask-socket.io vue-socket.io 登录鉴权的实现</p>
-</blockquote>
-<p>虽然server端实现了简单地<code>RESTful API</code>，用来为之后增加<code>cli-client</code>方便，我依然决定不通过 <code>http request</code>，使用<code>flask-login</code> 管理服务端状态，它把login信息记录在<code>flask-socketio</code>的<code>session</code>之中了。</p>
-<h3 id="注意-需要给出-load-user-的定义"><a href="#注意-需要给出-load-user-的定义" class="headerlink" title="注意: 需要给出 load_user 的定义"></a>注意: 需要给出 <code>load_user</code> 的定义</h3><p>否则，会有如下异常:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="string">"No user_loader has been installed for this "</span></span><br><span class="line">Exception: No user_loader has been installed <span class="keyword">for</span> this LoginManager. Refer tohttps://flask-login.readthedocs.io/en/latest/<span class="comment">#how-it-works for more info.</span></span><br></pre></td></tr></table></figure>
-
-<p>实现的例子如下，另外还参考<code>flask-scoket.io</code> 官方文档糖一下 <code>authenticated_only</code> 这个装饰器，真香。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">    @login.user_loader</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_user</span><span class="params">(user_id)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> models.Users.query.filter_by(id=user_id).first()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticated_only</span><span class="params">(f)</span>:</span></span><br><span class="line"><span class="meta">        @functools.wraps(f)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> current_user.is_authenticated:</span><br><span class="line">                disconnect()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> f(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapped</span><br><span class="line">...</span><br><span class="line"><span class="meta">    @socketio.on('login user')</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_usr</span><span class="params">(loginData)</span>:</span></span><br><span class="line">        name, passwd = loginData[<span class="string">'username'</span>], loginData[<span class="string">'passwd'</span>]</span><br><span class="line">        user = models.Users.query.filter_by(name=name).first()</span><br><span class="line">        <span class="keyword">if</span> user <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="keyword">not</span> user.check_password(passwd):</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">False</span>,</span><br><span class="line">                <span class="string">"alert_type"</span>: <span class="string">"error"</span>,</span><br><span class="line">                <span class="string">"alert_msg"</span>: <span class="string">"User not exist or invalid used password!"</span></span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            login_user(user)</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">True</span>,</span><br><span class="line">                <span class="string">"user"</span>: name</span><br><span class="line">                &#125;</span><br><span class="line">        emit(<span class="string">'loginResponse'</span>, json.dumps(response))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># socketio server handle events as below</span></span><br><span class="line"><span class="meta">    @socketio.on('update resource')</span></span><br><span class="line"><span class="meta">    @authenticated_only</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_resource_server</span><span class="params">(res)</span>:</span></span><br><span class="line">        updated_res = modify_resource(app.config, res)</span><br><span class="line">        emit(<span class="string">'updateResource'</span>, updated_res, broadcast=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h3><p><code>vuex</code>之中记录一个登录状态以供前端反应到view之中，<code>click</code>登录触发<code>socket.io</code> 调用，<code>flask-socket.io</code> server接收登录信息，验证，通过<code>socket.io</code> 调用返回login response，<code>vue-socket.io</code> 在vuex之中的 action hook 触发变化，<code>mutation</code> 去更新<code>login</code>状态，或者发送失败 alert。</p>
-<h3 id="Vue-socket-io-amp-Vuex-例子"><a href="#Vue-socket-io-amp-Vuex-例子" class="headerlink" title="Vue-socket.io &amp; Vuex 例子"></a><code>Vue-socket.io</code> &amp; <code>Vuex</code> 例子</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    resources: [],</span><br><span class="line">    loading: <span class="literal">false</span>,</span><br><span class="line">    histories: &#123;&#125;,</span><br><span class="line">    loginInfo: &#123;</span><br><span class="line">      loggedIn: <span class="literal">false</span>,</span><br><span class="line">      userName: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    login (state, response) &#123;</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'loggedIn'</span>, response.success)</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'userName'</span>, response.user)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    SOCKET_loginResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_loginResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">if</span> (resp.success === <span class="literal">true</span>) &#123;</span><br><span class="line">        commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    SOCKET_registerResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_registerResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Post-build-hook-for-npm-build"><a href="#Post-build-hook-for-npm-build" class="headerlink" title="Post build hook for npm build"></a>Post build hook for <code>npm build</code></h2><p>因为要替换一下Google字体cdn到国内friendly的地方，我修改了 <code>package.json</code>中的 <code>postbuild</code>这个hook，来做cdn 的FQDN替换。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "serve": "vue-cli-service serve",</span><br><span class="line">  "build": "vue-cli-service build",</span><br><span class="line">  "postbuild": "./postbuild.sh",</span><br><span class="line">  "lint": "vue-cli-service lint"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>keeping updating…</p>
-]]></content>
-      <categories>
-        <category>build notes</category>
-      </categories>
-      <tags>
-        <tag>fullstack</tag>
-        <tag>flask</tag>
-        <tag>socketio</tag>
-        <tag>vue.js</tag>
-        <tag>架构</tag>
       </tags>
   </entry>
   <entry>
@@ -1024,6 +750,363 @@
         <tag>openstack</tag>
         <tag>fuel-plugin</tag>
         <tag>puppet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Openstack Basic for newbie</title>
+    <url>/openstack-basic-for-newbie/</url>
+    <content><![CDATA[<p>整理了一下2017年8月份内部做的一个training的slide，去除了不能公布的部分，放在<a href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/release/Openstack_Basic_Blog.pdf" target="_blank" rel="noopener">这里</a>。</p>
+<p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
+<p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
+]]></content>
+      <categories>
+        <category>openstack</category>
+      </categories>
+      <tags>
+        <tag>openstack</tag>
+        <tag>slide</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Performance Optimization refactor in Large Python Codebase, a note</title>
+    <url>/performance-optimization-refactor-in-large-python-codebase-a-note/</url>
+    <content><![CDATA[<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Early this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-).</p>
+<h2 id="Steps-to-follow"><a href="#Steps-to-follow" class="headerlink" title="Steps to follow"></a>Steps to follow</h2><h3 id="1-Runnable-Minimal-Reproduce"><a href="#1-Runnable-Minimal-Reproduce" class="headerlink" title="1. Runnable Minimal Reproduce"></a>1. Runnable Minimal Reproduce</h3><p>For a distributed system that required heavy hardware setup, or even worse, when you are trying to fix a case in the condition of a large scale, we need to have a runnable minimal reproduce(RMR) method to decouple the costly large scale of test environment/ production environment. A handy RMR is crucial as it brings us repeatability in circles of the rests steps.</p>
+<p>In my case, when I started looking into this task, I found the only environment in hand was already quite expensive for the team (15+ servers, each of them is with 100+ GiB RAM and 40+ threads), yet it’s still far from the scale I am optimizing for(1000+ servers case).</p>
+<blockquote>
+<p>How to have a RMR?</p>
+</blockquote>
+<p>The answer could vary case by case:</p>
+<ul>
+<li>Buy/Pay-as-you-go-on-others-server 1000+ nodes cluster?<ul>
+<li>This may be the best choice when you are in a cool organization working ;)</li>
+</ul>
+</li>
+<li>Setup virtualized node cluster?<ul>
+<li>In case you are dealing with the case you can semi-virtualize your environment to gain a 10/100 times scale yet with the closest to the real 1000+ node scale: use some efforts to set up 10 VMs on each bare-metal servers, that is, with 15+ servers you can reproduce the 150+ server issues. In my case, to create a virtualized environment is still very expensive as the workload we were working on depends on layers not that straightforward to be virtualized, and 150+ is still not enough for me.</li>
+</ul>
+</li>
+<li>Mock it!<ul>
+<li>I end up isolating the modular of code to be optimized, and, carefully mocking the interactions with other applications/ processes, with performance-wise mock.</li>
+</ul>
+</li>
+</ul>
+<p>With the RMR implemented, I put it in the existing UT code base with performance benchmark criteria as one of the assertions of the function I optimized. One of the reasons to trigger my putting RMR code in the codebase as UT is some of the surrounding mock utilities are there already, of course, the most important one is by doing so, these performance criteria will be always regression in every single commit merged to the codebase in future.</p>
+<p>It’s worth mentioning that, during the implementation of RMR, there are some assumptions to be made, for example, the involved database, RESTful API, and RPC calls were mocked with sort of sleep in certain times, which was estimated based some experiments. The actual value may vary in different environments while values under some assumptions still can help us on some level of evaluation, yet, provide us comparison on before and after the refactoring (as of course, we use same assumptions).</p>
+<h3 id="2-Profiling-and-analysis"><a href="#2-Profiling-and-analysis" class="headerlink" title="2. Profiling and analysis"></a>2. Profiling and analysis</h3><p>I started to have more of the whole-picture view of the function in two ways almost the same time: profiling and code reading.</p>
+<p>Before profiling the function calls, I perceptually went through the code the feature and drew all call flows with time complexity with <a href="http://asciiflow.com/" target="_blank" rel="noopener">http://asciiflow.com/</a> like this:</p>
+<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/flow_ascii_blur.png" class="flow_ascii">
+
+<p>Or drew it in whiteboard like this:</p>
+<a id="more"></a>
+
+<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/node_scheduler_flow_blur.jpg" class="node_scheduler_flow_blur">
+
+<p>While we should never start making decisions on the refactoring before seeing some pieces of evidence supporting your optimization direction, there could be a hidden piece of code you were not aware of or, not executed the way you thought it should be.</p>
+<p>In my case, to help understand more of the code and the performance overview of the call flow, I used two tools:</p>
+<ul>
+<li><a href="https://github.com/benfred/py-spy" target="_blank" rel="noopener">py-spy</a></li>
+<li><a href="https://pycallgraph.readthedocs.io/en/master/" target="_blank" rel="noopener">pycallgraph</a></li>
+</ul>
+<p>I used py-spy to attach to a running process of the real environment(the 15+ node one), and the output of py-spy can be chosen to be parsed with <a href="https://www.speedscope.app" target="_blank" rel="noopener">https://www.speedscope.app</a>, which is something like:</p>
+<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/profiling_call_graph_blur.jpg" class="profiling_call_graph_blur">
+
+<p>I added pycallgraph into the RMR, and created a utility script to enable profiling with results from code base with tox and UT functions, and created a result output like this, where I masked information in this example manually.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;foo bar&gt; Profiling Result</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Foo Scale  (foo count): 1500</span><br><span class="line">Bar-ing Time (seconds): 1999999.999</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Top 20 Calls</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Time                    Calls   Name</span><br><span class="line">---------------------------------------------------------------</span><br><span class="line">4.74627804756           1       foo.bar.blhablha_bar.blhablhabar._get_all_foo_states</span><br><span class="line">4.74620389938           1       foo.bar.foo_manager.fooManager.get_all_foo_states</span><br><span class="line">3.96935796738           500     foo.bar.foo_manager.fooState.run</span><br><span class="line">2.94463157654           500     foo.bar.foo_manager.fooState._locked_run</span><br><span class="line">2.76152682304           3508    joking.Logger._log</span><br><span class="line">2.40430951118           3008    joking.Logger.debug</span><br><span class="line">2.06136035919           2006    joking.KeywordArgumentAdapter.debug</span><br><span class="line">1.52482843399           3508    joking.Logger.handle</span><br><span class="line">1.42086815834           3508    joking.Logger.callHandlers</span><br><span class="line">1.05335450172           3508    foo.tests.fixtures.NullHandler.handle</span><br><span class="line">1.01028704643           3508    joking.NullHandler</span><br><span class="line">1.00268387794           4008    joking.Formatter</span><br><span class="line">0.882607698441          3508    joking.barer</span><br><span class="line">0.865972757339          500     foo.bar.foo_manager.fooState._run_from_zoo_node</span><br><span class="line">0.846918344498          4008    joking.LogRecord.getMessage</span><br><span class="line">0.784312725067          3508    joking.LogRecord.__init__</span><br><span class="line">0.669806003571          1       foo.bar.foo_manager.fooManager.get_blhablhaed_foos</span><br><span class="line">0.669651031494          1       foo.blhablhas.fooblhablhaHandler.get_blhablhaed_objects</span><br><span class="line">0.661297798157          501     foo.blhablhas.fooTestblhablha.blhablha_all</span><br><span class="line">0.653841972351          500     foo.bar.blhablhas.fooTestblhablha._blhablha_one</span><br></pre></td></tr></table></figure>
+
+<p>With the help of the profiling output, I polished my refactoring plans, and gained more confidence to say the optimization may work. More importantly, the utility I created and the callflow chart can be rechecked/rerun anytime. It’s really to have your context persistent in a visualized fashion and again, RMR with profiling.</p>
+<h3 id="3-Refactor"><a href="#3-Refactor" class="headerlink" title="3. Refactor"></a>3. Refactor</h3><p>It took much more time than I initially planned for the refactor implementation, there are always details not written in requirement/design documentation, and that involved more changes before all proposals landed eventually and brought me back the Step1 or Step2 to rework certain things. Thus I kept polishing the RMR code, the profiling code, polishing the call flow(with more details) and changed the design again and again.</p>
+<p>With the help of RMR profiling, I could always quickly see the effect/ impact of every step changes, which, I consider make the refactor process even happier ;-).</p>
+<p>In this project:</p>
+<ul>
+<li><p>DB Schema was changed, this help reduce DB calls and introduce more reasonable data structures</p>
+</li>
+<li><p>Many functions were refactored to:</p>
+</li>
+<li><ul>
+<li>be decoupled with functions of other features</li>
+<li>from a. centralized b. always calculated on the fly, to a. distributed to workers b. maintained and cached in an acceptable interval of loops</li>
+<li>configurable cache aging policy and state change policy(from real-time consistency to eventual consistency in different polling intervals)</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-Regression-Tests-CI-piped"><a href="#4-Regression-Tests-CI-piped" class="headerlink" title="4. Regression Tests, CI piped"></a>4. Regression Tests, CI piped</h3><ul>
+<li>In the final phase, with the refactored codebase in a stable state, that is:<ul>
+<li>All UT passed in the new design</li>
+<li>Confirmed profiling utility results with expected gains</li>
+</ul>
+</li>
+</ul>
+<p>We could use as much as possible the legacy end to end regression test cases to ensure the refactor brought no surprises :-). I’m willing to bet that you will have to go back to some changes and even need to return to some of the previous steps, in that case, CI piped end to end test will save your life again and again before we call the refactor a success.</p>
+]]></content>
+      <tags>
+        <tag>refactor</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Project Resource Board: a scalable webapp with Flask socketio and Vue.js</title>
+    <url>/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</url>
+    <content><![CDATA[<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
+
+<h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。</p>
+<p>本文是我在写第一个发布版本之前持续更新的记录。</p>
+<blockquote>
+<p>updated in <code>2019-April-6</code></p>
+<p>以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码：</p>
+<p><a href="https://github.com/wey-gu/resource-board" target="_blank" rel="noopener">https://github.com/wey-gu/resource-board</a></p>
+<p>之后我会花时间迭代下去，不过现在课余时间在做一个机器学习调优的项目，这个优先级只能降低。</p>
+</blockquote>
+<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><blockquote>
+<p>为什么开始</p>
+</blockquote>
+<p>在云计算研发部门搬砖半年，一直做一些很小的feature开发，连着几个月早出晚归加上牺牲周末时间的赶进度让我内心很不平静。我需要做点什么，因为本质上我热爱的是 <code>build things</code>，做一个<code>proper side project</code> 的主意在脑子里转了好久了，我决定先做一个简单的东西出来。</p>
+<p>这个东西就是一个 <code>resource board</code> 。</p>
+<blockquote>
+<p>学到什么</p>
+</blockquote>
+<p><code>resourece borard</code> 是我起的名字，其实就是一份在线的表格、面板，本质上用 <code>O365</code> / <code>onedrive for business</code> 完全可以实现类似的功效。不过我还是想造这样一个轮子，涉及一下产品开发的全生命周期的从无到有的创造、学习、实践：</p>
+<ul>
+<li>planning, prototyping</li>
+<li>architecture</li>
+<li>front end</li>
+<li>back end</li>
+<li>CI/ CD</li>
+<li>maintenance</li>
+<li>refactoring<ul>
+<li>for test</li>
+<li>for scale</li>
+</ul>
+</li>
+<li>tuning</li>
+</ul>
+<blockquote>
+<p>User story of resource board</p>
+</blockquote>
+<p><code>resource board</code> 主要解决异地团队协作中对共享资源使用的问题，它是一个电子化的资源使用白板。</p>
+<p>试想一下没有资源占用白板的时候，团队里的人共享10个虚拟化数据中心，我们简称 <code>DC</code> ，对于它的使用分几个场景：</p>
+<ul>
+<li>CI <ul>
+<li>被CI占用，没有再触发CI调用它的人不可以干预</li>
+</ul>
+</li>
+<li>testing<ul>
+<li>被非独占式的人使用中，特定的人可以并行使用它，（理想情况下）不会干扰到彼此</li>
+</ul>
+</li>
+<li>occupied<ul>
+<li>被人独占使用，不可与别人共享</li>
+</ul>
+</li>
+<li>free<ul>
+<li>任何人可以使用它，或者挪作其他用途</li>
+</ul>
+</li>
+</ul>
+<p>这种情况下，使用它的A同学需要站起来告诉所有人，或者群发邮件，说我要用 <code>DC123</code> 独占调试一个代码，有人在用么？ 10分钟后，在注意到没人回复的情况下，ta就在 <code>DC123</code>上开始<del>做坏事</del> 调试ta的代码了。然而刚从厕所回来的B同学，却发现ta的环境被破坏了，半天白忙活了😢。</p>
+<p>如果这个资源共享的工作方式之中引入了记录资源占用情况的白板，A同学只需要看一下白板上空闲的DC，发现<code>DC125</code> 可以使用，他可以做到：</p>
+<ul>
+<li>无需等待确认广播信息的回复立刻使用 <code>DC125</code></li>
+<li>不会破坏任何被占用的资源环境比如 <code>DC123</code> </li>
+</ul>
+<p>看起来比较自然。</p>
+<h1 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h1><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><ul>
+<li>数字化白板应该是一个Wep App</li>
+<li>它需要是实时的<ul>
+<li>支持面向连接的(server —&gt; client)</li>
+</ul>
+</li>
+<li>可扩展，可扩容<ul>
+<li>后端<ul>
+<li>只做api</li>
+<li>分布式，可scale up</li>
+</ul>
+</li>
+<li>前端<ul>
+<li>single page client</li>
+<li>websocket</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="简单原型"><a href="#简单原型" class="headerlink" title="简单原型"></a>简单原型</h2><p>我用Balsamiq Mockups 简单做了一个原型：</p>
+<ul>
+<li>用卡片表示每一个资源的信息</li>
+<li>不同的section表示资源被使用的状态，或者分类</li>
+<li>提供面向资源的历史查看页面</li>
+</ul>
+<p>我没有花更多时间去画更详细的原型图，只是在画这个初始的版本的过程中引导我思考我初始的数据schema，前后端最开始要做的事情，一旦雏形确定下来，我就直接进入前后端的开发，在开发中直接实现业务逻辑的进化。</p>
+<blockquote>
+<p> 这里是我截取的原型图的demo动画 😁</p>
+</blockquote>
+<a id="more"></a>
+
+<p><video src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/demo-board-history.mp4" controls='controls' width='100%' height='100%'></video></p>
+<h2 id="前端、设计"><a href="#前端、设计" class="headerlink" title="前端、设计"></a>前端、设计</h2><h3 id="基础架子"><a href="#基础架子" class="headerlink" title="基础架子"></a>基础架子</h3><p>因为我不是一个JS guy、UI design guy，我选择了适合轻量级快速实现的方案: vue.js + material design。</p>
+<p><del>一年</del>两年之前，我用：</p>
+<ul>
+<li>一本书(<a href="https://www.amazon.com/Non-Designers-Design-Book-4th/dp/0133966151" target="_blank" rel="noopener">The Non-Designer’s Design Book (4th Edition)</a> )</li>
+<li>一个框架(<a href="https://materializecss.com/getting-started.html" target="_blank" rel="noopener">materialCSS</a>) </li>
+</ul>
+<p>做了一个遗留系统改造的Prove of Concept (<a href="https://github.com/wey-gu/yet-another-GSC-C-lighthouse" target="_blank" rel="noopener">inno-search</a>)，那个过程我尝到了设计甜头，对于我这个没有任何设计经验的人，只是使用几个基本的设计 principle 就做出来明显没有设计缺陷的东西真的很有成就感，我甚至做了一个推广视频来在公司内部电视上播放 ( promo video here: <a href="https://vimeo.com/219328622" target="_blank" rel="noopener">https://vimeo.com/219328622</a> )。</p>
+<p>扯远了，这一次我还想使用 material design 的设计元素，来垒砌这个简单的board。</p>
+<p>因为想尝试一下响应式的前端的开发，我选择 <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue.js</a> 和 <a href="https://vuetifyjs.com/" target="_blank" rel="noopener">Vuetify.js</a> 。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 如果我继续丰富工具的feature，我会考虑用 <a href="http://vma.isocked.com/#/dashboard" target="_blank" rel="noopener">vue matierial admin</a> 堆砌更丰富的功能出来。</li>
+</ul>
+<blockquote>
+<p>另外，<a href="https://element.eleme.io" target="_blank" rel="noopener">element-ui</a> 也是一个选择，也许我之后会用它做点什么 😝。</p>
+</blockquote>
+<h3 id="实时性需求"><a href="#实时性需求" class="headerlink" title="实时性需求"></a>实时性需求</h3><p>为了做到实时性，就是服务端推送实时的数据变化给连接的web客户端，我选择 <a href="https://socket.io/" target="_blank" rel="noopener">Socket.IO</a>，而不是client 去pulling，这样做的好处是：</p>
+<ul>
+<li>WebSocket的connection的延时（ms）远比pull 的interval（s) 小，能做到 <code>真·实时</code></li>
+<li>实时性要求高的pulling带来的后端的开销大于WebSocket连接</li>
+</ul>
+<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><p>还是因为我不是 一个JS guy，没有选择更native的node.js，再来，我最熟悉的是 python，于是也就没有尝鲜 golang（以后可以试试）。</p>
+<p>好久之前我在翻pycon的视频时候，注意到Miguel老师写了 <a href="https://github.com/miguelgrinberg/python-socketio" target="_blank" rel="noopener">python socket-io</a>  实现，还有和他亲自基于此的 <a href="https://flask-socketio.readthedocs.io/en/latest/" target="_blank" rel="noopener">Flask-socketio</a> ，一直都想要研究来试试，所以我还是选择熟悉的Flask 😁。</p>
+<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>因为可扩展架构的需求（分布式数据库、可扩展后端）：</p>
+<ul>
+<li>后端的 server/service instance 在分布式的情况下需要支持对所有client连接的广播</li>
+<li>考虑对数据库的写操作通过基于队列的异步call规避数据并行写入做到一致性</li>
+</ul>
+<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>还有两个个我没有提及的需求是：</p>
+<ul>
+<li>外部 API 周期性调用<ul>
+<li>我们的board之中，resource应该可以通过周期性的call CI系统的API 获取它被CI调用的状态信息。这需要异步执行的周期性任务</li>
+</ul>
+</li>
+<li>resource booking、scheduling<ul>
+<li>后续提供终端用户去预约资源未来使用的功能，需要background task去监测、维护事件的触发和相关数据的读写</li>
+</ul>
+</li>
+</ul>
+<p>终于找到机会研究使用一下 <a href="http://www.celeryproject.org/" target="_blank" rel="noopener">Celery</a> 了。</p>
+<h2 id="生产环境部署"><a href="#生产环境部署" class="headerlink" title="生产环境部署"></a>生产环境部署</h2><p>因为兴趣原因，选择容器化，实践一下k8s的部署。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>Test Driven Develop，做到尽可能高coverage的单元测试。</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>我简单地使用keynote.app 创建了一下架构图草稿如下。</p>
+<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
+
+<p><strong>Note:</strong></p>
+<ul>
+<li>通过 Nginx作为load balancer，以及外部用户的http webSocket 的tls加密解密节点，也就是说tls terminated in loadbalancer。</li>
+<li>数据库的读写操作透过message queue(MQ)，这里它既是cache，又是写操作的queue，考虑使用Radis(<a href="http://python-rq.org/" target="_blank" rel="noopener">rq</a>)。</li>
+<li>后端为计划任务单独做一个instance，board-scheduler：<ul>
+<li>用来处理resource 预约到期事件</li>
+<li>周期地通过call Celery抓取 外部CI 系统的状态</li>
+</ul>
+</li>
+<li>Celary instance处理 async call（非 cpu tense的）<ul>
+<li>抓取 外部系统CI状态</li>
+<li>DB call</li>
+<li>socketIO broadcast</li>
+</ul>
+</li>
+</ul>
+<h1 id="Notes-during-coding"><a href="#Notes-during-coding" class="headerlink" title="Notes during coding"></a>Notes during coding</h1><p>这里放一些我在实现过程中的一点点注意的点。</p>
+<h2 id="It’s-not-reactive"><a href="#It’s-not-reactive" class="headerlink" title="It’s not reactive?!"></a>It’s not reactive?!</h2><p>因为没有看完所有Vue.js的文档，就开始搞，没有意识到Vue.js对对象和数组内部变化的track是有限制的，所以做mutation的时候不可以直接假设嘴边更改都被响应式的反应到view之中，需要用Vue.set或者splice😁。</p>
+<p>我写到中间发现View怎么都无法按照我的预期得到更新，debug 去print值也明明更改了（<code>vuex mutation</code>按照预期执行了），有那么半个小时我的价值观崩坍了，各种Google都无果（大家不响应变化的原因都是实际上mutation没有执行），直到我重头看了Vue.js的文档才发现我犯了最蠢的错误….</p>
+<blockquote>
+<p>ref:</p>
+<ul>
+<li><p><a href="https://vuejs.org/v2/guide/list.html#Replacing-an-Array" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Replacing-an-Array</a></p>
+</li>
+<li><p><a href="https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats</a></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="Time-zone"><a href="#Time-zone" class="headerlink" title="Time zone"></a>Time zone</h2><blockquote>
+<p>ref: <a href="http://momentjs.com/timezone/docs/" target="_blank" rel="noopener">http://momentjs.com/timezone/docs/</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install moment-timezone --save</span><br></pre></td></tr></table></figure>
+
+<p>数据库中存储的时间戳是UTC时区的，在前端转换为浏览器中的local时区只需要用tz这方法</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">moment.tz.(timeString, timezoneString)</span><br></pre></td></tr></table></figure>
+
+<p>我的例子:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">moment.tz(timeString, <span class="string">'UTC'</span>).local().format(<span class="string">'MMMM Do YYYY, h:mm:ss a'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p>在读这个小书，发现写的不错，有不会的概念去Google学清楚就好了。</p>
+<blockquote>
+<p>ref: <a href="https://www.openmymind.net/2012/1/23/The-Little-Redis-Book" target="_blank" rel="noopener">https://www.openmymind.net/2012/1/23/The-Little-Redis-Book</a></p>
+</blockquote>
+<h2 id="vue-socket-io-authentication-with-flask-socket-io"><a href="#vue-socket-io-authentication-with-flask-socket-io" class="headerlink" title="vue-socket.io authentication with flask-socket.io"></a><code>vue-socket.io</code> authentication with <code>flask-socket.io</code></h2><blockquote>
+<p>flask-login flask-socket.io vue-socket.io 登录鉴权的实现</p>
+</blockquote>
+<p>虽然server端实现了简单地<code>RESTful API</code>，用来为之后增加<code>cli-client</code>方便，我依然决定不通过 <code>http request</code>，使用<code>flask-login</code> 管理服务端状态，它把login信息记录在<code>flask-socketio</code>的<code>session</code>之中了。</p>
+<h3 id="注意-需要给出-load-user-的定义"><a href="#注意-需要给出-load-user-的定义" class="headerlink" title="注意: 需要给出 load_user 的定义"></a>注意: 需要给出 <code>load_user</code> 的定义</h3><p>否则，会有如下异常:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="string">"No user_loader has been installed for this "</span></span><br><span class="line">Exception: No user_loader has been installed <span class="keyword">for</span> this LoginManager. Refer tohttps://flask-login.readthedocs.io/en/latest/<span class="comment">#how-it-works for more info.</span></span><br></pre></td></tr></table></figure>
+
+<p>实现的例子如下，另外还参考<code>flask-scoket.io</code> 官方文档糖一下 <code>authenticated_only</code> 这个装饰器，真香。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">    @login.user_loader</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_user</span><span class="params">(user_id)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> models.Users.query.filter_by(id=user_id).first()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticated_only</span><span class="params">(f)</span>:</span></span><br><span class="line"><span class="meta">        @functools.wraps(f)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> current_user.is_authenticated:</span><br><span class="line">                disconnect()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> f(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapped</span><br><span class="line">...</span><br><span class="line"><span class="meta">    @socketio.on('login user')</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_usr</span><span class="params">(loginData)</span>:</span></span><br><span class="line">        name, passwd = loginData[<span class="string">'username'</span>], loginData[<span class="string">'passwd'</span>]</span><br><span class="line">        user = models.Users.query.filter_by(name=name).first()</span><br><span class="line">        <span class="keyword">if</span> user <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="keyword">not</span> user.check_password(passwd):</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">False</span>,</span><br><span class="line">                <span class="string">"alert_type"</span>: <span class="string">"error"</span>,</span><br><span class="line">                <span class="string">"alert_msg"</span>: <span class="string">"User not exist or invalid used password!"</span></span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            login_user(user)</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">True</span>,</span><br><span class="line">                <span class="string">"user"</span>: name</span><br><span class="line">                &#125;</span><br><span class="line">        emit(<span class="string">'loginResponse'</span>, json.dumps(response))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># socketio server handle events as below</span></span><br><span class="line"><span class="meta">    @socketio.on('update resource')</span></span><br><span class="line"><span class="meta">    @authenticated_only</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_resource_server</span><span class="params">(res)</span>:</span></span><br><span class="line">        updated_res = modify_resource(app.config, res)</span><br><span class="line">        emit(<span class="string">'updateResource'</span>, updated_res, broadcast=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h3><p><code>vuex</code>之中记录一个登录状态以供前端反应到view之中，<code>click</code>登录触发<code>socket.io</code> 调用，<code>flask-socket.io</code> server接收登录信息，验证，通过<code>socket.io</code> 调用返回login response，<code>vue-socket.io</code> 在vuex之中的 action hook 触发变化，<code>mutation</code> 去更新<code>login</code>状态，或者发送失败 alert。</p>
+<h3 id="Vue-socket-io-amp-Vuex-例子"><a href="#Vue-socket-io-amp-Vuex-例子" class="headerlink" title="Vue-socket.io &amp; Vuex 例子"></a><code>Vue-socket.io</code> &amp; <code>Vuex</code> 例子</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    resources: [],</span><br><span class="line">    loading: <span class="literal">false</span>,</span><br><span class="line">    histories: &#123;&#125;,</span><br><span class="line">    loginInfo: &#123;</span><br><span class="line">      loggedIn: <span class="literal">false</span>,</span><br><span class="line">      userName: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    login (state, response) &#123;</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'loggedIn'</span>, response.success)</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'userName'</span>, response.user)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    SOCKET_loginResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_loginResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">if</span> (resp.success === <span class="literal">true</span>) &#123;</span><br><span class="line">        commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    SOCKET_registerResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_registerResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Post-build-hook-for-npm-build"><a href="#Post-build-hook-for-npm-build" class="headerlink" title="Post build hook for npm build"></a>Post build hook for <code>npm build</code></h2><p>因为要替换一下Google字体cdn到国内friendly的地方，我修改了 <code>package.json</code>中的 <code>postbuild</code>这个hook，来做cdn 的FQDN替换。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "serve": "vue-cli-service serve",</span><br><span class="line">  "build": "vue-cli-service build",</span><br><span class="line">  "postbuild": "./postbuild.sh",</span><br><span class="line">  "lint": "vue-cli-service lint"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>updated on 2021 Jan: 这个项目已经运行了快一整年了，因为一直稳定运行，也没有新的需求，就没抽出时间来迭代 :-P，这里放一个实际跑起来的 demo 视频:</p>
+</blockquote>
+<p><video src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/resource_board_demo.mp4" controls='controls' width='100%' height='100%'></video></p>
+]]></content>
+      <categories>
+        <category>build notes</category>
+      </categories>
+      <tags>
+        <tag>fullstack</tag>
+        <tag>flask</tag>
+        <tag>socketio</tag>
+        <tag>vue.js</tag>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Setup your ubuntu server in iPadOS with UTM</title>
+    <url>/setup-your-ubuntu-server-in-ipados-with-utm/</url>
+    <content><![CDATA[<p>This is the note on serving your Ubuntu server from iPadOS/ iOS with UTM, I am running 0.8 now.</p>
+<blockquote>
+<p>Download image</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Configure Password for the image, here we use chroot instead of config drive, the reason is at bottom.</p>
+</blockquote>
+<p>Use chroot to set password for the cloud image as follow:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sudo</span> modprobe nbd max_part=1</span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --connect=/dev/nbd0 bionic-server-cloudimg-amd64.img</span><br><span class="line"><span class="variable">$mkdir</span> -p /mnt/nbd</span><br><span class="line"><span class="variable">$sudo</span> mount /dev/nbd0p1 /mnt/nbd/ -o noatime</span><br><span class="line"><span class="variable">$chroot</span> /mnt/nbd</span><br><span class="line">ubuntu<span class="comment"># passwd</span></span><br><span class="line">ubuntu<span class="comment"># exit</span></span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line"><span class="variable">$sudo</span> umount /dev/nbd0p1</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<blockquote>
+<p>Use cloud drive is with ISSUES on UTM, as the nic mac address was fetched as <code>00:00:00:00</code> and it won’t proceed to configure the user data we put in the cloud drive…</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError Not all expected physical devices present 00:00:00:00</span><br></pre></td></tr></table></figure>
+
+<p>In case it worked someday, you could simply do it as follow:</p>
+<p>Let’s reuse the script created by Jan Walraven, ref: <a href="https://januz.nl/mac/generate-coreos-configdrive-iso-based-cloud-config-file" target="_blank" rel="noopener">here</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install qemu coreutils cdrtools</span><br><span class="line">./createIso.sh --cloud-config cloud-config.yml --name user-data</span><br></pre></td></tr></table></figure>
+
+<p>Or in Debian</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install qemu-utils cloud-utils</span><br><span class="line"></span><br><span class="line">cat &gt; user-data &lt;&lt;EOF</span><br><span class="line"><span class="comment">#cloud-config</span></span><br><span class="line">users:</span><br><span class="line">  - default</span><br><span class="line">  - name: &lt;user&gt;</span><br><span class="line">    passwd: &lt;psw&gt;</span><br><span class="line">    ssh_pwauth: True</span><br><span class="line">    chpasswd: &#123; expire: False &#125;</span><br><span class="line">    sudo: ALL=(ALL) NOPASSWD:ALL</span><br><span class="line">    groups: users, admin</span><br><span class="line">    ssh_authorized_keys:</span><br><span class="line">      - ssh-rsa &lt;key&gt;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">cloud-localds config_drive.iso user-data</span><br></pre></td></tr></table></figure>
+
+<p>Add above iso image to VM and mounted as a CD device, boot from your HDD device(the cloud image), it should configure yor password and ssh key as above user-data.</p>
+]]></content>
+      <categories>
+        <category>random notes</category>
+      </categories>
+      <tags>
+        <tag>iPadOS</tag>
+        <tag>UTM</tag>
       </tags>
   </entry>
   <entry>

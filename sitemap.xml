@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</loc>
+    
+    <lastmod>2021-01-07T01:58:45.252Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/</loc>
+    
+    <lastmod>2021-01-07T01:58:35.658Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/</loc>
+    
+    <lastmod>2021-01-07T01:58:35.657Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://note.siwei.info/resume/index.html</loc>
     
     <lastmod>2020-08-05T02:42:22.431Z</lastmod>
@@ -44,13 +65,6 @@
   </url>
   
   <url>
-    <loc>https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</loc>
-    
-    <lastmod>2020-07-06T06:43:00.951Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://note.siwei.info/my-hhkb-and-macos-setup/</loc>
     
     <lastmod>2020-07-06T06:43:00.950Z</lastmod>
@@ -87,13 +101,6 @@
   
   <url>
     <loc>https://note.siwei.info/ML-2017-fall-HW1-note/</loc>
-    
-    <lastmod>2020-07-06T06:43:00.947Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/</loc>
     
     <lastmod>2020-07-06T06:43:00.947Z</lastmod>
     

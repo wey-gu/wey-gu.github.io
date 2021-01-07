@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.pjax && search.on('render', () => {
-    window.pjax.refresh(document.querySelector('.algolia-hits'));
+    window.pjax.refresh(document.getElementById('algolia-hits'));
   });
 
   // Registering Widgets
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }),
 
     instantsearch.widgets.stats({
-      container: '.algolia-stats',
+      container: '#algolia-stats',
       templates: {
         text: data => {
           const stats = algoliaSettings.labels.hits_stats
@@ -53,19 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }),
 
     instantsearch.widgets.hits({
-      container : '.algolia-hits',
-      escapeHTML: false,
-      templates : {
+      container: '#algolia-hits',
+      templates: {
         item: data => {
-          const { title, excerpt, excerptStrip, contentStripTruncate } = data._highlightResult;
-          let result = `<a href="${data.permalink}" class="search-result-title">${title.value}</a>`;
-          const content = excerpt || excerptStrip || contentStripTruncate;
-          if (content && content.value) {
-            const div = document.createElement('div');
-            div.innerHTML = content.value;
-            result += `<a href="${data.permalink}"><p class="search-result">${div.textContent.substr(0, 100)}...</p></a>`;
-          }
-          return result;
+          const link = data.permalink ? data.permalink : CONFIG.root + data.path;
+          return `<a href="${link}" class="algolia-hit-item-link">${data._highlightResult.title.value}</a>`;
         },
         empty: data => {
           return `<div id="algolia-hits-empty">
@@ -74,12 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       },
       cssClasses: {
-        list: 'search-result-list'
+        item: 'algolia-hit-item'
       }
     }),
 
     instantsearch.widgets.pagination({
-      container: '.algolia-pagination',
+      container: '#algolia-pagination',
       scrollTo : false,
       showFirst: false,
       showLast : false,

@@ -25,29 +25,37 @@
     var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="I build things">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Siwei Notes">
-<meta property="og:url" content="https://note.siwei.info/index.html">
+  <meta name="description" content="BackgroundEarly this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-). Steps">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Performance Optimization refactor in Large Python Codebase, a note">
+<meta property="og:url" content="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/index.html">
 <meta property="og:site_name" content="Siwei Notes">
-<meta property="og:description" content="I build things">
+<meta property="og:description" content="BackgroundEarly this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-). Steps">
+<meta property="og:image" content="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/flow_ascii_blur.png">
+<meta property="og:image" content="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/node_scheduler_flow_blur.jpg">
+<meta property="og:image" content="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/profiling_call_graph_blur.jpg">
+<meta property="article:published_time" content="2020-08-18T12:09:58.000Z">
+<meta property="article:modified_time" content="2021-01-07T01:58:35.658Z">
 <meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="refactor">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/flow_ascii_blur.png">
 
-<link rel="canonical" href="https://note.siwei.info/">
+<link rel="canonical" href="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'default'
   };
 </script>
 
-  <title>Siwei Notes</title>
+  <title>Performance Optimization refactor in Large Python Codebase, a note | Siwei Notes</title>
   
 
 
@@ -217,7 +225,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -229,6 +237,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Steps-to-follow"><span class="nav-number">2.</span> <span class="nav-text">Steps to follow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Runnable-Minimal-Reproduce"><span class="nav-number">2.1.</span> <span class="nav-text">1. Runnable Minimal Reproduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Profiling-and-analysis"><span class="nav-number">2.2.</span> <span class="nav-text">2. Profiling and analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Refactor"><span class="nav-number">2.3.</span> <span class="nav-text">3. Refactor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Regression-Tests-CI-piped"><span class="nav-number">2.4.</span> <span class="nav-text">4. Regression Tests, CI piped</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -310,9 +319,10 @@
       <div class="main-inner">
         
 
-        <div class="content index posts-expand">
+        <div class="content post posts-expand">
           
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
@@ -330,10 +340,9 @@
 
     
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/performance-optimization-refactor-in-large-python-codebase-a-note/" class="post-title-link" itemprop="url">Performance Optimization refactor in Large Python Codebase, a note</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Performance Optimization refactor in Large Python Codebase, a note
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -361,7 +370,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Early this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-).</p>
+        <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Early this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-).</p>
 <h2 id="Steps-to-follow"><a href="#Steps-to-follow" class="headerlink" title="Steps to follow"></a>Steps to follow</h2><h3 id="1-Runnable-Minimal-Reproduce"><a href="#1-Runnable-Minimal-Reproduce" class="headerlink" title="1. Runnable Minimal Reproduce"></a>1. Runnable Minimal Reproduce</h3><p>For a distributed system that required heavy hardware setup, or even worse, when you are trying to fix a case in the condition of a large scale, we need to have a runnable minimal reproduce(RMR) method to decouple the costly large scale of test environment/ production environment. A handy RMR is crucial as it brings us repeatability in circles of the rests steps.</p>
 <p>In my case, when I started looking into this task, I found the only environment in hand was already quite expensive for the team (15+ servers, each of them is with 100+ GiB RAM and 40+ threads), yet it’s still far from the scale I am optimizing for(1000+ servers case).</p>
 <blockquote>
@@ -389,221 +398,99 @@
 <img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/flow_ascii_blur.png" class="flow_ascii">
 
 <p>Or drew it in whiteboard like this:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/performance-optimization-refactor-in-large-python-codebase-a-note/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+<a id="more"></a>
+
+<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/node_scheduler_flow_blur.jpg" class="node_scheduler_flow_blur">
+
+<p>While we should never start making decisions on the refactoring before seeing some pieces of evidence supporting your optimization direction, there could be a hidden piece of code you were not aware of or, not executed the way you thought it should be.</p>
+<p>In my case, to help understand more of the code and the performance overview of the call flow, I used two tools:</p>
+<ul>
+<li><a href="https://github.com/benfred/py-spy" target="_blank" rel="noopener">py-spy</a></li>
+<li><a href="https://pycallgraph.readthedocs.io/en/master/" target="_blank" rel="noopener">pycallgraph</a></li>
+</ul>
+<p>I used py-spy to attach to a running process of the real environment(the 15+ node one), and the output of py-spy can be chosen to be parsed with <a href="https://www.speedscope.app" target="_blank" rel="noopener">https://www.speedscope.app</a>, which is something like:</p>
+<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/profiling_call_graph_blur.jpg" class="profiling_call_graph_blur">
+
+<p>I added pycallgraph into the RMR, and created a utility script to enable profiling with results from code base with tox and UT functions, and created a result output like this, where I masked information in this example manually.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;foo bar&gt; Profiling Result</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Foo Scale  (foo count): 1500</span><br><span class="line">Bar-ing Time (seconds): 1999999.999</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Top 20 Calls</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Time                    Calls   Name</span><br><span class="line">---------------------------------------------------------------</span><br><span class="line">4.74627804756           1       foo.bar.blhablha_bar.blhablhabar._get_all_foo_states</span><br><span class="line">4.74620389938           1       foo.bar.foo_manager.fooManager.get_all_foo_states</span><br><span class="line">3.96935796738           500     foo.bar.foo_manager.fooState.run</span><br><span class="line">2.94463157654           500     foo.bar.foo_manager.fooState._locked_run</span><br><span class="line">2.76152682304           3508    joking.Logger._log</span><br><span class="line">2.40430951118           3008    joking.Logger.debug</span><br><span class="line">2.06136035919           2006    joking.KeywordArgumentAdapter.debug</span><br><span class="line">1.52482843399           3508    joking.Logger.handle</span><br><span class="line">1.42086815834           3508    joking.Logger.callHandlers</span><br><span class="line">1.05335450172           3508    foo.tests.fixtures.NullHandler.handle</span><br><span class="line">1.01028704643           3508    joking.NullHandler</span><br><span class="line">1.00268387794           4008    joking.Formatter</span><br><span class="line">0.882607698441          3508    joking.barer</span><br><span class="line">0.865972757339          500     foo.bar.foo_manager.fooState._run_from_zoo_node</span><br><span class="line">0.846918344498          4008    joking.LogRecord.getMessage</span><br><span class="line">0.784312725067          3508    joking.LogRecord.__init__</span><br><span class="line">0.669806003571          1       foo.bar.foo_manager.fooManager.get_blhablhaed_foos</span><br><span class="line">0.669651031494          1       foo.blhablhas.fooblhablhaHandler.get_blhablhaed_objects</span><br><span class="line">0.661297798157          501     foo.blhablhas.fooTestblhablha.blhablha_all</span><br><span class="line">0.653841972351          500     foo.bar.blhablhas.fooTestblhablha._blhablha_one</span><br></pre></td></tr></table></figure>
+
+<p>With the help of the profiling output, I polished my refactoring plans, and gained more confidence to say the optimization may work. More importantly, the utility I created and the callflow chart can be rechecked/rerun anytime. It’s really to have your context persistent in a visualized fashion and again, RMR with profiling.</p>
+<h3 id="3-Refactor"><a href="#3-Refactor" class="headerlink" title="3. Refactor"></a>3. Refactor</h3><p>It took much more time than I initially planned for the refactor implementation, there are always details not written in requirement/design documentation, and that involved more changes before all proposals landed eventually and brought me back the Step1 or Step2 to rework certain things. Thus I kept polishing the RMR code, the profiling code, polishing the call flow(with more details) and changed the design again and again.</p>
+<p>With the help of RMR profiling, I could always quickly see the effect/ impact of every step changes, which, I consider make the refactor process even happier ;-).</p>
+<p>In this project:</p>
+<ul>
+<li><p>DB Schema was changed, this help reduce DB calls and introduce more reasonable data structures</p>
+</li>
+<li><p>Many functions were refactored to:</p>
+</li>
+<li><ul>
+<li>be decoupled with functions of other features</li>
+<li>from a. centralized b. always calculated on the fly, to a. distributed to workers b. maintained and cached in an acceptable interval of loops</li>
+<li>configurable cache aging policy and state change policy(from real-time consistency to eventual consistency in different polling intervals)</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-Regression-Tests-CI-piped"><a href="#4-Regression-Tests-CI-piped" class="headerlink" title="4. Regression Tests, CI piped"></a>4. Regression Tests, CI piped</h3><ul>
+<li>In the final phase, with the refactored codebase in a stable state, that is:<ul>
+<li>All UT passed in the new design</li>
+<li>Confirmed profiling utility results with expected gains</li>
+</ul>
+</li>
+</ul>
+<p>We could use as much as possible the legacy end to end regression test cases to ensure the refactor brought no surprises :-). I’m willing to bet that you will have to go back to some changes and even need to return to some of the previous steps, in that case, CI piped end to end test will save your life again and again before we call the refactor a success.</p>
+
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/" class="post-title-link" itemprop="url">Setup Kolla-ansible OpenStack Cluster in Vagrant 2020</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-26 18:31:36" itemprop="dateCreated datePublished" datetime="2020-05-26T18:31:36+08:00">2020-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-06 14:43:05" itemprop="dateModified" datetime="2020-07-06T14:43:05+08:00">2020-07-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>This is a note on setting up kolla ansible openstack develop envrionment in your working machine.</p>
-<p>I referred to this document: <a href="https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html" target="_blank" rel="noopener">https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html</a></p>
-<p>I had done this in 2020 May on my old mac mini with Catalina ;-). With 20 GiB disk and 6GiB RAM assigned to one Vagrant spawned (virtualbox), the OpenStack Cluster is running pretty well, comparing to my previous setups ( multi-VMs based manually deployment and VM based Mirantis Fuel 9.0 deployment), it’s obviously more reponsive with the help of the single node setup.</p>
-<p>Here I leave the notes as a reference for you to have a playground easier.</p>
-<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><h3 id="Install-vagrant-and-plugins-needed"><a href="#Install-vagrant-and-plugins-needed" class="headerlink" title="Install vagrant and plugins needed"></a>Install vagrant and plugins needed</h3><p>Below is an example to do this on a macOS machine, to do that from other OS, refer to <a href="https://www.vagrantup.com/docs/installation/" target="_blank" rel="noopener">here</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew cask install virtualbox vagrant</span><br><span class="line"></span><br><span class="line">vagrant plugin install vagrant-hostmanager vagrant-vbguest</span><br><span class="line"></span><br><span class="line"><span class="comment"># if we need to resize disks after vagrant up</span></span><br><span class="line">vagrant plugin install vagrant-disksize</span><br><span class="line"><span class="comment"># if we need to make vagrant VM behind a proxy</span></span><br><span class="line">vagrant plugin install vagrant-proxyconf</span><br></pre></td></tr></table></figure>
-
-<h3 id="Clone-kolla-repo"><a href="#Clone-kolla-repo" class="headerlink" title="Clone kolla repo"></a>Clone kolla repo</h3><p>We need to clone below three repositories.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-cli</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-ansible</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla</span><br></pre></td></tr></table></figure>
-
-<h3 id="Customise-Vagrant-scripts"><a href="#Customise-Vagrant-scripts" class="headerlink" title="Customise Vagrant scripts"></a>Customise Vagrant scripts</h3><p>I found the configuration file out-of-box is no longer working/ out of repair for some time, below changes on <code>Vagrantfile</code>, <code>Vagrantfile.custom</code>,  and <code>bootstrap.sh</code> are needed.</p>
-<p>For Vagrantfile.custom, we need to use Ubuntu 18.04 instead of 16.04, which comes with python3.6+ in apt repo.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/" title="Performance Optimization refactor in Large Python Codebase, a note">https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/refactor/" rel="tag"># refactor</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/setup-your-ubuntu-server-in-ipados-with-utm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/setup-your-ubuntu-server-in-ipados-with-utm/" class="post-title-link" itemprop="url">Setup your ubuntu server in iPadOS with UTM</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-04-11 18:30:11" itemprop="dateCreated datePublished" datetime="2020-04-11T18:30:11+08:00">2020-04-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-06 14:43:00" itemprop="dateModified" datetime="2020-07-06T14:43:00+08:00">2020-07-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/random-notes/" itemprop="url" rel="index"><span itemprop="name">random notes</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>This is the note on serving your Ubuntu server from iPadOS/ iOS with UTM, I am running 0.8 now.</p>
-<blockquote>
-<p>Download image</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Configure Password for the image, here we use chroot instead of config drive, the reason is at bottom.</p>
-</blockquote>
-<p>Use chroot to set password for the cloud image as follow:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> modprobe nbd max_part=1</span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --connect=/dev/nbd0 bionic-server-cloudimg-amd64.img</span><br><span class="line"><span class="variable">$mkdir</span> -p /mnt/nbd</span><br><span class="line"><span class="variable">$sudo</span> mount /dev/nbd0p1 /mnt/nbd/ -o noatime</span><br><span class="line"><span class="variable">$chroot</span> /mnt/nbd</span><br><span class="line">ubuntu<span class="comment"># passwd</span></span><br><span class="line">ubuntu<span class="comment"># exit</span></span><br><span class="line"><span class="variable">$sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line"><span class="variable">$sudo</span> umount /dev/nbd0p1</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/setup-your-ubuntu-server-in-ipados-with-utm/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/" rel="prev" title="Setup Kolla-ansible OpenStack Cluster in Vagrant 2020">
+      <i class="fa fa-chevron-left"></i> Setup Kolla-ansible OpenStack Cluster in Vagrant 2020
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
 
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
-
 
         </div>
         
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -717,6 +604,25 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '458d0826a0f8a2a81f82',
+      clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
+      repo        : 'wey-gu.github.io',
+      owner       : 'wey-gu',
+      admin       : ['wey-gu'],
+      id          : '894460894073f244148984ad948d536f',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
