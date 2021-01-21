@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
   <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
   <link rel="manifest" href="/images/site.webmanifest">
-  <meta name="msapplication-config" content="/images/browserconfig.xml">
   <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta name="description" content="关于我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。 本文是我在写第一个发布版本之前持续更新的记录。  updated in 2019-April-6 以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码： https:&#x2F;&#x2F;github.com&#x2F;wey-gu&#x2F;resource-board 之后">
+<meta name="description" content="关于我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。 本文是我在写第一个发布版本之前持续更新的记录。  updated in 2019-April-6 以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码： https:&#x2F;&#x2F;github.com&#x2F;wey-gu&#x2F;resource-board 之后">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Project Resource Board: a scalable webapp with Flask socketio and Vue.js">
 <meta property="og:url" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/index.html">
 <meta property="og:site_name" content="Siwei Notes">
 <meta property="og:description" content="关于我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。 本文是我在写第一个发布版本之前持续更新的记录。  updated in 2019-April-6 以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码： https:&#x2F;&#x2F;github.com&#x2F;wey-gu&#x2F;resource-board 之后">
+<meta property="og:locale">
 <meta property="og:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png">
 <meta property="og:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png">
+<meta property="og:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_0.png">
+<meta property="og:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_1.png">
+<meta property="og:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_2.png">
 <meta property="article:published_time" content="2019-02-16T14:27:28.000Z">
-<meta property="article:modified_time" content="2021-01-07T01:58:45.252Z">
+<meta property="article:modified_time" content="2019-02-16T14:27:28.000Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta property="article:tag" content="fullstack">
 <meta property="article:tag" content="flask">
@@ -43,6 +47,7 @@
 <meta property="article:tag" content="架构">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png">
+
 
 <link rel="canonical" href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/">
 
@@ -56,11 +61,8 @@
     lang   : 'default'
   };
 </script>
-
-  <title>Project Resource Board: a scalable webapp with Flask socketio and Vue.js | Siwei Notes</title>
+<title>Project Resource Board: a scalable webapp with Flask socketio and Vue.js | Siwei Notes</title>
   
-
-
 
 
 
@@ -102,15 +104,14 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <main class="main">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header-inner"><div class="site-brand-container">
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -137,52 +138,16 @@
 
 
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-résumé">
-
-    <a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a>
-
-  </li>
-        <li class="menu-item menu-item-简历">
-
-    <a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">26</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">12</span></a>
-
-  </li>
-        <li class="menu-item menu-item-commonweal">
-
-    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a>
-
-  </li>
-        <li class="menu-item menu-item-links">
-
-    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
+        <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
+        <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -193,8 +158,7 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
@@ -203,12 +167,12 @@
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
     <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
@@ -217,9 +181,9 @@
   </div>
 
 </div>
-          
+        
   
-  <div class="toggle sidebar-toggle">
+  <div class="toggle sidebar-toggle" role="button">
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
@@ -237,25 +201,26 @@
         </li>
       </ul>
 
-      <!--noindex-->
-      <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于"><span class="nav-number">1.</span> <span class="nav-text">关于</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缘起"><span class="nav-number">2.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Planning"><span class="nav-number">3.</span> <span class="nav-text">Planning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">3.1.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单原型"><span class="nav-number">3.2.</span> <span class="nav-text">简单原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端、设计"><span class="nav-number">3.3.</span> <span class="nav-text">前端、设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础架子"><span class="nav-number">3.3.1.</span> <span class="nav-text">基础架子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时性需求"><span class="nav-number">3.3.2.</span> <span class="nav-text">实时性需求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后端"><span class="nav-number">3.4.</span> <span class="nav-text">后端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列"><span class="nav-number">3.4.1.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务队列"><span class="nav-number">3.4.2.</span> <span class="nav-text">任务队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产环境部署"><span class="nav-number">3.5.</span> <span class="nav-text">生产环境部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">3.7.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Notes-during-coding"><span class="nav-number">4.</span> <span class="nav-text">Notes during coding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#It’s-not-reactive"><span class="nav-number">4.1.</span> <span class="nav-text">It’s not reactive?!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Time-zone"><span class="nav-number">4.2.</span> <span class="nav-text">Time zone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">4.3.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-socket-io-authentication-with-flask-socket-io"><span class="nav-number">4.4.</span> <span class="nav-text">vue-socket.io authentication with flask-socket.io</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-需要给出-load-user-的定义"><span class="nav-number">4.4.1.</span> <span class="nav-text">注意: 需要给出 load_user 的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录流程"><span class="nav-number">4.4.2.</span> <span class="nav-text">登录流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-socket-io-amp-Vuex-例子"><span class="nav-number">4.4.3.</span> <span class="nav-text">Vue-socket.io &amp; Vuex 例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Post-build-hook-for-npm-build"><span class="nav-number">4.5.</span> <span class="nav-text">Post build hook for npm build</span></a></li></ol></li></ol></div>
-      </section>
-      <!--/noindex-->
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E"><span class="nav-number">1.</span> <span class="nav-text">关于</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7"><span class="nav-number">2.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Planning"><span class="nav-number">3.</span> <span class="nav-text">Planning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%8E%9F%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">简单原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E3%80%81%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.3.</span> <span class="nav-text">前端、设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%9E%B6%E5%AD%90"><span class="nav-number">3.3.1.</span> <span class="nav-text">基础架子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E6%80%A7%E9%9C%80%E6%B1%82"><span class="nav-number">3.3.2.</span> <span class="nav-text">实时性需求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF"><span class="nav-number">3.4.</span> <span class="nav-text">后端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">3.4.1.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97"><span class="nav-number">3.4.2.</span> <span class="nav-text">任务队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="nav-number">3.5.</span> <span class="nav-text">生产环境部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">3.6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">3.7.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Notes-during-coding"><span class="nav-number">4.</span> <span class="nav-text">Notes during coding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#It%E2%80%99s-not-reactive"><span class="nav-number">4.1.</span> <span class="nav-text">It’s not reactive?!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Time-zone"><span class="nav-number">4.2.</span> <span class="nav-text">Time zone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">4.3.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-socket-io-authentication-with-flask-socket-io"><span class="nav-number">4.4.</span> <span class="nav-text">vue-socket.io authentication with flask-socket.io</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F-%E9%9C%80%E8%A6%81%E7%BB%99%E5%87%BA-load-user-%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">4.4.1.</span> <span class="nav-text">注意: 需要给出 load_user 的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B"><span class="nav-number">4.4.2.</span> <span class="nav-text">登录流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-socket-io-amp-Vuex-%E4%BE%8B%E5%AD%90"><span class="nav-number">4.4.3.</span> <span class="nav-text">Vue-socket.io &amp; Vuex 例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Post-build-hook-for-npm-build"><span class="nav-number">4.5.</span> <span class="nav-text">Post build hook for npm build</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
 
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
       src="/images/wey_pixel_tinified.png">
   <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
   <div class="site-description" itemprop="description">I build things</div>
 </div>
-<div class="site-state-wrap animated">
+<div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -268,12 +233,12 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author animated">
+  <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
         <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
@@ -293,41 +258,43 @@
         <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
       </span>
   </div>
-  <div class="cc-license animated" itemprop="license">
+  <div class="cc-license site-overview-item animated" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
 
-      </section>
+        </div>
+      </div>
     </div>
   </aside>
-  <div id="sidebar-dimmer"></div>
+  <div class="sidebar-dimmer"></div>
 
 
-      </header>
+    </header>
 
-      
-  <div class="back-to-top">
+    
+  <div class="back-to-top" role="button">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
 <noscript>
-  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
 
 
-      <div class="main-inner">
-        
+    <div class="main-inner post posts-expand">
 
-        <div class="content post posts-expand">
-          
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
     <link itemprop="mainEntityOfPage" href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -339,40 +306,33 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Siwei Notes">
     </span>
-
-    
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           Project Resource Board: a scalable webapp with Flask socketio and Vue.js
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-02-16 22:27:28" itemprop="dateCreated datePublished" datetime="2019-02-16T22:27:28+08:00">2019-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-07 09:58:45" itemprop="dateModified" datetime="2021-01-07T09:58:45+08:00">2021-01-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/build-notes/" itemprop="url" rel="index"><span itemprop="name">build notes</span></a>
-                </span>
-            </span>
+      <time title="Created: 2019-02-16 22:27:28" itemprop="dateCreated datePublished" datetime="2019-02-16T22:27:28+08:00">2019-02-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/build-notes/" itemprop="url" rel="index"><span itemprop="name">build notes</span></a>
+        </span>
+    </span>
 
-          
+  
+</div>
 
         </div>
       </header>
@@ -388,7 +348,7 @@
 <blockquote>
 <p>updated in <code>2019-April-6</code></p>
 <p>以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码：</p>
-<p><a href="https://github.com/wey-gu/resource-board" target="_blank" rel="noopener">https://github.com/wey-gu/resource-board</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wey-gu/resource-board">https://github.com/wey-gu/resource-board</a></p>
 <p>之后我会花时间迭代下去，不过现在课余时间在做一个机器学习调优的项目，这个优先级只能降低。</p>
 </blockquote>
 <h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><blockquote>
@@ -480,25 +440,25 @@
 <h2 id="前端、设计"><a href="#前端、设计" class="headerlink" title="前端、设计"></a>前端、设计</h2><h3 id="基础架子"><a href="#基础架子" class="headerlink" title="基础架子"></a>基础架子</h3><p>因为我不是一个JS guy、UI design guy，我选择了适合轻量级快速实现的方案: vue.js + material design。</p>
 <p><del>一年</del>两年之前，我用：</p>
 <ul>
-<li>一本书(<a href="https://www.amazon.com/Non-Designers-Design-Book-4th/dp/0133966151" target="_blank" rel="noopener">The Non-Designer’s Design Book (4th Edition)</a> )</li>
-<li>一个框架(<a href="https://materializecss.com/getting-started.html" target="_blank" rel="noopener">materialCSS</a>) </li>
+<li>一本书(<a target="_blank" rel="noopener" href="https://www.amazon.com/Non-Designers-Design-Book-4th/dp/0133966151">The Non-Designer’s Design Book (4th Edition)</a> )</li>
+<li>一个框架(<a target="_blank" rel="noopener" href="https://materializecss.com/getting-started.html">materialCSS</a>) </li>
 </ul>
-<p>做了一个遗留系统改造的Prove of Concept (<a href="https://github.com/wey-gu/yet-another-GSC-C-lighthouse" target="_blank" rel="noopener">inno-search</a>)，那个过程我尝到了设计甜头，对于我这个没有任何设计经验的人，只是使用几个基本的设计 principle 就做出来明显没有设计缺陷的东西真的很有成就感，我甚至做了一个推广视频来在公司内部电视上播放 ( promo video here: <a href="https://vimeo.com/219328622" target="_blank" rel="noopener">https://vimeo.com/219328622</a> )。</p>
+<p>做了一个遗留系统改造的Prove of Concept (<a target="_blank" rel="noopener" href="https://github.com/wey-gu/yet-another-GSC-C-lighthouse">inno-search</a>)，那个过程我尝到了设计甜头，对于我这个没有任何设计经验的人，只是使用几个基本的设计 principle 就做出来明显没有设计缺陷的东西真的很有成就感，我甚至做了一个推广视频来在公司内部电视上播放 ( promo video here: <a target="_blank" rel="noopener" href="https://vimeo.com/219328622">https://vimeo.com/219328622</a> )。</p>
 <p>扯远了，这一次我还想使用 material design 的设计元素，来垒砌这个简单的board。</p>
-<p>因为想尝试一下响应式的前端的开发，我选择 <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue.js</a> 和 <a href="https://vuetifyjs.com/" target="_blank" rel="noopener">Vuetify.js</a> 。</p>
+<p>因为想尝试一下响应式的前端的开发，我选择 <a target="_blank" rel="noopener" href="https://vuejs.org/">Vue.js</a> 和 <a target="_blank" rel="noopener" href="https://vuetifyjs.com/">Vuetify.js</a> 。</p>
 <ul>
-<li><input disabled="" type="checkbox"> 如果我继续丰富工具的feature，我会考虑用 <a href="http://vma.isocked.com/#/dashboard" target="_blank" rel="noopener">vue matierial admin</a> 堆砌更丰富的功能出来。</li>
+<li><input disabled="" type="checkbox"> 如果我继续丰富工具的feature，我会考虑用 <a target="_blank" rel="noopener" href="http://vma.isocked.com/#/dashboard">vue matierial admin</a> 堆砌更丰富的功能出来。</li>
 </ul>
 <blockquote>
-<p>另外，<a href="https://element.eleme.io" target="_blank" rel="noopener">element-ui</a> 也是一个选择，也许我之后会用它做点什么 😝。</p>
+<p>另外，<a target="_blank" rel="noopener" href="https://element.eleme.io/">element-ui</a> 也是一个选择，也许我之后会用它做点什么 😝。</p>
 </blockquote>
-<h3 id="实时性需求"><a href="#实时性需求" class="headerlink" title="实时性需求"></a>实时性需求</h3><p>为了做到实时性，就是服务端推送实时的数据变化给连接的web客户端，我选择 <a href="https://socket.io/" target="_blank" rel="noopener">Socket.IO</a>，而不是client 去pulling，这样做的好处是：</p>
+<h3 id="实时性需求"><a href="#实时性需求" class="headerlink" title="实时性需求"></a>实时性需求</h3><p>为了做到实时性，就是服务端推送实时的数据变化给连接的web客户端，我选择 <a target="_blank" rel="noopener" href="https://socket.io/">Socket.IO</a>，而不是client 去pulling，这样做的好处是：</p>
 <ul>
 <li>WebSocket的connection的延时（ms）远比pull 的interval（s) 小，能做到 <code>真·实时</code></li>
 <li>实时性要求高的pulling带来的后端的开销大于WebSocket连接</li>
 </ul>
 <h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><p>还是因为我不是 一个JS guy，没有选择更native的node.js，再来，我最熟悉的是 python，于是也就没有尝鲜 golang（以后可以试试）。</p>
-<p>好久之前我在翻pycon的视频时候，注意到Miguel老师写了 <a href="https://github.com/miguelgrinberg/python-socketio" target="_blank" rel="noopener">python socket-io</a>  实现，还有和他亲自基于此的 <a href="https://flask-socketio.readthedocs.io/en/latest/" target="_blank" rel="noopener">Flask-socketio</a> ，一直都想要研究来试试，所以我还是选择熟悉的Flask 😁。</p>
+<p>好久之前我在翻pycon的视频时候，注意到Miguel老师写了 <a target="_blank" rel="noopener" href="https://github.com/miguelgrinberg/python-socketio">python socket-io</a>  实现，还有和他亲自基于此的 <a target="_blank" rel="noopener" href="https://flask-socketio.readthedocs.io/en/latest/">Flask-socketio</a> ，一直都想要研究来试试，所以我还是选择熟悉的Flask 😁。</p>
 <h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>因为可扩展架构的需求（分布式数据库、可扩展后端）：</p>
 <ul>
 <li>后端的 server/service instance 在分布式的情况下需要支持对所有client连接的广播</li>
@@ -515,7 +475,7 @@
 </ul>
 </li>
 </ul>
-<p>终于找到机会研究使用一下 <a href="http://www.celeryproject.org/" target="_blank" rel="noopener">Celery</a> 了。</p>
+<p>终于找到机会研究使用一下 <a target="_blank" rel="noopener" href="http://www.celeryproject.org/">Celery</a> 了。</p>
 <h2 id="生产环境部署"><a href="#生产环境部署" class="headerlink" title="生产环境部署"></a>生产环境部署</h2><p>因为兴趣原因，选择容器化，实践一下k8s的部署。</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>Test Driven Develop，做到尽可能高coverage的单元测试。</p>
 <h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>我简单地使用keynote.app 创建了一下架构图草稿如下。</p>
@@ -524,7 +484,7 @@
 <p><strong>Note:</strong></p>
 <ul>
 <li>通过 Nginx作为load balancer，以及外部用户的http webSocket 的tls加密解密节点，也就是说tls terminated in loadbalancer。</li>
-<li>数据库的读写操作透过message queue(MQ)，这里它既是cache，又是写操作的queue，考虑使用Radis(<a href="http://python-rq.org/" target="_blank" rel="noopener">rq</a>)。</li>
+<li>数据库的读写操作透过message queue(MQ)，这里它既是cache，又是写操作的queue，考虑使用Radis(<a target="_blank" rel="noopener" href="http://python-rq.org/">rq</a>)。</li>
 <li>后端为计划任务单独做一个instance，board-scheduler：<ul>
 <li>用来处理resource 预约到期事件</li>
 <li>周期地通过call Celery抓取 外部CI 系统的状态</li>
@@ -543,71 +503,78 @@
 <blockquote>
 <p>ref:</p>
 <ul>
-<li><p><a href="https://vuejs.org/v2/guide/list.html#Replacing-an-Array" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Replacing-an-Array</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://vuejs.org/v2/guide/list.html#Replacing-an-Array">https://vuejs.org/v2/guide/list.html#Replacing-an-Array</a></p>
 </li>
-<li><p><a href="https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats" target="_blank" rel="noopener">https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats">https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats</a></p>
 </li>
 </ul>
 </blockquote>
 <h2 id="Time-zone"><a href="#Time-zone" class="headerlink" title="Time zone"></a>Time zone</h2><blockquote>
-<p>ref: <a href="http://momentjs.com/timezone/docs/" target="_blank" rel="noopener">http://momentjs.com/timezone/docs/</a></p>
+<p>ref: <a target="_blank" rel="noopener" href="http://momentjs.com/timezone/docs/">http://momentjs.com/timezone/docs/</a></p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install moment-timezone --save</span><br></pre></td></tr></table></figure>
-
 <p>数据库中存储的时间戳是UTC时区的，在前端转换为浏览器中的local时区只需要用tz这方法</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment.tz.(timeString, timezoneString)</span><br></pre></td></tr></table></figure>
-
 <p>我的例子:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment.tz(timeString, <span class="string">'UTC'</span>).local().format(<span class="string">'MMMM Do YYYY, h:mm:ss a'</span>)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment.tz(timeString, <span class="string">&#x27;UTC&#x27;</span>).local().format(<span class="string">&#x27;MMMM Do YYYY, h:mm:ss a&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p>在读这个小书，发现写的不错，有不会的概念去Google学清楚就好了。</p>
 <blockquote>
-<p>ref: <a href="https://www.openmymind.net/2012/1/23/The-Little-Redis-Book" target="_blank" rel="noopener">https://www.openmymind.net/2012/1/23/The-Little-Redis-Book</a></p>
+<p>ref: <a target="_blank" rel="noopener" href="https://www.openmymind.net/2012/1/23/The-Little-Redis-Book">https://www.openmymind.net/2012/1/23/The-Little-Redis-Book</a></p>
 </blockquote>
 <h2 id="vue-socket-io-authentication-with-flask-socket-io"><a href="#vue-socket-io-authentication-with-flask-socket-io" class="headerlink" title="vue-socket.io authentication with flask-socket.io"></a><code>vue-socket.io</code> authentication with <code>flask-socket.io</code></h2><blockquote>
 <p>flask-login flask-socket.io vue-socket.io 登录鉴权的实现</p>
 </blockquote>
 <p>虽然server端实现了简单地<code>RESTful API</code>，用来为之后增加<code>cli-client</code>方便，我依然决定不通过 <code>http request</code>，使用<code>flask-login</code> 管理服务端状态，它把login信息记录在<code>flask-socketio</code>的<code>session</code>之中了。</p>
 <h3 id="注意-需要给出-load-user-的定义"><a href="#注意-需要给出-load-user-的定义" class="headerlink" title="注意: 需要给出 load_user 的定义"></a>注意: 需要给出 <code>load_user</code> 的定义</h3><p>否则，会有如下异常:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    <span class="string">"No user_loader has been installed for this "</span></span><br><span class="line">Exception: No user_loader has been installed <span class="keyword">for</span> this LoginManager. Refer tohttps://flask-login.readthedocs.io/en/latest/<span class="comment">#how-it-works for more info.</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    <span class="string">&quot;No user_loader has been installed for this &quot;</span></span><br><span class="line">Exception: No user_loader has been installed <span class="keyword">for</span> this LoginManager. Refer tohttps://flask-login.readthedocs.io/en/latest/<span class="comment">#how-it-works for more info.</span></span><br></pre></td></tr></table></figure>
 <p>实现的例子如下，另外还参考<code>flask-scoket.io</code> 官方文档糖一下 <code>authenticated_only</code> 这个装饰器，真香。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">    @login.user_loader</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_user</span><span class="params">(user_id)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> models.Users.query.filter_by(id=user_id).first()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticated_only</span><span class="params">(f)</span>:</span></span><br><span class="line"><span class="meta">        @functools.wraps(f)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> current_user.is_authenticated:</span><br><span class="line">                disconnect()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> f(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapped</span><br><span class="line">...</span><br><span class="line"><span class="meta">    @socketio.on('login user')</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_usr</span><span class="params">(loginData)</span>:</span></span><br><span class="line">        name, passwd = loginData[<span class="string">'username'</span>], loginData[<span class="string">'passwd'</span>]</span><br><span class="line">        user = models.Users.query.filter_by(name=name).first()</span><br><span class="line">        <span class="keyword">if</span> user <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="keyword">not</span> user.check_password(passwd):</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">False</span>,</span><br><span class="line">                <span class="string">"alert_type"</span>: <span class="string">"error"</span>,</span><br><span class="line">                <span class="string">"alert_msg"</span>: <span class="string">"User not exist or invalid used password!"</span></span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            login_user(user)</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">"success"</span>: <span class="literal">True</span>,</span><br><span class="line">                <span class="string">"user"</span>: name</span><br><span class="line">                &#125;</span><br><span class="line">        emit(<span class="string">'loginResponse'</span>, json.dumps(response))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># socketio server handle events as below</span></span><br><span class="line"><span class="meta">    @socketio.on('update resource')</span></span><br><span class="line"><span class="meta">    @authenticated_only</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_resource_server</span><span class="params">(res)</span>:</span></span><br><span class="line">        updated_res = modify_resource(app.config, res)</span><br><span class="line">        emit(<span class="string">'updateResource'</span>, updated_res, broadcast=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">    @login.user_loader</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_user</span>(<span class="params">user_id</span>):</span></span><br><span class="line">        <span class="keyword">return</span> models.Users.query.filter_by(<span class="built_in">id</span>=user_id).first()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticated_only</span>(<span class="params">f</span>):</span></span><br><span class="line"><span class="meta">        @functools.wraps(<span class="params">f</span>)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> current_user.is_authenticated:</span><br><span class="line">                disconnect()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> f(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapped</span><br><span class="line">...</span><br><span class="line"><span class="meta">    @socketio.on(<span class="params"><span class="string">&#x27;login user&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_usr</span>(<span class="params">loginData</span>):</span></span><br><span class="line">        name, passwd = loginData[<span class="string">&#x27;username&#x27;</span>], loginData[<span class="string">&#x27;passwd&#x27;</span>]</span><br><span class="line">        user = models.Users.query.filter_by(name=name).first()</span><br><span class="line">        <span class="keyword">if</span> user <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="keyword">not</span> user.check_password(passwd):</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">&quot;success&quot;</span>: <span class="literal">False</span>,</span><br><span class="line">                <span class="string">&quot;alert_type&quot;</span>: <span class="string">&quot;error&quot;</span>,</span><br><span class="line">                <span class="string">&quot;alert_msg&quot;</span>: <span class="string">&quot;User not exist or invalid used password!&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            login_user(user)</span><br><span class="line">            response = &#123;</span><br><span class="line">                <span class="string">&quot;success&quot;</span>: <span class="literal">True</span>,</span><br><span class="line">                <span class="string">&quot;user&quot;</span>: name</span><br><span class="line">                &#125;</span><br><span class="line">        emit(<span class="string">&#x27;loginResponse&#x27;</span>, json.dumps(response))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># socketio server handle events as below</span></span><br><span class="line"><span class="meta">    @socketio.on(<span class="params"><span class="string">&#x27;update resource&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">    @authenticated_only</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_resource_server</span>(<span class="params">res</span>):</span></span><br><span class="line">        updated_res = modify_resource(app.config, res)</span><br><span class="line">        emit(<span class="string">&#x27;updateResource&#x27;</span>, updated_res, broadcast=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 
 
 <h3 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h3><p><code>vuex</code>之中记录一个登录状态以供前端反应到view之中，<code>click</code>登录触发<code>socket.io</code> 调用，<code>flask-socket.io</code> server接收登录信息，验证，通过<code>socket.io</code> 调用返回login response，<code>vue-socket.io</code> 在vuex之中的 action hook 触发变化，<code>mutation</code> 去更新<code>login</code>状态，或者发送失败 alert。</p>
-<h3 id="Vue-socket-io-amp-Vuex-例子"><a href="#Vue-socket-io-amp-Vuex-例子" class="headerlink" title="Vue-socket.io &amp; Vuex 例子"></a><code>Vue-socket.io</code> &amp; <code>Vuex</code> 例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    resources: [],</span><br><span class="line">    loading: <span class="literal">false</span>,</span><br><span class="line">    histories: &#123;&#125;,</span><br><span class="line">    loginInfo: &#123;</span><br><span class="line">      loggedIn: <span class="literal">false</span>,</span><br><span class="line">      userName: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    login (state, response) &#123;</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'loggedIn'</span>, response.success)</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">'userName'</span>, response.user)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    SOCKET_loginResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_loginResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">if</span> (resp.success === <span class="literal">true</span>) &#123;</span><br><span class="line">        commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    SOCKET_registerResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'[DEBUG] SOCKET_registerResponse:\n\t'</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      commit(<span class="string">'login'</span>, resp)</span><br><span class="line">      commit(<span class="string">'alerting'</span>, data)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
+<h3 id="Vue-socket-io-amp-Vuex-例子"><a href="#Vue-socket-io-amp-Vuex-例子" class="headerlink" title="Vue-socket.io &amp; Vuex 例子"></a><code>Vue-socket.io</code> &amp; <code>Vuex</code> 例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    resources: [],</span><br><span class="line">    loading: <span class="literal">false</span>,</span><br><span class="line">    histories: &#123;&#125;,</span><br><span class="line">    loginInfo: &#123;</span><br><span class="line">      loggedIn: <span class="literal">false</span>,</span><br><span class="line">      userName: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    login (state, response) &#123;</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">&#x27;loggedIn&#x27;</span>, response.success)</span><br><span class="line">      Vue.set(state.loginInfo, <span class="string">&#x27;userName&#x27;</span>, response.user)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    SOCKET_loginResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;[DEBUG] SOCKET_loginResponse:\n\t&#x27;</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">if</span> (resp.success === <span class="literal">true</span>) &#123;</span><br><span class="line">        commit(<span class="string">&#x27;login&#x27;</span>, resp)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        commit(<span class="string">&#x27;alerting&#x27;</span>, data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    SOCKET_registerResponse ( &#123;commit&#125;, response) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;[DEBUG] SOCKET_registerResponse:\n\t&#x27;</span> + response)</span><br><span class="line">      <span class="keyword">let</span> resp = <span class="built_in">JSON</span>.parse(response)</span><br><span class="line">      <span class="keyword">let</span> data = &#123;</span><br><span class="line">          type: resp.alert_type,</span><br><span class="line">          msg: resp.alert_msg,</span><br><span class="line">          dismissed: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      commit(<span class="string">&#x27;login&#x27;</span>, resp)</span><br><span class="line">      commit(<span class="string">&#x27;alerting&#x27;</span>, data)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 
 
 <h2 id="Post-build-hook-for-npm-build"><a href="#Post-build-hook-for-npm-build" class="headerlink" title="Post build hook for npm build"></a>Post build hook for <code>npm build</code></h2><p>因为要替换一下Google字体cdn到国内friendly的地方，我修改了 <code>package.json</code>中的 <code>postbuild</code>这个hook，来做cdn 的FQDN替换。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "serve": "vue-cli-service serve",</span><br><span class="line">  "build": "vue-cli-service build",</span><br><span class="line">  "postbuild": "./postbuild.sh",</span><br><span class="line">  "lint": "vue-cli-service lint"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;serve&quot;: &quot;vue-cli-service serve&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;vue-cli-service build&quot;,</span><br><span class="line">  &quot;postbuild&quot;: &quot;./postbuild.sh&quot;,</span><br><span class="line">  &quot;lint&quot;: &quot;vue-cli-service lint&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
 
 <blockquote>
 <p>updated on 2021 Jan: 这个项目已经运行了快一整年了，因为一直稳定运行，也没有新的需求，就没抽出时间来迭代 :-P，这里放一个实际跑起来的 demo 视频:</p>
 </blockquote>
 <p><video src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/resource_board_demo.mp4" controls='controls' width='100%' height='100%'></video></p>
+<blockquote>
+<p>And some screenshots here :-)</p>
+</blockquote>
+<p>Board Portal Page:</p>
+<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_0.png" class="">
+
+<p>Resource History Page:</p>
+<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_1.png" class="">
+
+<p>Resource Edit Card:</p>
+<img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/screen_shot_2.png" class="">
+
 
     </div>
 
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>Post author:  </strong>Wey Gu | 古思为
+      <strong>Post author:  </strong>Wey Gu | 古思为
   </li>
   <li class="post-copyright-link">
-    <strong>Post link: </strong>
-    <a href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" title="Project Resource Board: a scalable webapp with Flask socketio and Vue.js">https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</a>
+      <strong>Post link: </strong>
+      <a href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" title="Project Resource Board: a scalable webapp with Flask socketio and Vue.js">https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -615,8 +582,6 @@
 </ul>
 </div>
 
-
-      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/fullstack/" rel="tag"># fullstack</a>
               <a href="/tags/flask/" rel="tag"># flask</a>
@@ -627,30 +592,28 @@
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/notes-after-creating-a-fuel-plugin/" rel="prev" title="notes after creating a fuel plugin">
-      <i class="fa fa-chevron-left"></i> notes after creating a fuel plugin
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/jupyter-notes/" rel="next" title="jupyter pyenv and virtualenv in macOS">
-      jupyter pyenv and virtualenv in macOS <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/notes-after-creating-a-fuel-plugin/" rel="prev" title="notes after creating a fuel plugin">
+                  <i class="fa fa-chevron-left"></i> notes after creating a fuel plugin
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/nova-scheduling-study-on-making-it-smart-by-machine-learning/" rel="next" title="nova scheduling study on making it smart by machine learning">
+                  nova scheduling study on making it smart by machine learning <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-  
-  
-  
+</div>
 
 
 
-        </div>
-        
-    <div class="comments" id="gitalk-container"></div>
+
+
+
+    <div class="comments gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -659,7 +622,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -668,23 +631,19 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+</div>
+  </main>
 
-      </div>
-    </main>
+  <footer class="footer">
+    <div class="footer-inner">
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -695,80 +654,52 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-  
-
-
-
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 <script src="/js/local-search.js"></script>
 
 
 
-
-
-
-
-
-
 <script>
-document.querySelectorAll('.pdfobject-container').forEach(element => {
-  let url = element.dataset.target;
-  let pdfOpenParams = {
-    navpanes : 0,
-    toolbar  : 0,
-    statusbar: 0,
-    pagemode : 'thumbs',
-    view     : 'FitH'
-  };
-  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
-  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
-
-  if (NexT.utils.supportsPDFs()) {
-    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
-  } else {
-    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
-  }
-});
+if (document.querySelectorAll('.pdf-container').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2.2.4/pdfobject.min.js', () => {
+    document.querySelectorAll('.pdf-container').forEach(element => {
+      PDFObject.embed(element.dataset.target, element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height   : element.dataset.height
+      });
+    });
+  }, window.PDFObject);
+}
 </script>
 
 
 
-
   
 
-  
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
 
 <script>
-NexT.utils.loadComments('#gitalk-container', () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js', () => {
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
       clientID    : '458d0826a0f8a2a81f82',
       clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
@@ -779,7 +710,7 @@ NexT.utils.loadComments('#gitalk-container', () => {
         language: 'en',
       distractionFreeMode: true
     });
-    gitalk.render('gitalk-container');
+    gitalk.render(document.querySelector('.gitalk-container'));
   }, window.Gitalk);
 });
 </script>

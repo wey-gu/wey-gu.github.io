@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
+  <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="update in 2019 June: I managed to implement it, check here ;-) will write more on how it was done…  This note is my brain dump on getting ideas to do machine learning enabled optimized nova scheduler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nova scheduling study on making it smart by machine learning">
+<meta property="og:url" content="https://note.siwei.info/nova-scheduling-study-on-making-it-smart-by-machine-learning/index.html">
+<meta property="og:site_name" content="Siwei Notes">
+<meta property="og:description" content="update in 2019 June: I managed to implement it, check here ;-) will write more on how it was done…  This note is my brain dump on getting ideas to do machine learning enabled optimized nova scheduler">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-06T06:30:29.000Z">
+<meta property="article:modified_time" content="2019-03-06T06:30:29.000Z">
+<meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="openstack">
+<meta property="article:tag" content="cloud">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="bayesian optimization">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://note.siwei.info/nova-scheduling-study-on-making-it-smart-by-machine-learning/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>nova scheduling study on making it smart by machine learning | Siwei Notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Siwei Notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">思为笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
+        <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
+        <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#How-existing-Weighing-works"><span class="nav-number">1.</span> <span class="nav-text">How existing Weighing works?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Short-version-conclusion"><span class="nav-number">1.1.</span> <span class="nav-text">Short version conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.2.</span> <span class="nav-text">TL;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nova-scheduler-host-manager-py"><span class="nav-number">1.2.1.</span> <span class="nav-text">nova&#x2F;scheduler&#x2F;host_manager.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nova-conf-scheduler-py"><span class="nav-number">1.2.2.</span> <span class="nav-text">nova&#x2F;conf&#x2F;scheduler.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#existing-weighers"><span class="nav-number">1.2.3.</span> <span class="nav-text">existing weighers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nova-weights-py"><span class="nav-number">1.2.4.</span> <span class="nav-text">nova&#x2F;weights.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nova-scheduler-weights-metrics"><span class="nav-number">1.2.5.</span> <span class="nav-text">nova.scheduler.weights.metrics</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-What-we-could-do-something-here"><span class="nav-number">2.</span> <span class="nav-text">How&#x2F;What we could do something here?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Idea-one-tune-existing-weigher%E2%80%99s-mult-opt-or-weight-setting"><span class="nav-number">2.1.</span> <span class="nav-text">Idea one, tune existing weigher’s mult_opt or weight_setting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Idea-two-introduce-new-dynamic-weigher-based-on-online-learning"><span class="nav-number">2.2.</span> <span class="nav-text">Idea two, introduce new dynamic weigher based on online learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Find-a-working-model"><span class="nav-number">2.2.1.</span> <span class="nav-text">Find a working model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-edge-case-on-Massive-concurent-VM-VNF-instantiations"><span class="nav-number">2.2.2.</span> <span class="nav-text">Define edge case on Massive concurent VM&#x2F;VNF instantiations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defination-edge-case"><span class="nav-number">2.2.3.</span> <span class="nav-text">Defination edge case</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Massive-concurent-VM-VNF-instantiations"><span class="nav-number">2.2.4.</span> <span class="nav-text">Massive concurent VM&#x2F;VNF instantiations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redesign-on-nova"><span class="nav-number">2.2.5.</span> <span class="nav-text">Redesign on nova</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Envrionment-Requirement"><span class="nav-number">2.2.6.</span> <span class="nav-text">Envrionment Requirement</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bayesian-optimization"><span class="nav-number">3.</span> <span class="nav-text">Bayesian optimization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GPyOpt"><span class="nav-number">3.1.</span> <span class="nav-text">GPyOpt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refs"><span class="nav-number">3.2.</span> <span class="nav-text">Refs</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
+      src="/images/wey_pixel_tinified.png">
+  <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
+  <div class="site-description" itemprop="description">I build things</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:weyl.gu@gmail.com" title="E-Mail → mailto:weyl.gu@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/siweigu" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;siweigu" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wey_gu" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wey_gu" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/Weyl.GU" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;Weyl.GU" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/nova-scheduling-study-on-making-it-smart-by-machine-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="I build things">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nova scheduling study on making it smart by machine learning
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-03-06 14:30:29" itemprop="dateCreated datePublished" datetime="2019-03-06T14:30:29+08:00">2019-03-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>update in 2019 June: I managed to implement it, check <a target="_blank" rel="noopener" href="https://github.com/wey-gu/AutoOptCloud">here</a> ;-) will write more on how it was done…</p>
+</blockquote>
+<p>This note is my brain dump on getting ideas to do machine learning enabled optimized nova scheduler weighing.</p>
+<h1 id="How-existing-Weighing-works"><a href="#How-existing-Weighing-works" class="headerlink" title="How existing Weighing works?"></a>How existing Weighing works?</h1><h2 id="Short-version-conclusion"><a href="#Short-version-conclusion" class="headerlink" title="Short version conclusion"></a>Short version conclusion</h2><p>By default, it simply weighted all existing weighers with weighing factor 1.0.</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><blockquote>
+<p>see ref first : <a target="_blank" rel="noopener" href="https://www.slideshare.net/guptapeeyush1/presentation1-23249150">https://www.slideshare.net/guptapeeyush1/presentation1-23249150</a></p>
+</blockquote>
+<p>The weighing was called by:</p>
+<ul>
+<li><p><code>self.weight_handler.get_weighed_objects(self.weighers)</code> </p>
+<ul>
+<li><p><code>self.weighers </code> comes from <code>CONF.host_mgr_sched_wgt_cls_opt </code></p>
+<ul>
+<li><p>By default it’s all weighers</p>
+<p><code>default=[&quot;nova.scheduler.weights.all_weighers&quot;]</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>get_weighed_objects</code> is doing this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, weight <span class="keyword">in</span> <span class="built_in">enumerate</span>(weights):</span><br><span class="line">    obj = weighed_objs[i]</span><br><span class="line">    obj.weight += weigher.weight_multiplier() * weight</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Below are mentioned subroutines…</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="nova-scheduler-host-manager-py"><a href="#nova-scheduler-host-manager-py" class="headerlink" title="nova/scheduler/host_manager.py"></a><code>nova/scheduler/host_manager.py</code></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HostManager</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Base HostManager class.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Can be overridden in a subclass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">host_state_cls</span>(<span class="params">self, host, node, **kwargs</span>):</span></span><br><span class="line">        <span class="keyword">return</span> HostState(host, node)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.host_state_map = &#123;&#125;</span><br><span class="line">        self.filter_handler = filters.HostFilterHandler()</span><br><span class="line">        filter_classes = self.filter_handler.get_matching_classes(</span><br><span class="line">                CONF.scheduler_available_filters)</span><br><span class="line">        self.filter_cls_map = &#123;cls.__name__: cls <span class="keyword">for</span> cls <span class="keyword">in</span> filter_classes&#125;</span><br><span class="line">        self.filter_obj_map = &#123;&#125;</span><br><span class="line">        self.default_filters = self._choose_host_filters(self._load_filters())</span><br><span class="line">        self.weight_handler = weights.HostWeightHandler()              &lt;--------- </span><br><span class="line">        weigher_classes = self.weight_handler.get_matching_classes(</span><br><span class="line">                CONF.scheduler_weight_classes)</span><br><span class="line">        self.weighers = [cls() <span class="keyword">for</span> cls <span class="keyword">in</span> weigher_classes]             &lt;--------- </span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_weighed_hosts</span>(<span class="params">self, hosts, spec_obj</span>):</span>                      &lt;---------</span><br><span class="line">        <span class="string">&quot;&quot;&quot;Weigh the hosts.&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self.weight_handler.get_weighed_objects(self.weighers,</span><br><span class="line">                hosts, spec_obj)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="nova-conf-scheduler-py"><a href="#nova-conf-scheduler-py" class="headerlink" title="nova/conf/scheduler.py"></a><code>nova/conf/scheduler.py</code></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">host_mgr_sched_wgt_cls_opt = cfg.ListOpt(<span class="string">&quot;scheduler_weight_classes&quot;</span>,</span><br><span class="line">        default=[<span class="string">&quot;nova.scheduler.weights.all_weighers&quot;</span>],</span><br><span class="line">        <span class="built_in">help</span>=<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">This is a list of weigher class names. Only hosts which pass the filters are</span></span><br><span class="line"><span class="string">weighed. The weight for any host starts at 0, and the weighers order these</span></span><br><span class="line"><span class="string">hosts by adding to or subtracting from the weight assigned by the previous</span></span><br><span class="line"><span class="string">weigher. Weights may become negative.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">An instance will be scheduled to one of the N most-weighted hosts, where N is</span></span><br><span class="line"><span class="string">&#x27;scheduler_host_subset_size&#x27;.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">By default, this is set to all weighers that are included with Nova. If you</span></span><br><span class="line"><span class="string">wish to change this, replace this with a list of strings, where each element is</span></span><br><span class="line"><span class="string">the path to a weigher.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">This option is only used by the FilterScheduler and its subclasses; if you use</span></span><br><span class="line"><span class="string">a different scheduler, this option has no effect.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* Services that use this:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ``nova-scheduler``</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* Related options:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    None</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"></span><br><span class="line">io_ops_weight_mult_opt = cfg.FloatOpt(<span class="string">&quot;io_ops_weight_multiplier&quot;</span>,</span><br><span class="line">        default=-<span class="number">1.0</span>,</span><br><span class="line">        <span class="built_in">help</span>=<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">This option determines how hosts with differing workloads are weighed. Negative</span></span><br><span class="line"><span class="string">values, such as the default, will result in the scheduler preferring hosts with</span></span><br><span class="line"><span class="string">lighter workloads whereas positive values will prefer hosts with heavier</span></span><br><span class="line"><span class="string">workloads. Another way to look at it is that positive values for this option</span></span><br><span class="line"><span class="string">will tend to schedule instances onto hosts that are already busy, while</span></span><br><span class="line"><span class="string">negative values will tend to distribute the workload across more hosts. The</span></span><br><span class="line"><span class="string">absolute value, whether positive or negative, controls how strong the io_ops</span></span><br><span class="line"><span class="string">weigher is relative to other weighers.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">This option is only used by the FilterScheduler and its subclasses; if you use</span></span><br><span class="line"><span class="string">a different scheduler, this option has no effect. Also note that this setting</span></span><br><span class="line"><span class="string">only affects scheduling if the &#x27;io_ops&#x27; weigher is enabled.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Valid values are numeric, either integer or float.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* Services that use this:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ``nova-scheduler``</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* Related options:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    None</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>We could get all <code>weight_mult_opt</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ grep _multiplier  nova/conf/scheduler.py  -A3 -B3 | grep _opts</span><br><span class="line">ram_weight_mult_opt = cfg.FloatOpt(<span class="string">&quot;ram_weight_multiplier&quot;</span>,</span><br><span class="line"></span><br><span class="line">disk_weight_mult_opt = cfg.FloatOpt(<span class="string">&quot;disk_weight_multiplier&quot;</span>,</span><br><span class="line"></span><br><span class="line">io_ops_weight_mult_opt = cfg.FloatOpt(<span class="string">&quot;io_ops_weight_multiplier&quot;</span>,</span><br><span class="line"></span><br><span class="line">metrics_weight_opts = [</span><br><span class="line">     cfg.FloatOpt(<span class="string">&quot;weight_multiplier&quot;</span>,</span><br><span class="line">     default=1.0,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>And in <code>metrics_weight_opts</code> , check below:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cpu.user.percent</span><br><span class="line">cpu.user.time</span><br><span class="line">cpu.iowait.percent</span><br><span class="line">cpu.iowait.time</span><br><span class="line">cpu.frequency</span><br><span class="line">cpu.idle.percent</span><br><span class="line">cpu.idle.time</span><br><span class="line">cpu.percent</span><br><span class="line">cpu.kernel.time</span><br><span class="line">cpu.kernel.percent</span><br></pre></td></tr></table></figure>
+<p>example of a conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[metrics]</span><br><span class="line">weight_multiplier = -0.1</span><br><span class="line">weight_setting = cpu.iowait.percent=-1.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="existing-weighers"><a href="#existing-weighers" class="headerlink" title="existing weighers"></a>existing weighers</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">~/openstack/nova/nova/scheduler</span><br><span class="line">❯ tree weights</span><br><span class="line">weights</span><br><span class="line">├── __init__.py</span><br><span class="line">├── affinity.py</span><br><span class="line">├── cpu.py</span><br><span class="line">├── disk.py</span><br><span class="line">├── io_ops.py</span><br><span class="line">├── metrics.py</span><br><span class="line">└── ram.py</span><br></pre></td></tr></table></figure>
+<h3 id="nova-weights-py"><a href="#nova-weights-py" class="headerlink" title="nova/weights.py"></a><code>nova/weights.py</code></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Copyright (c) 2011-2012 OpenStack Foundation</span></span><br><span class="line"><span class="comment"># All Rights Reserved.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may</span></span><br><span class="line"><span class="comment">#    not use this file except in compliance with the License. You may obtain</span></span><br><span class="line"><span class="comment">#    a copy of the License at</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#         http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">#    distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT</span></span><br><span class="line"><span class="comment">#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the</span></span><br><span class="line"><span class="comment">#    License for the specific language governing permissions and limitations</span></span><br><span class="line"><span class="comment">#    under the License.</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Pluggable Weighing support</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"><span class="keyword">import</span> six</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> nova <span class="keyword">import</span> loadables</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normalize</span>(<span class="params">weight_list, minval=<span class="literal">None</span>, maxval=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Normalize the values in a list between 0 and 1.0.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    The normalization is made regarding the lower and upper values present in</span></span><br><span class="line"><span class="string">    weight_list. If the minval and/or maxval parameters are set, these values</span></span><br><span class="line"><span class="string">    will be used instead of the minimum and maximum from the list.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    If all the values are equal, they are normalized to 0.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> weight_list:</span><br><span class="line">        <span class="keyword">return</span> ()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> maxval <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        maxval = <span class="built_in">max</span>(weight_list)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> minval <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        minval = <span class="built_in">min</span>(weight_list)</span><br><span class="line"></span><br><span class="line">    maxval = <span class="built_in">float</span>(maxval)</span><br><span class="line">    minval = <span class="built_in">float</span>(minval)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> minval == maxval:</span><br><span class="line">        <span class="keyword">return</span> [<span class="number">0</span>] * <span class="built_in">len</span>(weight_list)</span><br><span class="line"></span><br><span class="line">    range_ = maxval - minval</span><br><span class="line">    <span class="keyword">return</span> ((i - minval) / range_ <span class="keyword">for</span> i <span class="keyword">in</span> weight_list)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeighedObject</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Object with weight information.&quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, obj, weight</span>):</span></span><br><span class="line">        self.obj = obj</span><br><span class="line">        self.weight = weight</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&lt;WeighedObject &#x27;%s&#x27;: %s&gt;&quot;</span> % (self.obj, self.weight)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@six.add_metaclass(<span class="params">abc.ABCMeta</span>)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseWeigher</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Base class for pluggable weighers.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    The attributes maxval and minval can be specified to set up the maximum</span></span><br><span class="line"><span class="string">    and minimum values for the weighed objects. These values will then be</span></span><br><span class="line"><span class="string">    taken into account in the normalization step, instead of taking the values</span></span><br><span class="line"><span class="string">    from the calculated weights.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    minval = <span class="literal">None</span></span><br><span class="line">    maxval = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">weight_multiplier</span>(<span class="params">self</span>):</span>                               &lt;-------- weight <span class="keyword">for</span> weigher factor</span><br><span class="line">        <span class="string">&quot;&quot;&quot;How weighted this weigher should be.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Override this method in a subclass, so that the returned value is</span></span><br><span class="line"><span class="string">        read from a configuration option to permit operators specify a</span></span><br><span class="line"><span class="string">        multiplier for the weigher.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_weigh_object</span>(<span class="params">self, obj, weight_properties</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Weigh an specific object.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">weigh_objects</span>(<span class="params">self, weighed_obj_list, weight_properties</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Weigh multiple objects.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Override in a subclass if you need access to all objects in order</span></span><br><span class="line"><span class="string">        to calculate weights. Do not modify the weight of an object here,</span></span><br><span class="line"><span class="string">        just return a list of weights.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># Calculate the weights</span></span><br><span class="line">        weights = []</span><br><span class="line">        <span class="keyword">for</span> obj <span class="keyword">in</span> weighed_obj_list:</span><br><span class="line">            weight = self._weigh_object(obj.obj, weight_properties)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Record the min and max values if they are None. If they anything</span></span><br><span class="line">            <span class="comment"># but none we assume that the weigher has set them</span></span><br><span class="line">            <span class="keyword">if</span> self.minval <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                self.minval = weight</span><br><span class="line">            <span class="keyword">if</span> self.maxval <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                self.maxval = weight</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> weight &lt; self.minval:</span><br><span class="line">                self.minval = weight</span><br><span class="line">            <span class="keyword">elif</span> weight &gt; self.maxval:</span><br><span class="line">                self.maxval = weight</span><br><span class="line"></span><br><span class="line">            weights.append(weight)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> weights</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseWeightHandler</span>(<span class="params">loadables.BaseLoader</span>):</span></span><br><span class="line">    object_class = WeighedObject</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_weighed_objects</span>(<span class="params">self, weighers, obj_list, weighing_properties</span>):</span>  &lt;-------</span><br><span class="line">        <span class="string">&quot;&quot;&quot;Return a sorted (descending), normalized list of WeighedObjects.&quot;&quot;&quot;</span></span><br><span class="line">        weighed_objs = [self.object_class(obj, <span class="number">0.0</span>) <span class="keyword">for</span> obj <span class="keyword">in</span> obj_list]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(weighed_objs) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> weighed_objs</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> weigher <span class="keyword">in</span> weighers:</span><br><span class="line">            weights = weigher.weigh_objects(weighed_objs, weighing_properties)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Normalize the weights</span></span><br><span class="line">            weights = normalize(weights,</span><br><span class="line">                                minval=weigher.minval,</span><br><span class="line">                                maxval=weigher.maxval)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> i, weight <span class="keyword">in</span> <span class="built_in">enumerate</span>(weights):</span><br><span class="line">                obj = weighed_objs[i]</span><br><span class="line">                obj.weight += weigher.weight_multiplier() * weight          &lt;--------- caculation</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sorted</span>(weighed_objs, key=<span class="keyword">lambda</span> x: x.weight, reverse=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="nova-scheduler-weights-metrics"><a href="#nova-scheduler-weights-metrics" class="headerlink" title="nova.scheduler.weights.metrics"></a><code>nova.scheduler.weights.metrics</code></h3><blockquote>
+<p>ref:</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://01.org/sites/default/files/utilization_based_scheduing_in_openstack_compute_nova.pdf">https://01.org/sites/default/files/utilization_based_scheduing_in_openstack_compute_nova.pdf</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.openstack.org/nova/mitaka/api/nova.scheduler.weights.metrics.html">https://docs.openstack.org/nova/mitaka/api/nova.scheduler.weights.metrics.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blueprints.launchpad.net/nova/+spec/utilization-aware-scheduling">https://blueprints.launchpad.net/nova/+spec/utilization-aware-scheduling</a></p>
+</li>
+</ul>
+</blockquote>
+<p>weight_setting in  <code>nova/conf/scheduler.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">     cfg.ListOpt(<span class="string">&quot;weight_setting&quot;</span>,</span><br><span class="line">            default=[],</span><br><span class="line">            <span class="built_in">help</span>=<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">This setting specifies the metrics to be weighed and the relative ratios for</span></span><br><span class="line"><span class="string">each metric. This should be a single string value, consisting of a series of</span></span><br><span class="line"><span class="string">one or more &#x27;name=ratio&#x27; pairs, separated by commas, where &#x27;name&#x27; is the name</span></span><br><span class="line"><span class="string">of the metric to be weighed, and &#x27;ratio&#x27; is the relative weight for that</span></span><br><span class="line"><span class="string">metric.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Note that if the ratio is set to 0, the metric value is ignored, and instead</span></span><br><span class="line"><span class="string">the weight will be set to the value of the &#x27;weight_of_unavailable&#x27; option.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">As an example, let&#x27;s consider the case where this option is set to:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ``name1=1.0, name2=-1.3``</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The final weight will be:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ``(name1.value * 1.0) + (name2.value * -1.3)``</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">This option is only used by the FilterScheduler and its subclasses; if you use</span></span><br><span class="line"><span class="string">a different scheduler, this option has no effect.</span></span><br></pre></td></tr></table></figure>
+<p>Existing monitors in Mitaka, only cpu related</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">openstack/nova/nova/compute/monitors </span><br><span class="line">❯ tree</span><br><span class="line">.</span><br><span class="line">├── __init__.py</span><br><span class="line">├── base.py</span><br><span class="line">└── cpu</span><br><span class="line">    ├── __init__.py</span><br><span class="line">    └── virt_driver.py</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="How-What-we-could-do-something-here"><a href="#How-What-we-could-do-something-here" class="headerlink" title="How/What we could do something here?"></a>How/What we could do something here?</h1><p>I could come with two possibilities.</p>
+<h2 id="Idea-one-tune-existing-weigher’s-mult-opt-or-weight-setting"><a href="#Idea-one-tune-existing-weigher’s-mult-opt-or-weight-setting" class="headerlink" title="Idea one, tune existing weigher’s mult_opt or weight_setting"></a>Idea one, tune existing weigher’s <code>mult_opt</code> or <code>weight_setting</code></h2><p>The factors are existing weighers, just tune their <code>mult_opt</code> or <code>weight_setting</code> via machine learning. Frankly the default values might not have been properly studied.</p>
+<p>To do that: we need to perform edge case on massive concurent VM/VNF instantiations, define a <code>benchmark</code> to evaluate the “good” result we would like to have. Then to provide optimised tunning on existing weigher’s <code>mult_opt</code> or <code>weight_setting</code>.</p>
+<ul>
+<li><em>The key is to push the envrioment into limit, when, in that edge case, booting time, retry times and succefully rate may not be 100% good</em></li>
+<li><em>The way to colletion data, should be well-considerred</em><ul>
+<li>Could take one typical VNF as input to ensure this can benifit at least in one scenario </li>
+<li>Or, take as more as possible VNFs, which could possibly have result with less bias( meanwhile maybe useless in small scale of data collections)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Idea-two-introduce-new-dynamic-weigher-based-on-online-learning"><a href="#Idea-two-introduce-new-dynamic-weigher-based-on-online-learning" class="headerlink" title="Idea two, introduce new dynamic weigher based on online learning"></a>Idea two, introduce new dynamic weigher based on online learning</h2><p>This work actually is based on same work of idea one, but with two differences:</p>
+<ol>
+<li>Introduce more factors as input for a new weigher to co-exist with legacy ones, do exactly same thing as <code>idea one</code> to tune their weight arguments properly in lab.</li>
+<li>It’s a dynamic weigher , which, let’s call it <code>learning-weigher</code>:<ul>
+<li>This <code>learning-weigher</code> is with <code>arguments</code> percentent in database instead of in CONF as legacy ones do.</li>
+<li>the <code>arguments</code> are being online-learning-updated by a machine learning daemon process.</li>
+</ul>
+</li>
+</ol>
+<h3 id="Find-a-working-model"><a href="#Find-a-working-model" class="headerlink" title="Find a working model"></a>Find a working model</h3><ul>
+<li><input disabled="" type="checkbox"> Time</li>
+<li><input disabled="" type="checkbox"> Resource</li>
+<li><input disabled="" type="checkbox"> Telents # I would like to do this part. ☺</li>
+</ul>
+<h3 id="Define-edge-case-on-Massive-concurent-VM-VNF-instantiations"><a href="#Define-edge-case-on-Massive-concurent-VM-VNF-instantiations" class="headerlink" title="Define edge case on Massive concurent VM/VNF instantiations"></a>Define edge case on Massive concurent VM/VNF instantiations</h3><p>Two pars as below</p>
+<h3 id="Defination-edge-case"><a href="#Defination-edge-case" class="headerlink" title="Defination edge case"></a>Defination edge case</h3><blockquote>
+<p>The case should be designed to lead failures to ensure benchmark valid and of cource targeting to be like real work case/cases</p>
+<p>Need domain knowledge and experiences from multi parties ☺</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> Time</li>
+<li><input disabled="" type="checkbox"> Resource</li>
+<li><input disabled="" type="checkbox"> Telents # I would like to do this part. ☺</li>
+</ul>
+<h3 id="Massive-concurent-VM-VNF-instantiations"><a href="#Massive-concurent-VM-VNF-instantiations" class="headerlink" title="Massive concurent VM/VNF instantiations"></a>Massive concurent VM/VNF instantiations</h3><blockquote>
+<p>need hardware and supports, and ton of executuions for collecting data after being setup</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> Time</li>
+<li><input disabled="" type="checkbox"> Resource</li>
+<li><input disabled="" type="checkbox"> Telents # I have to do this part. ☺</li>
+</ul>
+<h3 id="Redesign-on-nova"><a href="#Redesign-on-nova" class="headerlink" title="Redesign on nova"></a>Redesign on nova</h3><blockquote>
+<p>For idea 2, this is needed and I can do this part  ☺</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> Time</li>
+<li><input disabled="" type="checkbox"> Resource</li>
+<li><input disabled="" type="checkbox"> Telents # low priority :(</li>
+</ul>
+<h3 id="Envrionment-Requirement"><a href="#Envrionment-Requirement" class="headerlink" title="Envrionment Requirement"></a>Envrionment Requirement</h3><ul>
+<li>A Cloud Infra allowing CPU over commitment(non-dedicated) workloads</li>
+</ul>
+<h1 id="Bayesian-optimization"><a href="#Bayesian-optimization" class="headerlink" title="Bayesian optimization"></a>Bayesian optimization</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://research.fb.com/">https://research.fb.com/</a> <a target="_blank" rel="noopener" href="https://research.fb.com/efficient-tuning-of-online-systems-using-bayesian-optimization/">efficient tuning of online systems using bayesian optimization</a></li>
+<li><a target="_blank" rel="noopener" href="http://xueshu.baidu.com/s?wd=paperuri:(79271906041a43713ec5e0df2afa73ef)&filter=sc_long_sign&sc_ks_para=q=Taking%20the%20Human%20Out%20of%20the%20Loop:%20A%20Review%20of%20Bayesian%20Optimization&sc_us=9376991681395462206&tn=SE_baiduxueshu_c1gjeupa&ie=utf-8">Taking the Human Out of the Loop: A Review of Bayesian Optimization</a></li>
+</ul>
+<h2 id="GPyOpt"><a href="#GPyOpt" class="headerlink" title="GPyOpt"></a>GPyOpt</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://nbviewer.jupyter.org/github/SheffieldML/GPyOpt/blob/master/manual/index.ipynb">https://nbviewer.jupyter.org/github/SheffieldML/GPyOpt/blob/master/manual/index.ipynb</a></li>
+</ul>
+<h2 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h2><ul>
+<li>local and global optimization <a target="_blank" rel="noopener" href="https://web.maths.unsw.edu.au/~rsw/lgopt.pdf">https://web.maths.unsw.edu.au/~rsw/lgopt.pdf</a></li>
+<li>EI(expected improvement) originally comes from:  <a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1023/A:1008306431147">Jones, D. R., Schonlau, M., and Welch, W. J. (1998)</a>. “Efficient Global Optimization of Expensive Black-Box Functions.” Journal of Global Optimization, 13: 455–492. MR1673460.</li>
+<li>Rasmussen, Carl Edward and Williams, Christopher K. I. Gaussian processes for machine learning. Adaptive computation and machine learning. MIT Press, Cambridge, Mass, 2006. ISBN 978-0-262-18253-9. URL <a target="_blank" rel="noopener" href="http://www.gaussianprocess.org/gpml/chapters/RW.pdf">http://www.gaussianprocess.org/gpml/chapters/RW.pdf</a>. OCLC: ocm61285753.</li>
+<li>Optimization, fast and slow: optimally switching between local and Bayesian optimization <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1805.08610.pdf">https://arxiv.org/pdf/1805.08610.pdf</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://note.siwei.info/nova-scheduling-study-on-making-it-smart-by-machine-learning/" title="nova scheduling study on making it smart by machine learning">https://note.siwei.info/nova-scheduling-study-on-making-it-smart-by-machine-learning/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/openstack/" rel="tag"># openstack</a>
+              <a href="/tags/cloud/" rel="tag"># cloud</a>
+              <a href="/tags/machine-learning/" rel="tag"># machine learning</a>
+              <a href="/tags/bayesian-optimization/" rel="tag"># bayesian optimization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" rel="prev" title="Project Resource Board: a scalable webapp with Flask socketio and Vue.js">
+                  <i class="fa fa-chevron-left"></i> Project Resource Board: a scalable webapp with Flask socketio and Vue.js
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/jupyter-notes/" rel="next" title="jupyter pyenv and virtualenv in macOS">
+                  jupyter pyenv and virtualenv in macOS <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wey Gu | 古思为</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+<script>
+if (document.querySelectorAll('.pdf-container').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2.2.4/pdfobject.min.js', () => {
+    document.querySelectorAll('.pdf-container').forEach(element => {
+      PDFObject.embed(element.dataset.target, element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height   : element.dataset.height
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+  
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '458d0826a0f8a2a81f82',
+      clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
+      repo        : 'wey-gu.github.io',
+      owner       : 'wey-gu',
+      admin       : ['wey-gu'],
+      id          : '9e93f5f3807a18a9ef5e8e7349326d36',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render(document.querySelector('.gitalk-container'));
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

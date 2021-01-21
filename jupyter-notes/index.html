@@ -1,43 +1,45 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
   <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
   <link rel="manifest" href="/images/site.webmanifest">
-  <meta name="msapplication-config" content="/images/browserconfig.xml">
   <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta name="description" content="Conbined with pyenv  virtualenv and Jupyter kernal specification, we could have different versions of project-specific python wrapper as below. This article includes needed information on enabling th">
+<meta name="description" content="Conbined with pyenv  virtualenv and Jupyter kernal specification, we could have different versions of project-specific python wrapper as below. This article includes needed information on enabling th">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jupyter pyenv and virtualenv in macOS">
 <meta property="og:url" content="https://note.siwei.info/jupyter-notes/index.html">
 <meta property="og:site_name" content="Siwei Notes">
 <meta property="og:description" content="Conbined with pyenv  virtualenv and Jupyter kernal specification, we could have different versions of project-specific python wrapper as below. This article includes needed information on enabling th">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-03-27T06:53:50.000Z">
-<meta property="article:modified_time" content="2020-07-06T06:43:00.949Z">
+<meta property="article:modified_time" content="2019-03-27T06:53:50.000Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta property="article:tag" content="jupyter">
 <meta property="article:tag" content="pyenv">
 <meta property="article:tag" content="virtualenv">
 <meta name="twitter:card" content="summary">
+
 
 <link rel="canonical" href="https://note.siwei.info/jupyter-notes/">
 
@@ -51,11 +53,8 @@
     lang   : 'default'
   };
 </script>
-
-  <title>jupyter pyenv and virtualenv in macOS | Siwei Notes</title>
+<title>jupyter pyenv and virtualenv in macOS | Siwei Notes</title>
   
-
-
 
 
 
@@ -97,15 +96,14 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <main class="main">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header-inner"><div class="site-brand-container">
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -132,52 +130,16 @@
 
 
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-résumé">
-
-    <a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a>
-
-  </li>
-        <li class="menu-item menu-item-简历">
-
-    <a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">26</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">12</span></a>
-
-  </li>
-        <li class="menu-item menu-item-commonweal">
-
-    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a>
-
-  </li>
-        <li class="menu-item menu-item-links">
-
-    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
+        <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
+        <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -188,8 +150,7 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
@@ -198,12 +159,12 @@
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
     <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
@@ -212,9 +173,9 @@
   </div>
 
 </div>
-          
+        
   
-  <div class="toggle sidebar-toggle">
+  <div class="toggle sidebar-toggle" role="button">
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
@@ -232,25 +193,26 @@
         </li>
       </ul>
 
-      <!--noindex-->
-      <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pyenv"><span class="nav-number">1.</span> <span class="nav-text">pyenv</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jupyter-IPython-kernel-management"><span class="nav-number">1.1.</span> <span class="nav-text">jupyter&#x2F;IPython kernel management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-calling-latex-failed-on-macOS"><span class="nav-number">1.2.</span> <span class="nav-text">matplotlib calling latex failed on macOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Root-cause"><span class="nav-number">1.2.1.</span> <span class="nav-text">Root cause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minimal-reproducing"><span class="nav-number">1.2.2.</span> <span class="nav-text">Minimal reproducing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fix"><span class="nav-number">1.2.3.</span> <span class="nav-text">Fix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-it"><span class="nav-number">1.2.4.</span> <span class="nav-text">Verify it</span></a></li></ol></li></ol></li></ol></div>
-      </section>
-      <!--/noindex-->
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pyenv"><span class="nav-number">1.</span> <span class="nav-text">pyenv</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jupyter-IPython-kernel-management"><span class="nav-number">1.1.</span> <span class="nav-text">jupyter&#x2F;IPython kernel management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-calling-latex-failed-on-macOS"><span class="nav-number">1.2.</span> <span class="nav-text">matplotlib calling latex failed on macOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Root-cause"><span class="nav-number">1.2.1.</span> <span class="nav-text">Root cause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minimal-reproducing"><span class="nav-number">1.2.2.</span> <span class="nav-text">Minimal reproducing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fix"><span class="nav-number">1.2.3.</span> <span class="nav-text">Fix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-it"><span class="nav-number">1.2.4.</span> <span class="nav-text">Verify it</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
 
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
       src="/images/wey_pixel_tinified.png">
   <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
   <div class="site-description" itemprop="description">I build things</div>
 </div>
-<div class="site-state-wrap animated">
+<div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -263,12 +225,12 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author animated">
+  <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
         <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
@@ -288,41 +250,43 @@
         <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
       </span>
   </div>
-  <div class="cc-license animated" itemprop="license">
+  <div class="cc-license site-overview-item animated" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
 
-      </section>
+        </div>
+      </div>
     </div>
   </aside>
-  <div id="sidebar-dimmer"></div>
+  <div class="sidebar-dimmer"></div>
 
 
-      </header>
+    </header>
 
-      
-  <div class="back-to-top">
+    
+  <div class="back-to-top" role="button">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
 <noscript>
-  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
 
 
-      <div class="main-inner">
-        
+    <div class="main-inner post posts-expand">
 
-        <div class="content post posts-expand">
-          
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
     <link itemprop="mainEntityOfPage" href="https://note.siwei.info/jupyter-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -334,40 +298,33 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Siwei Notes">
     </span>
-
-    
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           jupyter pyenv and virtualenv in macOS
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-27 14:53:50" itemprop="dateCreated datePublished" datetime="2019-03-27T14:53:50+08:00">2019-03-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-06 14:43:00" itemprop="dateModified" datetime="2020-07-06T14:43:00+08:00">2020-07-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/random-notes/" itemprop="url" rel="index"><span itemprop="name">random notes</span></a>
-                </span>
-            </span>
+      <time title="Created: 2019-03-27 14:53:50" itemprop="dateCreated datePublished" datetime="2019-03-27T14:53:50+08:00">2019-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/random-notes/" itemprop="url" rel="index"><span itemprop="name">random notes</span></a>
+        </span>
+    </span>
 
-          
+  
+</div>
 
         </div>
       </header>
@@ -381,52 +338,48 @@
 <p>This article includes needed information on enabling this.</p>
 </blockquote>
 <h1 id="pyenv"><a href="#pyenv" class="headerlink" title="pyenv"></a>pyenv</h1><blockquote>
-<p>ref: <a href="https://github.com/pyenv/pyenv/issues/1219" target="_blank" rel="noopener">https://github.com/pyenv/pyenv/issues/1219</a></p>
+<p>ref: <a target="_blank" rel="noopener" href="https://github.com/pyenv/pyenv/issues/1219">https://github.com/pyenv/pyenv/issues/1219</a></p>
 </blockquote>
 <p><code>zlib not available</code>, one thing to highlight is to enable zlib, we have to do this:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br><span class="line">sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /</span><br></pre></td></tr></table></figure>
-
 <p>Below are things we need to ensure pyenv magically modified our enviroment variables to point specific version of python.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ brew install pyenv</span><br><span class="line">$ <span class="built_in">cd</span> &lt;project_path&gt;</span><br><span class="line">$ pyenv install 3.6.8</span><br><span class="line">$ pyenv <span class="built_in">local</span> 3.6.8</span><br><span class="line">$ pyenv init</span><br><span class="line"><span class="comment"># Load pyenv automatically by appending</span></span><br><span class="line"><span class="comment"># the following to ~/.zshrc:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv init -)</span>"</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/python</span><br><span class="line">$ <span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv init -)</span>"</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/Users/&lt;user&gt;/.pyenv/shims/python</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ brew install pyenv</span><br><span class="line">$ <span class="built_in">cd</span> &lt;project_path&gt;</span><br><span class="line">$ pyenv install 3.6.8</span><br><span class="line">$ pyenv <span class="built_in">local</span> 3.6.8</span><br><span class="line">$ pyenv init</span><br><span class="line"><span class="comment"># Load pyenv automatically by appending</span></span><br><span class="line"><span class="comment"># the following to ~/.zshrc:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(pyenv init -)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/python</span><br><span class="line">$ <span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(pyenv init -)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">which</span> python</span><br><span class="line">/Users/&lt;user&gt;/.pyenv/shims/python</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="jupyter-IPython-kernel-management"><a href="#jupyter-IPython-kernel-management" class="headerlink" title="jupyter/IPython kernel management"></a>jupyter/IPython kernel management</h2><blockquote>
-<p>ref: <a href="https://ipython.readthedocs.io/en/latest/install/kernel_install.html" target="_blank" rel="noopener">https://ipython.readthedocs.io/en/latest/install/kernel_install.html</a></p>
+<p>ref: <a target="_blank" rel="noopener" href="https://ipython.readthedocs.io/en/latest/install/kernel_install.html">https://ipython.readthedocs.io/en/latest/install/kernel_install.html</a></p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br><span class="line"></span><br><span class="line">$ python -m virtualenv py36</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">source</span> py36/bin/activate</span><br><span class="line"></span><br><span class="line">$ pip install ipykernel</span><br><span class="line"></span><br><span class="line">$ python -m ipykernel install --user --name py36 --display-name <span class="string">"ProjectName py36"</span></span><br><span class="line"></span><br><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  py36       /Users/&lt;user&gt;/Library/Jupyter/kernels/py36</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br><span class="line"></span><br><span class="line">$ python -m virtualenv py36</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">source</span> py36/bin/activate</span><br><span class="line"></span><br><span class="line">$ pip install ipykernel</span><br><span class="line"></span><br><span class="line">$ python -m ipykernel install --user --name py36 --display-name <span class="string">&quot;ProjectName py36&quot;</span></span><br><span class="line"></span><br><span class="line">$ jupyter kernelspec list</span><br><span class="line">Available kernels:</span><br><span class="line">  py36       /Users/&lt;user&gt;/Library/Jupyter/kernels/py36</span><br><span class="line">  python3    /usr/<span class="built_in">local</span>/share/jupyter/kernels/python3</span><br></pre></td></tr></table></figure>
 <p>Then, from the jupyter notebook webpage, you could select kernels from <code>Kernel: Change Kernel</code></p>
 <h2 id="matplotlib-calling-latex-failed-on-macOS"><a href="#matplotlib-calling-latex-failed-on-macOS" class="headerlink" title="matplotlib calling latex failed on macOS"></a><code>matplotlib</code> calling <code>latex</code> failed on macOS</h2><blockquote>
 <p>plot call failed due to latex could not be invoked</p>
 </blockquote>
 <h3 id="Root-cause"><a href="#Root-cause" class="headerlink" title="Root cause"></a>Root cause</h3><p>LaTeX was not installed or cannot be called from<code>latex</code></p>
-<h3 id="Minimal-reproducing"><a href="#Minimal-reproducing" class="headerlink" title="Minimal reproducing"></a>Minimal reproducing</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import subprocess; subprocess.check_call(<span class="string">"latex"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># FileNotFoundError: [Errno 2] No such file or directory: 'latex': 'latex'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># or from shell</span></span><br><span class="line"></span><br><span class="line">$ latex</span><br><span class="line"><span class="comment"># latex not found</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="Minimal-reproducing"><a href="#Minimal-reproducing" class="headerlink" title="Minimal reproducing"></a>Minimal reproducing</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import subprocess; subprocess.check_call(<span class="string">&quot;latex&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># FileNotFoundError: [Errno 2] No such file or directory: &#x27;latex&#x27;: &#x27;latex&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># or from shell</span></span><br><span class="line"></span><br><span class="line">$ latex</span><br><span class="line"><span class="comment"># latex not found</span></span><br></pre></td></tr></table></figure>
 <h3 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h3><ul>
 <li>install Tex Live for macOS</li>
 <li>append <code>PATH</code> for <code>/Library/TeX/texbin</code></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://tug.org/cgi-bin/mactex-download/MacTeX.pkg</span><br><span class="line"><span class="comment"># checksum and install MacTeX.pkg</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using zsh</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'export PATH="$PATH:/Library/TeX/texbin"'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using bash</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'export PATH="$PATH:/Library/TeX/texbin"'</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<h3 id="Verify-it"><a href="#Verify-it" class="headerlink" title="Verify it"></a>Verify it</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$PATH</span>:/Library/TeX/texbin"</span></span><br><span class="line">$ latex --version</span><br><span class="line">pdfTeX 3.14159265-2.6-1.40.19 (TeX Live 2018)</span><br><span class="line">kpathsea version 6.3.0</span><br><span class="line">Copyright 2018 Han The Thanh (pdfTeX) et al.</span><br><span class="line">There is NO warranty.  Redistribution of this software is</span><br><span class="line">covered by the terms of both the pdfTeX copyright and</span><br><span class="line">the Lesser GNU General Public License.</span><br><span class="line">For more information about these matters, see the file</span><br><span class="line">named COPYING and the pdfTeX <span class="built_in">source</span>.</span><br><span class="line">Primary author of pdfTeX: Han The Thanh (pdfTeX) et al.</span><br><span class="line">Compiled with libpng 1.6.34; using libpng 1.6.34</span><br><span class="line">Compiled with zlib 1.2.11; using zlib 1.2.11</span><br><span class="line">Compiled with xpdf version 4.00</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://tug.org/cgi-bin/mactex-download/MacTeX.pkg</span><br><span class="line"><span class="comment"># checksum and install MacTeX.pkg</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using zsh</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;$PATH:/Library/TeX/texbin&quot;&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># assuming you are using bash</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;$PATH:/Library/TeX/texbin&quot;&#x27;</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h3 id="Verify-it"><a href="#Verify-it" class="headerlink" title="Verify it"></a>Verify it</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$PATH</span>:/Library/TeX/texbin&quot;</span></span><br><span class="line">$ latex --version</span><br><span class="line">pdfTeX 3.14159265-2.6-1.40.19 (TeX Live 2018)</span><br><span class="line">kpathsea version 6.3.0</span><br><span class="line">Copyright 2018 Han The Thanh (pdfTeX) et al.</span><br><span class="line">There is NO warranty.  Redistribution of this software is</span><br><span class="line">covered by the terms of both the pdfTeX copyright and</span><br><span class="line">the Lesser GNU General Public License.</span><br><span class="line">For more information about these matters, see the file</span><br><span class="line">named COPYING and the pdfTeX <span class="built_in">source</span>.</span><br><span class="line">Primary author of pdfTeX: Han The Thanh (pdfTeX) et al.</span><br><span class="line">Compiled with libpng 1.6.34; using libpng 1.6.34</span><br><span class="line">Compiled with zlib 1.2.11; using zlib 1.2.11</span><br><span class="line">Compiled with xpdf version 4.00</span><br></pre></td></tr></table></figure>
 
     </div>
 
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>Post author:  </strong>Wey Gu | 古思为
+      <strong>Post author:  </strong>Wey Gu | 古思为
   </li>
   <li class="post-copyright-link">
-    <strong>Post link: </strong>
-    <a href="https://note.siwei.info/jupyter-notes/" title="jupyter pyenv and virtualenv in macOS">https://note.siwei.info/jupyter-notes/</a>
+      <strong>Post link: </strong>
+      <a href="https://note.siwei.info/jupyter-notes/" title="jupyter pyenv and virtualenv in macOS">https://note.siwei.info/jupyter-notes/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -434,8 +387,6 @@
 </ul>
 </div>
 
-
-      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/jupyter/" rel="tag"># jupyter</a>
               <a href="/tags/pyenv/" rel="tag"># pyenv</a>
@@ -444,30 +395,28 @@
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" rel="prev" title="Project Resource Board: a scalable webapp with Flask socketio and Vue.js">
-      <i class="fa fa-chevron-left"></i> Project Resource Board: a scalable webapp with Flask socketio and Vue.js
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/distributed-bugs-are-often-latent-a-troubleshoot-story/" rel="next" title="Distributed bugs are often latent: a Troubleshoot Story">
-      Distributed bugs are often latent: a Troubleshoot Story <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/nova-scheduling-study-on-making-it-smart-by-machine-learning/" rel="prev" title="nova scheduling study on making it smart by machine learning">
+                  <i class="fa fa-chevron-left"></i> nova scheduling study on making it smart by machine learning
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/distributed-bugs-are-often-latent-a-troubleshoot-story/" rel="next" title="Distributed bugs are often latent: a Troubleshoot Story">
+                  Distributed bugs are often latent: a Troubleshoot Story <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-  
-  
-  
+</div>
 
 
 
-        </div>
-        
-    <div class="comments" id="gitalk-container"></div>
+
+
+
+    <div class="comments gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -476,7 +425,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -485,23 +434,19 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+</div>
+  </main>
 
-      </div>
-    </main>
+  <footer class="footer">
+    <div class="footer-inner">
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -512,80 +457,52 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-  
-
-
-
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 <script src="/js/local-search.js"></script>
 
 
 
-
-
-
-
-
-
 <script>
-document.querySelectorAll('.pdfobject-container').forEach(element => {
-  let url = element.dataset.target;
-  let pdfOpenParams = {
-    navpanes : 0,
-    toolbar  : 0,
-    statusbar: 0,
-    pagemode : 'thumbs',
-    view     : 'FitH'
-  };
-  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
-  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
-
-  if (NexT.utils.supportsPDFs()) {
-    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
-  } else {
-    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
-  }
-});
+if (document.querySelectorAll('.pdf-container').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2.2.4/pdfobject.min.js', () => {
+    document.querySelectorAll('.pdf-container').forEach(element => {
+      PDFObject.embed(element.dataset.target, element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height   : element.dataset.height
+      });
+    });
+  }, window.PDFObject);
+}
 </script>
 
 
 
-
   
 
-  
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
 
 <script>
-NexT.utils.loadComments('#gitalk-container', () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js', () => {
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
       clientID    : '458d0826a0f8a2a81f82',
       clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
@@ -596,7 +513,7 @@ NexT.utils.loadComments('#gitalk-container', () => {
         language: 'en',
       distractionFreeMode: true
     });
-    gitalk.render('gitalk-container');
+    gitalk.render(document.querySelector('.gitalk-container'));
   }, window.Gitalk);
 });
 </script>

@@ -1,43 +1,45 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/wey_pixel_tinified.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/wey_pixel_tinified.png">
   <link rel="mask-icon" href="/images/wey_pixel_tinified.png" color="#222">
   <link rel="manifest" href="/images/site.webmanifest">
-  <meta name="msapplication-config" content="/images/browserconfig.xml">
   <meta name="google-site-verification" content="XgZjCjedxF82a4b0z1Nr0FiopL5MQKta4RZweqPZaBY">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"note.siwei.info","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+    var CONFIG = {"hostname":"note.siwei.info","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta name="description" content="Enable cobbler provisioning via L3 DHCP relayI would like to setup a minimal PoC for Cobbler provisioning via DHCP relay, I will use virtualbox to spawn: Three VMs:  Cobbler server in subnet A, let’s">
+<meta name="description" content="Enable cobbler provisioning via L3 DHCP relayI would like to setup a minimal PoC for Cobbler provisioning via DHCP relay, I will use virtualbox to spawn: Three VMs:  Cobbler server in subnet A, let’s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobbler provisioning via L3 and DHCP Relay, a PoC">
 <meta property="og:url" content="https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/index.html">
 <meta property="og:site_name" content="Siwei Notes">
 <meta property="og:description" content="Enable cobbler provisioning via L3 DHCP relayI would like to setup a minimal PoC for Cobbler provisioning via DHCP relay, I will use virtualbox to spawn: Three VMs:  Cobbler server in subnet A, let’s">
+<meta property="og:locale">
 <meta property="article:published_time" content="2020-03-29T06:51:05.000Z">
-<meta property="article:modified_time" content="2021-01-07T01:58:35.657Z">
+<meta property="article:modified_time" content="2020-03-29T06:51:05.000Z">
 <meta property="article:author" content="Wey Gu | 古思为">
 <meta property="article:tag" content="cloud">
 <meta property="article:tag" content="DHCP Relay">
 <meta property="article:tag" content="cobbler">
 <meta name="twitter:card" content="summary">
+
 
 <link rel="canonical" href="https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/">
 
@@ -51,11 +53,8 @@
     lang   : 'default'
   };
 </script>
-
-  <title>Cobbler provisioning via L3 and DHCP Relay, a PoC | Siwei Notes</title>
+<title>Cobbler provisioning via L3 and DHCP Relay, a PoC | Siwei Notes</title>
   
-
-
 
 
 
@@ -97,15 +96,14 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <main class="main">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header-inner"><div class="site-brand-container">
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -132,52 +130,16 @@
 
 
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-résumé">
-
-    <a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a>
-
-  </li>
-        <li class="menu-item menu-item-简历">
-
-    <a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">26</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">12</span></a>
-
-  </li>
-        <li class="menu-item menu-item-commonweal">
-
-    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a>
-
-  </li>
-        <li class="menu-item menu-item-links">
-
-    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
+        <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
+        <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -188,8 +150,7 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
@@ -198,12 +159,12 @@
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
     <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
@@ -212,9 +173,9 @@
   </div>
 
 </div>
-          
+        
   
-  <div class="toggle sidebar-toggle">
+  <div class="toggle sidebar-toggle" role="button">
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
@@ -232,25 +193,26 @@
         </li>
       </ul>
 
-      <!--noindex-->
-      <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-cobbler-provisioning-via-L3-DHCP-relay"><span class="nav-number">1.</span> <span class="nav-text">Enable cobbler provisioning via L3 DHCP relay</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Setup-minimal-env"><span class="nav-number">1.1.</span> <span class="nav-text">Setup minimal env</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Download-a-ubuntu-bionic-image-for-virtualbox"><span class="nav-number">1.1.1.</span> <span class="nav-text">Download a ubuntu bionic image for virtualbox</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-three-VMs"><span class="nav-number">1.1.2.</span> <span class="nav-text">Create three VMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-vNICs-for-all-VMs"><span class="nav-number">1.1.3.</span> <span class="nav-text">Create vNICs for all VMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configure-machine-0-boot-order-as-Network-first"><span class="nav-number">1.1.4.</span> <span class="nav-text">Configure machine_0 boot order as Network first</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-Cobbler-vRouter-and-DHCP-Relay"><span class="nav-number">1.2.</span> <span class="nav-text">Configure Cobbler, vRouter and DHCP Relay</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-cobbler-in-cobbler-server-and-install-dhcprelay-in-vrouter"><span class="nav-number">1.2.1.</span> <span class="nav-text">Install cobbler in cobbler_server and install dhcprelay in vrouter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configure-networks"><span class="nav-number">1.2.2.</span> <span class="nav-text">configure networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configure-cobbler-server"><span class="nav-number">1.2.3.</span> <span class="nav-text">Configure cobbler_server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-the-PXE-boot-via-L3-DHCP-Relay"><span class="nav-number">1.3.</span> <span class="nav-text">Verify the PXE boot via L3, DHCP Relay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issue-notes"><span class="nav-number">1.4.</span> <span class="nav-text">Issue notes</span></a></li></ol></li></ol></div>
-      </section>
-      <!--/noindex-->
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-cobbler-provisioning-via-L3-DHCP-relay"><span class="nav-number">1.</span> <span class="nav-text">Enable cobbler provisioning via L3 DHCP relay</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Setup-minimal-env"><span class="nav-number">1.1.</span> <span class="nav-text">Setup minimal env</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Download-a-ubuntu-bionic-image-for-virtualbox"><span class="nav-number">1.1.1.</span> <span class="nav-text">Download a ubuntu bionic image for virtualbox</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-three-VMs"><span class="nav-number">1.1.2.</span> <span class="nav-text">Create three VMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-vNICs-for-all-VMs"><span class="nav-number">1.1.3.</span> <span class="nav-text">Create vNICs for all VMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configure-machine-0-boot-order-as-Network-first"><span class="nav-number">1.1.4.</span> <span class="nav-text">Configure machine_0 boot order as Network first</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-Cobbler-vRouter-and-DHCP-Relay"><span class="nav-number">1.2.</span> <span class="nav-text">Configure Cobbler, vRouter and DHCP Relay</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-cobbler-in-cobbler-server-and-install-dhcprelay-in-vrouter"><span class="nav-number">1.2.1.</span> <span class="nav-text">Install cobbler in cobbler_server and install dhcprelay in vrouter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configure-networks"><span class="nav-number">1.2.2.</span> <span class="nav-text">configure networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configure-cobbler-server"><span class="nav-number">1.2.3.</span> <span class="nav-text">Configure cobbler_server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-the-PXE-boot-via-L3-DHCP-Relay"><span class="nav-number">1.3.</span> <span class="nav-text">Verify the PXE boot via L3, DHCP Relay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issue-notes"><span class="nav-number">1.4.</span> <span class="nav-text">Issue notes</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
 
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Wey Gu | 古思为"
       src="/images/wey_pixel_tinified.png">
   <p class="site-author-name" itemprop="name">Wey Gu | 古思为</p>
   <div class="site-description" itemprop="description">I build things</div>
 </div>
-<div class="site-state-wrap animated">
+<div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -263,12 +225,12 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author animated">
+  <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
         <a href="https://github.com/wey-gu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wey-gu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
@@ -288,41 +250,43 @@
         <a href="https://instagram.com/siwei.gu" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;siwei.gu" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
       </span>
   </div>
-  <div class="cc-license animated" itemprop="license">
+  <div class="cc-license site-overview-item animated" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
 
-      </section>
+        </div>
+      </div>
     </div>
   </aside>
-  <div id="sidebar-dimmer"></div>
+  <div class="sidebar-dimmer"></div>
 
 
-      </header>
+    </header>
 
-      
-  <div class="back-to-top">
+    
+  <div class="back-to-top" role="button">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
 <noscript>
-  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
 
 
-      <div class="main-inner">
-        
+    <div class="main-inner post posts-expand">
 
-        <div class="content post posts-expand">
-          
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
     <link itemprop="mainEntityOfPage" href="https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -334,40 +298,33 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Siwei Notes">
     </span>
-
-    
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           Cobbler provisioning via L3 and DHCP Relay, a PoC
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-03-29 14:51:05" itemprop="dateCreated datePublished" datetime="2020-03-29T14:51:05+08:00">2020-03-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-07 09:58:35" itemprop="dateModified" datetime="2021-01-07T09:58:35+08:00">2021-01-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/experiment-notes/" itemprop="url" rel="index"><span itemprop="name">experiment notes</span></a>
-                </span>
-            </span>
+      <time title="Created: 2020-03-29 14:51:05" itemprop="dateCreated datePublished" datetime="2020-03-29T14:51:05+08:00">2020-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/experiment-notes/" itemprop="url" rel="index"><span itemprop="name">experiment notes</span></a>
+        </span>
+    </span>
 
-          
+  
+</div>
 
         </div>
       </header>
@@ -390,32 +347,25 @@
 </ul>
 <p>And it should be like this:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-------------+        +-------------+        +-------------+</span><br><span class="line">|             |        |     vRouter |        |   machine_0 |</span><br><span class="line">|             |        |192.168.56.10|        |             |</span><br><span class="line">|           +-+        +-+           |        |             |</span><br><span class="line">|           | |00000000| rr          |        |             |</span><br><span class="line">|           +-+        +-+r          |        |             |</span><br><span class="line">|192.168.56.11|        |  r          |        |             |</span><br><span class="line">|             |        |  r          |        |             |</span><br><span class="line">|             |        |  r          |        |             |</span><br><span class="line">|             |        |  r        +-+        +-+           |</span><br><span class="line">| Cobbler     |        |  rrrrrrrrr| |11111111| |           |</span><br><span class="line">| Server      |        |           +-+        +-+           |</span><br><span class="line">|             |        |192.168.57.10|        |             |</span><br><span class="line">+-------------+        +-------------+        +-------------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">0000000 subnet A: vboxnet0     +-+</span><br><span class="line">                               | | network interface</span><br><span class="line">1111111 subnet B: vboxnet1     +-+</span><br><span class="line"></span><br><span class="line">rrrrrrr DHCP Relay</span><br></pre></td></tr></table></figure>
-
 <p>Then we could use cobbler_server to provision a OS to machine_0.</p>
 <a id="more"></a>
 
 <h3 id="Setup-minimal-env"><a href="#Setup-minimal-env" class="headerlink" title="Setup minimal env"></a>Setup minimal env</h3><h4 id="Download-a-ubuntu-bionic-image-for-virtualbox"><a href="#Download-a-ubuntu-bionic-image-for-virtualbox" class="headerlink" title="Download a ubuntu bionic image for virtualbox"></a>Download a ubuntu bionic image for virtualbox</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.ova</span><br></pre></td></tr></table></figure>
-
-<h4 id="Create-three-VMs"><a href="#Create-three-VMs" class="headerlink" title="Create three VMs"></a>Create three VMs</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage list vms</span><br><span class="line"><span class="string">"cobbler_server"</span> &#123;aa4c06ba-139d-4e1e-a248-33d5cb4763bd&#125;</span><br><span class="line"><span class="string">"vrouter"</span> &#123;092add9c-0b03-4230-adf9-465f18bafde1&#125;</span><br><span class="line"><span class="string">"machine_0"</span> &#123;97041fe8-a547-4f84-a9fe-1190664100b7&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="Create-three-VMs"><a href="#Create-three-VMs" class="headerlink" title="Create three VMs"></a>Create three VMs</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage list vms</span><br><span class="line"><span class="string">&quot;cobbler_server&quot;</span> &#123;aa4c06ba-139d-4e1e-a248-33d5cb4763bd&#125;</span><br><span class="line"><span class="string">&quot;vrouter&quot;</span> &#123;092add9c-0b03-4230-adf9-465f18bafde1&#125;</span><br><span class="line"><span class="string">&quot;machine_0&quot;</span> &#123;97041fe8-a547-4f84-a9fe-1190664100b7&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Create-vNICs-for-all-VMs"><a href="#Create-vNICs-for-all-VMs" class="headerlink" title="Create vNICs for all VMs"></a>Create vNICs for all VMs</h4><blockquote>
 <p>Note to enable tftp working in virtualbox in default configuration, use nic type:</p>
 <p>  <code>PCnet-PCI II(Am79C970A)</code></p>
-<p>reference: <a href="https://www.webscalability.com/blog/2013/03/testing-out-cobbler-with-virtuabox/" target="_blank" rel="noopener">https://www.webscalability.com/blog/2013/03/testing-out-cobbler-with-virtuabox/</a></p>
+<p>reference: <a target="_blank" rel="noopener" href="https://www.webscalability.com/blog/2013/03/testing-out-cobbler-with-virtuabox/">https://www.webscalability.com/blog/2013/03/testing-out-cobbler-with-virtuabox/</a></p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage showvminfo cobbler_server | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 0800270CCFBD, Attachment: Bridged Interface <span class="string">'en1: Wi-Fi (AirPort)'</span></span><br><span class="line">NIC 2:  MAC: 0800275425ED, Attachment: Host-only Interface <span class="string">'vboxnet0'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">❯ VBoxManage showvminfo vrouter | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 0800274A2FAB, Attachment: Bridged Interface <span class="string">'en1: Wi-Fi (AirPort)'</span></span><br><span class="line">NIC 2:  MAC: 080027381AB1, Attachment: Host-only Interface <span class="string">'vboxnet0'</span></span><br><span class="line">NIC 3:  MAC: 08002736BD7E, Attachment: Host-only Interface <span class="string">'vboxnet1'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">❯ VBoxManage showvminfo machine_0 | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 08002715BD34, Attachment: Host-only Interface <span class="string">'vboxnet1'</span>, Cable connected: on, Trace: off (file: none), Type: Am79C970A, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny, Bandwidth group: none</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage showvminfo cobbler_server | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 0800270CCFBD, Attachment: Bridged Interface <span class="string">&#x27;en1: Wi-Fi (AirPort)&#x27;</span></span><br><span class="line">NIC 2:  MAC: 0800275425ED, Attachment: Host-only Interface <span class="string">&#x27;vboxnet0&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">❯ VBoxManage showvminfo vrouter | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 0800274A2FAB, Attachment: Bridged Interface <span class="string">&#x27;en1: Wi-Fi (AirPort)&#x27;</span></span><br><span class="line">NIC 2:  MAC: 080027381AB1, Attachment: Host-only Interface <span class="string">&#x27;vboxnet0&#x27;</span></span><br><span class="line">NIC 3:  MAC: 08002736BD7E, Attachment: Host-only Interface <span class="string">&#x27;vboxnet1&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">❯ VBoxManage showvminfo machine_0 | grep NIC | grep -v disabled</span><br><span class="line">NIC 1:  MAC: 08002715BD34, Attachment: Host-only Interface <span class="string">&#x27;vboxnet1&#x27;</span>, Cable connected: on, Trace: off (file: none), Type: Am79C970A, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny, Bandwidth group: none</span><br></pre></td></tr></table></figure>
 <h4 id="Configure-machine-0-boot-order-as-Network-first"><a href="#Configure-machine-0-boot-order-as-Network-first" class="headerlink" title="Configure machine_0 boot order as Network first"></a>Configure machine_0 boot order as Network first</h4><p>Change it here: (System -&gt; Motherboard -&gt; Boot Order) in virtualbox if you don’t like to get into BIOS.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage showvminfo machine_0 | grep <span class="string">"Boot "</span></span><br><span class="line">Boot menu mode:              message and menu</span><br><span class="line">Boot Device 1:               Network</span><br><span class="line">Boot Device 2:               HardDisk</span><br><span class="line">Boot Device 3:               Not Assigned</span><br><span class="line">Boot Device 4:               Not Assigned</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ VBoxManage showvminfo machine_0 | grep <span class="string">&quot;Boot &quot;</span></span><br><span class="line">Boot menu mode:              message and menu</span><br><span class="line">Boot Device 1:               Network</span><br><span class="line">Boot Device 2:               HardDisk</span><br><span class="line">Boot Device 3:               Not Assigned</span><br><span class="line">Boot Device 4:               Not Assigned</span><br></pre></td></tr></table></figure>
 <h3 id="Configure-Cobbler-vRouter-and-DHCP-Relay"><a href="#Configure-Cobbler-vRouter-and-DHCP-Relay" class="headerlink" title="Configure Cobbler, vRouter and DHCP Relay"></a>Configure Cobbler, vRouter and DHCP Relay</h3><h4 id="Install-cobbler-in-cobbler-server-and-install-dhcprelay-in-vrouter"><a href="#Install-cobbler-in-cobbler-server-and-install-dhcprelay-in-vrouter" class="headerlink" title="Install cobbler in cobbler_server and install dhcprelay in vrouter"></a>Install cobbler in cobbler_server and install dhcprelay in vrouter</h4><p><del>We have to complie it ourselves :(</del> </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@cobbler_server:~$ wget https://github.com/cobbler/cobbler/archive/v3.0.1.tar.gz</span><br><span class="line">ubuntu@cobbler_server:~$ wget tar -xzvf *.tar.gz</span><br><span class="line">ubuntu@cobbler_server:~$ <span class="built_in">cd</span> cobbler-3*</span><br><span class="line">ubuntu@cobbler_server:~$ sudo apt install python3-pip apache2 apache2-dev -y</span><br><span class="line">ubuntu@cobbler_server:~$ sudo python3 -m pip install -r requirements.txt</span><br><span class="line">ubuntu@cobbler_server:~$ sudo make install</span><br><span class="line">ubuntu@cobbler_server:~$ sudo apt-get install xinetd python-pykickstart rsync</span><br></pre></td></tr></table></figure>
-
 <p>There are issues on Ubuntu 18.04, switched to CentOS epel-release stock cobbler instead…</p>
-<p>Install Cobbler following <a href="https://cobbler.github.io/quickstart" target="_blank" rel="noopener">https://cobbler.github.io/quickstart</a></p>
+<p>Install Cobbler following <a target="_blank" rel="noopener" href="https://cobbler.github.io/quickstart">https://cobbler.github.io/quickstart</a></p>
 <p>Enable vrouter dhcp relay to forward dhcp</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@vrouter:~$ sudo apt install isc-dhcp-relay</span><br><span class="line"></span><br><span class="line">ubuntu@vrouter:~$ ps -ef | grep dhcrelay</span><br><span class="line">root      1483     1  0 00:59 ?        00:00:00 dhcrelay -i enp0s8 192.168.56.11</span><br><span class="line">root      1485     1  0 00:59 ?        00:00:00 dhcrelay -i enp0s9 192.168.56.11</span><br></pre></td></tr></table></figure>
-
 <h4 id="configure-networks"><a href="#configure-networks" class="headerlink" title="configure networks"></a>configure networks</h4><ul>
 <li>configure nics IP for cobbler_server and vrouter</li>
 <li>in cobbler: add route for vboxnet1 via vrouter</li>
@@ -424,45 +374,37 @@
 <blockquote>
 <p>cobbler_server</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># cat /etc/netplan/50-cloud-init.yaml</span></span><br><span class="line">network:</span><br><span class="line">    ethernets:</span><br><span class="line">        enp0s3:</span><br><span class="line">            dhcp4: <span class="literal">true</span></span><br><span class="line">        enp0s8:</span><br><span class="line">            dhcp4: <span class="literal">false</span></span><br><span class="line">            addresses:</span><br><span class="line">              - 192.168.56.11/24</span><br><span class="line">    version: 2</span><br><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># netplan apply</span></span><br><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># ip route add 192.168.57.0/24 via 192.168.56.10</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># cat /etc/netplan/50-cloud-init.yaml</span></span><br><span class="line">network:</span><br><span class="line">    ethernets:</span><br><span class="line">        enp0s3:</span><br><span class="line">            dhcp4: <span class="literal">true</span></span><br><span class="line">        enp0s8:</span><br><span class="line">            dhcp4: <span class="literal">false</span></span><br><span class="line">            addresses:</span><br><span class="line">              - 192.168.56.11/24</span><br><span class="line">    version: 2</span><br><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># netplan apply</span></span><br><span class="line">root@cobbler_server:/home/ubuntu/<span class="comment"># ip route add 192.168.57.0/24 via 192.168.56.10 </span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>vrouter</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@vrouter:/home/ubuntu<span class="comment"># cat /etc/netplan/50-cloud-init.yaml</span></span><br><span class="line"></span><br><span class="line">network:</span><br><span class="line">    ethernets:</span><br><span class="line">        enp0s3:</span><br><span class="line">            dhcp4: <span class="literal">true</span></span><br><span class="line">        enp0s8:</span><br><span class="line">            dhcp4: <span class="literal">false</span></span><br><span class="line">            addresses:</span><br><span class="line">              - 192.168.56.10/24</span><br><span class="line">        enp0s9:</span><br><span class="line">            dhcp4: <span class="literal">false</span></span><br><span class="line">            addresses:</span><br><span class="line">              - 192.168.57.10/24</span><br><span class="line">    version: 2</span><br><span class="line"></span><br><span class="line">root@vrouter:/home/ubuntu/<span class="comment"># netplan apply</span></span><br><span class="line"></span><br><span class="line">root@vrouter:/home/ubuntu<span class="comment"># grep forward /etc/sysctl.conf</span></span><br><span class="line"><span class="comment"># Uncomment the next line to enable packet forwarding for IPv4</span></span><br><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>Ping test from cobbler_server to vrouter</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@cobbler_server:/home/ubuntu<span class="comment"># ping 192.168.57.10 -c 1</span></span><br><span class="line">PING 192.168.57.10 (192.168.57.10) 56(84) bytes of data.</span><br><span class="line">64 bytes from 192.168.57.10: icmp_seq=1 ttl=64 time=0.437 ms</span><br><span class="line"></span><br><span class="line">--- 192.168.57.10 ping statistics ---</span><br><span class="line">1 packets transmitted, 1 received, 0% packet loss, time 0ms</span><br><span class="line">rtt min/avg/max/mdev = 0.437/0.437/0.437/0.000 ms</span><br></pre></td></tr></table></figure>
-
 <h4 id="Configure-cobbler-server"><a href="#Configure-cobbler-server" class="headerlink" title="Configure cobbler_server"></a>Configure cobbler_server</h4><blockquote>
 <p>I switched OS for cobbler_server from Ubuntu 18.04 to CentOS 7 as cobbler worked fine in CentOS out-of-box</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># grep "server: 192" /etc/cobbler/settings</span></span><br><span class="line">next_server: 192.168.56.11</span><br><span class="line">server: 192.168.56.11</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># openssl passwd -1 -salt 'passwd' 'cobbler'</span></span><br><span class="line"><span class="variable">$1</span><span class="variable">$passwd</span><span class="variable">$uNhicNpING2yTBiLmcMOY</span>.</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># grep ^default_pass /etc/cobbler/settings</span></span><br><span class="line">default_password_crypted: <span class="string">"<span class="variable">$1</span><span class="variable">$passwd</span><span class="variable">$uNhicNpING2yTBiLmcMOY</span>."</span></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># grep manage_dhcp /etc/cobbler/settings</span></span><br><span class="line">manage_dhcp: 1</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler check</span></span><br><span class="line">The following are potential configuration items that you may want to fix:</span><br><span class="line"></span><br><span class="line">1 : debmirror package is not installed, it will be required to manage debian deployments and repositories</span><br><span class="line">2 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># grep &quot;server: 192&quot; /etc/cobbler/settings</span></span><br><span class="line">next_server: 192.168.56.11</span><br><span class="line">server: 192.168.56.11</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># openssl passwd -1 -salt &#x27;passwd&#x27; &#x27;cobbler&#x27;</span></span><br><span class="line">$1$passwd<span class="variable">$uNhicNpING2yTBiLmcMOY</span>.</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># grep ^default_pass /etc/cobbler/settings</span></span><br><span class="line">default_password_crypted: <span class="string">&quot;$1$passwd<span class="variable">$uNhicNpING2yTBiLmcMOY</span>.&quot;</span></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># grep manage_dhcp /etc/cobbler/settings</span></span><br><span class="line">manage_dhcp: 1</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler check</span></span><br><span class="line">The following are potential configuration items that you may want to fix:</span><br><span class="line"></span><br><span class="line">1 : debmirror package is not installed, it will be required to manage debian deployments and repositories</span><br><span class="line">2 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>enable cobbler to dhcp subnet B</p>
 </blockquote>
-<p>reference: <a href="https://docs.cumulusnetworks.com/cumulus-linux-31/Configuring-and-Managing-Network-Interfaces/Configuring-DHCP-Relays-and-Servers/" target="_blank" rel="noopener">https://docs.cumulusnetworks.com/cumulus-linux-31/Configuring-and-Managing-Network-Interfaces/Configuring-DHCP-Relays-and-Servers/</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># vi /etc/cobbler/dhcp.template</span></span><br><span class="line"></span><br><span class="line">shared-network Combined-pools &#123;</span><br><span class="line"></span><br><span class="line">   subnet 192.168.56.0 netmask 255.255.255.0 &#123;</span><br><span class="line">       <span class="comment"># subnet A</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   subnet 192.168.57.0 netmask 255.255.255.0 &#123;</span><br><span class="line">       <span class="comment"># subnet B</span></span><br><span class="line">        option routers             192.168.57.10;</span><br><span class="line">        option subnet-mask         255.255.255.0;</span><br><span class="line">        range dynamic-bootp        192.168.57.100 192.168.57.254;</span><br><span class="line">        default-lease-time         21600;</span><br><span class="line">        max-lease-time             43200;</span><br><span class="line">        next-server                <span class="variable">$next_server</span>;</span><br><span class="line">        class <span class="string">"pxeclients"</span> &#123;</span><br><span class="line">             match <span class="keyword">if</span> substring (option vendor-class-identifier, 0, 9) = <span class="string">"PXEClient"</span>;</span><br><span class="line">             <span class="keyword">if</span> option pxe-system-type = 00:02 &#123;</span><br><span class="line">                     filename <span class="string">"ia64/elilo.efi"</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:06 &#123;</span><br><span class="line">                     filename <span class="string">"grub/grub-x86.efi"</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:07 &#123;</span><br><span class="line">                     filename <span class="string">"grub/grub-x86_64.efi"</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:09 &#123;</span><br><span class="line">                     filename <span class="string">"grub/grub-x86_64.efi"</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                     filename <span class="string">"pxelinux.0"</span>;</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>reference: <a target="_blank" rel="noopener" href="https://docs.cumulusnetworks.com/cumulus-linux-31/Configuring-and-Managing-Network-Interfaces/Configuring-DHCP-Relays-and-Servers/">https://docs.cumulusnetworks.com/cumulus-linux-31/Configuring-and-Managing-Network-Interfaces/Configuring-DHCP-Relays-and-Servers/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># vi /etc/cobbler/dhcp.template</span></span><br><span class="line"></span><br><span class="line">shared-network Combined-pools &#123;</span><br><span class="line"></span><br><span class="line">   subnet 192.168.56.0 netmask 255.255.255.0 &#123;</span><br><span class="line">       <span class="comment"># subnet A</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   subnet 192.168.57.0 netmask 255.255.255.0 &#123;</span><br><span class="line">       <span class="comment"># subnet B</span></span><br><span class="line">        option routers             192.168.57.10;</span><br><span class="line">        option subnet-mask         255.255.255.0;</span><br><span class="line">        range dynamic-bootp        192.168.57.100 192.168.57.254;</span><br><span class="line">        default-lease-time         21600;</span><br><span class="line">        max-lease-time             43200;</span><br><span class="line">        next-server                <span class="variable">$next_server</span>;</span><br><span class="line">        class <span class="string">&quot;pxeclients&quot;</span> &#123;</span><br><span class="line">             match <span class="keyword">if</span> substring (option vendor-class-identifier, 0, 9) = <span class="string">&quot;PXEClient&quot;</span>;</span><br><span class="line">             <span class="keyword">if</span> option pxe-system-type = 00:02 &#123;</span><br><span class="line">                     filename <span class="string">&quot;ia64/elilo.efi&quot;</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:06 &#123;</span><br><span class="line">                     filename <span class="string">&quot;grub/grub-x86.efi&quot;</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:07 &#123;</span><br><span class="line">                     filename <span class="string">&quot;grub/grub-x86_64.efi&quot;</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> <span class="keyword">if</span> option pxe-system-type = 00:09 &#123;</span><br><span class="line">                     filename <span class="string">&quot;grub/grub-x86_64.efi&quot;</span>;</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                     filename <span class="string">&quot;pxelinux.0&quot;</span>;</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>import an image</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># mount -o loop CentOS-7-x86_64-Minimal-1908.iso /mnt/CentOS-7</span></span><br><span class="line">mount: /dev/loop0 is write-protected, mounting <span class="built_in">read</span>-only</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler import --arch=x86_64 --path=/mnt/CentOS-7/ --name=CentOS7</span></span><br><span class="line">task started: 2020-03-26_144343_import</span><br><span class="line">task started (id=Media import, time=Thu Mar 26 14:43:43 2020)</span><br><span class="line">Found a candidate signature: breed=suse, version=opensuse15.0</span><br><span class="line">Found a candidate signature: breed=suse, version=opensuse15.1</span><br><span class="line">Found a candidate signature: breed=redhat, version=rhel6</span><br><span class="line">Found a candidate signature: breed=redhat, version=rhel7</span><br><span class="line">Found a matching signature: breed=redhat, version=rhel7</span><br><span class="line">Adding distros from path /var/www/cobbler/ks_mirror/CentOS7-x86_64:</span><br><span class="line">creating new distro: CentOS7-x86_64</span><br><span class="line">trying symlink: /var/www/cobbler/ks_mirror/CentOS7-x86_64 -&gt; /var/www/cobbler/links/CentOS7-x86_64</span><br><span class="line">creating new profile: CentOS7-x86_64</span><br><span class="line">associating repos</span><br><span class="line">checking <span class="keyword">for</span> rsync repo(s)</span><br><span class="line">checking <span class="keyword">for</span> rhn repo(s)</span><br><span class="line">checking <span class="keyword">for</span> yum repo(s)</span><br><span class="line">starting descent into /var/www/cobbler/ks_mirror/CentOS7-x86_64 <span class="keyword">for</span> CentOS7-x86_64</span><br><span class="line">processing repo at : /var/www/cobbler/ks_mirror/CentOS7-x86_64</span><br><span class="line">need to process repo/comps: /var/www/cobbler/ks_mirror/CentOS7-x86_64</span><br><span class="line">looking <span class="keyword">for</span> /var/www/cobbler/ks_mirror/CentOS7-x86_64/repodata/*comps*.xml</span><br><span class="line">Keeping repodata as-is :/var/www/cobbler/ks_mirror/CentOS7-x86_64/repodata</span><br><span class="line">*** TASK COMPLETE ***</span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler signature update</span></span><br><span class="line">task started: 2020-03-26_144402_sigupdate</span><br><span class="line">task started (id=Updating Signatures, time=Thu Mar 26 14:44:02 2020)</span><br><span class="line">Successfully got file from https://cobbler.github.io/signatures/2.8.x/latest.json</span><br><span class="line">*** TASK COMPLETE ***</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler distro list</span></span><br><span class="line">   CentOS7-x86_64</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler distro report --name=CentOS7-x86_64</span></span><br><span class="line">Name                           : CentOS7-x86_64</span><br><span class="line">Architecture                   : x86_64</span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Breed                          : redhat</span><br><span class="line">Comment                        :</span><br><span class="line">Fetchable Files                : &#123;&#125;</span><br><span class="line">Initrd                         : /var/www/cobbler/ks_mirror/CentOS7-x86_64/images/pxeboot/initrd.img</span><br><span class="line">Kernel                         : /var/www/cobbler/ks_mirror/CentOS7-x86_64/images/pxeboot/vmlinuz</span><br><span class="line">Kernel Options                 : &#123;&#125;</span><br><span class="line">Kernel Options (Post Install)  : &#123;&#125;</span><br><span class="line">Kickstart Metadata             : &#123;<span class="string">'tree'</span>: <span class="string">'http://@@http_server@@/cblr/links/CentOS7-x86_64'</span>&#125;</span><br><span class="line">Management Classes             : []</span><br><span class="line">OS Version                     : rhel7</span><br><span class="line">Owners                         : [<span class="string">'admin'</span>]</span><br><span class="line">Red Hat Management Key         : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Red Hat Management Server      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Template Files                 : &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system add --name=test --profile=CentOS7-x86_64</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system report --name=test</span></span><br><span class="line">Name                           : <span class="built_in">test</span></span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Comment                        :</span><br><span class="line">Enable gPXE?                   : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Fetchable Files                : &#123;&#125;</span><br><span class="line">Gateway                        :</span><br><span class="line">Hostname                       :</span><br><span class="line">Image                          :</span><br><span class="line">IPv6 Autoconfiguration         : False</span><br><span class="line">IPv6 Default Device            :</span><br><span class="line">Kernel Options                 : &#123;&#125;</span><br><span class="line">Kernel Options (Post Install)  : &#123;&#125;</span><br><span class="line">Kickstart                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Kickstart Metadata             : &#123;&#125;</span><br><span class="line">LDAP Enabled                   : False</span><br><span class="line">LDAP Management Type           : authconfig</span><br><span class="line">Management Classes             : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Management Parameters          : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Monit Enabled                  : False</span><br><span class="line">Name Servers                   : []</span><br><span class="line">Name Servers Search Path       : []</span><br><span class="line">Netboot Enabled                : True</span><br><span class="line">Owners                         : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Power Management Address       :</span><br><span class="line">Power Management ID            :</span><br><span class="line">Power Management Password      :</span><br><span class="line">Power Management Type          : ipmitool</span><br><span class="line">Power Management Username      :</span><br><span class="line">Profile                        : CentOS7-x86_64</span><br><span class="line">Internal proxy                 : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Red Hat Management Key         : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Red Hat Management Server      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Repos Enabled                  : False</span><br><span class="line">Server Override                : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Status                         : production</span><br><span class="line">Template Files                 : &#123;&#125;</span><br><span class="line">Virt Auto Boot                 : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt CPUs                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Disk Driver Type          : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt File Size(GB)             : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Path                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt PXE Boot                  : 0</span><br><span class="line">Virt RAM (MB)                  : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Type                      : &lt;&lt;inherit&gt;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># mount -o loop CentOS-7-x86_64-Minimal-1908.iso /mnt/CentOS-7</span></span><br><span class="line">mount: /dev/loop0 is write-protected, mounting read-only</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler import --arch=x86_64 --path=/mnt/CentOS-7/ --name=CentOS7</span></span><br><span class="line">task started: 2020-03-26_144343_import</span><br><span class="line">task started (id=Media import, time=Thu Mar 26 14:43:43 2020)</span><br><span class="line">Found a candidate signature: breed=suse, version=opensuse15.0</span><br><span class="line">Found a candidate signature: breed=suse, version=opensuse15.1</span><br><span class="line">Found a candidate signature: breed=redhat, version=rhel6</span><br><span class="line">Found a candidate signature: breed=redhat, version=rhel7</span><br><span class="line">Found a matching signature: breed=redhat, version=rhel7</span><br><span class="line">Adding distros from path /var/www/cobbler/ks_mirror/CentOS7-x86_64:</span><br><span class="line">creating new distro: CentOS7-x86_64</span><br><span class="line">trying symlink: /var/www/cobbler/ks_mirror/CentOS7-x86_64 -&gt; /var/www/cobbler/links/CentOS7-x86_64</span><br><span class="line">creating new profile: CentOS7-x86_64</span><br><span class="line">associating repos</span><br><span class="line">checking <span class="keyword">for</span> rsync repo(s)</span><br><span class="line">checking <span class="keyword">for</span> rhn repo(s)</span><br><span class="line">checking <span class="keyword">for</span> yum repo(s)</span><br><span class="line">starting descent into /var/www/cobbler/ks_mirror/CentOS7-x86_64 <span class="keyword">for</span> CentOS7-x86_64</span><br><span class="line">processing repo at : /var/www/cobbler/ks_mirror/CentOS7-x86_64</span><br><span class="line">need to process repo/comps: /var/www/cobbler/ks_mirror/CentOS7-x86_64</span><br><span class="line">looking <span class="keyword">for</span> /var/www/cobbler/ks_mirror/CentOS7-x86_64/repodata/*comps*.xml</span><br><span class="line">Keeping repodata as-is :/var/www/cobbler/ks_mirror/CentOS7-x86_64/repodata</span><br><span class="line">*** TASK COMPLETE ***</span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler signature update</span></span><br><span class="line">task started: 2020-03-26_144402_sigupdate</span><br><span class="line">task started (id=Updating Signatures, time=Thu Mar 26 14:44:02 2020)</span><br><span class="line">Successfully got file from https://cobbler.github.io/signatures/2.8.x/latest.json</span><br><span class="line">*** TASK COMPLETE ***</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler distro list</span></span><br><span class="line">   CentOS7-x86_64</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler distro report --name=CentOS7-x86_64</span></span><br><span class="line">Name                           : CentOS7-x86_64</span><br><span class="line">Architecture                   : x86_64</span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Breed                          : redhat</span><br><span class="line">Comment                        :</span><br><span class="line">Fetchable Files                : &#123;&#125;</span><br><span class="line">Initrd                         : /var/www/cobbler/ks_mirror/CentOS7-x86_64/images/pxeboot/initrd.img</span><br><span class="line">Kernel                         : /var/www/cobbler/ks_mirror/CentOS7-x86_64/images/pxeboot/vmlinuz</span><br><span class="line">Kernel Options                 : &#123;&#125;</span><br><span class="line">Kernel Options (Post Install)  : &#123;&#125;</span><br><span class="line">Kickstart Metadata             : &#123;<span class="string">&#x27;tree&#x27;</span>: <span class="string">&#x27;http://@@http_server@@/cblr/links/CentOS7-x86_64&#x27;</span>&#125;</span><br><span class="line">Management Classes             : []</span><br><span class="line">OS Version                     : rhel7</span><br><span class="line">Owners                         : [<span class="string">&#x27;admin&#x27;</span>]</span><br><span class="line">Red Hat Management Key         : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Red Hat Management Server      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Template Files                 : &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system add --name=test --profile=CentOS7-x86_64</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system report --name=test</span></span><br><span class="line">Name                           : <span class="built_in">test</span></span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Comment                        :</span><br><span class="line">Enable gPXE?                   : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Fetchable Files                : &#123;&#125;</span></span><br><span class="line"><span class="string">Gateway                        :</span></span><br><span class="line"><span class="string">Hostname                       :</span></span><br><span class="line"><span class="string">Image                          :</span></span><br><span class="line"><span class="string">IPv6 Autoconfiguration         : False</span></span><br><span class="line"><span class="string">IPv6 Default Device            :</span></span><br><span class="line"><span class="string">Kernel Options                 : &#123;&#125;</span></span><br><span class="line"><span class="string">Kernel Options (Post Install)  : &#123;&#125;</span></span><br><span class="line"><span class="string">Kickstart                      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Kickstart Metadata             : &#123;&#125;</span><br><span class="line">LDAP Enabled                   : False</span><br><span class="line">LDAP Management Type           : authconfig</span><br><span class="line">Management Classes             : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Management Parameters          : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Monit Enabled                  : False</span><br><span class="line">Name Servers                   : []</span><br><span class="line">Name Servers Search Path       : []</span><br><span class="line">Netboot Enabled                : True</span><br><span class="line">Owners                         : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Power Management Address       :</span></span><br><span class="line"><span class="string">Power Management ID            :</span></span><br><span class="line"><span class="string">Power Management Password      :</span></span><br><span class="line"><span class="string">Power Management Type          : ipmitool</span></span><br><span class="line"><span class="string">Power Management Username      :</span></span><br><span class="line"><span class="string">Profile                        : CentOS7-x86_64</span></span><br><span class="line"><span class="string">Internal proxy                 : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Red Hat Management Key         : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Red Hat Management Server      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Repos Enabled                  : False</span><br><span class="line">Server Override                : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Status                         : production</span></span><br><span class="line"><span class="string">Template Files                 : &#123;&#125;</span></span><br><span class="line"><span class="string">Virt Auto Boot                 : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt CPUs                      : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Disk Driver Type          : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt File Size(GB)             : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Path                      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt PXE Boot                  : 0</span><br><span class="line">Virt RAM (MB)                  : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Type                      : &lt;&lt;inherit</span>&gt;&gt;</span><br></pre></td></tr></table></figure>
 
 
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system edit --name=test --gateway=192.168.57.10 --hostname=machine_0</span></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system report</span></span><br><span class="line">Name                           : <span class="built_in">test</span></span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Comment                        :</span><br><span class="line">Enable gPXE?                   : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Fetchable Files                : &#123;&#125;</span><br><span class="line">Gateway                        : 192.168.57.10</span><br><span class="line">Hostname                       : machine_0</span><br><span class="line">Image                          :</span><br><span class="line">IPv6 Autoconfiguration         : False</span><br><span class="line">IPv6 Default Device            :</span><br><span class="line">Kernel Options                 : &#123;&#125;</span><br><span class="line">Kernel Options (Post Install)  : &#123;&#125;</span><br><span class="line">Kickstart                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Kickstart Metadata             : &#123;&#125;</span><br><span class="line">LDAP Enabled                   : False</span><br><span class="line">LDAP Management Type           : authconfig</span><br><span class="line">Management Classes             : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Management Parameters          : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Monit Enabled                  : False</span><br><span class="line">Name Servers                   : []</span><br><span class="line">Name Servers Search Path       : []</span><br><span class="line">Netboot Enabled                : True</span><br><span class="line">Owners                         : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Power Management Address       :</span><br><span class="line">Power Management ID            :</span><br><span class="line">Power Management Password      :</span><br><span class="line">Power Management Type          : ipmitool</span><br><span class="line">Power Management Username      :</span><br><span class="line">Profile                        : CentOS7-x86_64</span><br><span class="line">Internal proxy                 : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Red Hat Management Key         : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Red Hat Management Server      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Repos Enabled                  : False</span><br><span class="line">Server Override                : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Status                         : production</span><br><span class="line">Template Files                 : &#123;&#125;</span><br><span class="line">Virt Auto Boot                 : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt CPUs                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Disk Driver Type          : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt File Size(GB)             : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Path                      : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt PXE Boot                  : 0</span><br><span class="line">Virt RAM (MB)                  : &lt;&lt;inherit&gt;&gt;</span><br><span class="line">Virt Type                      : &lt;&lt;inherit&gt;&gt;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system edit --name=test --gateway=192.168.57.10 --hostname=machine_0</span></span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># cobbler system report</span></span><br><span class="line">Name                           : <span class="built_in">test</span></span><br><span class="line">TFTP Boot Files                : &#123;&#125;</span><br><span class="line">Comment                        :</span><br><span class="line">Enable gPXE?                   : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Fetchable Files                : &#123;&#125;</span></span><br><span class="line"><span class="string">Gateway                        : 192.168.57.10</span></span><br><span class="line"><span class="string">Hostname                       : machine_0</span></span><br><span class="line"><span class="string">Image                          :</span></span><br><span class="line"><span class="string">IPv6 Autoconfiguration         : False</span></span><br><span class="line"><span class="string">IPv6 Default Device            :</span></span><br><span class="line"><span class="string">Kernel Options                 : &#123;&#125;</span></span><br><span class="line"><span class="string">Kernel Options (Post Install)  : &#123;&#125;</span></span><br><span class="line"><span class="string">Kickstart                      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Kickstart Metadata             : &#123;&#125;</span><br><span class="line">LDAP Enabled                   : False</span><br><span class="line">LDAP Management Type           : authconfig</span><br><span class="line">Management Classes             : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Management Parameters          : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Monit Enabled                  : False</span><br><span class="line">Name Servers                   : []</span><br><span class="line">Name Servers Search Path       : []</span><br><span class="line">Netboot Enabled                : True</span><br><span class="line">Owners                         : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Power Management Address       :</span></span><br><span class="line"><span class="string">Power Management ID            :</span></span><br><span class="line"><span class="string">Power Management Password      :</span></span><br><span class="line"><span class="string">Power Management Type          : ipmitool</span></span><br><span class="line"><span class="string">Power Management Username      :</span></span><br><span class="line"><span class="string">Profile                        : CentOS7-x86_64</span></span><br><span class="line"><span class="string">Internal proxy                 : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Red Hat Management Key         : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Red Hat Management Server      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Repos Enabled                  : False</span><br><span class="line">Server Override                : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Status                         : production</span></span><br><span class="line"><span class="string">Template Files                 : &#123;&#125;</span></span><br><span class="line"><span class="string">Virt Auto Boot                 : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt CPUs                      : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Disk Driver Type          : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt File Size(GB)             : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Path                      : &lt;&lt;inherit</span>&gt;&gt;</span><br><span class="line">Virt PXE Boot                  : 0</span><br><span class="line">Virt RAM (MB)                  : &lt;&lt;<span class="string">inherit&gt;&gt;</span></span><br><span class="line"><span class="string">Virt Type                      : &lt;&lt;inherit</span>&gt;&gt;</span><br></pre></td></tr></table></figure>
 
 
 <blockquote>
 <p>lines to debug/verify tftp and dhcp</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tftp -m binary <span class="string">"192.168.56.11"</span> -c get <span class="string">"pxelinux.0"</span></span><br><span class="line">dhclient</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tftp -m binary <span class="string">&quot;192.168.56.11&quot;</span> -c get <span class="string">&quot;pxelinux.0&quot;</span></span><br><span class="line">dhclient</span><br></pre></td></tr></table></figure>
 <h3 id="Verify-the-PXE-boot-via-L3-DHCP-Relay"><a href="#Verify-the-PXE-boot-via-L3-DHCP-Relay" class="headerlink" title="Verify the PXE boot via L3, DHCP Relay"></a>Verify the PXE boot via L3, DHCP Relay</h3><blockquote>
 <p>Start machine_0, and it worked ;-). </p>
 </blockquote>
@@ -473,12 +415,10 @@
 <p>cobbler_server</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@cobbler-server ~]<span class="comment"># tail /var/log/messages</span></span><br><span class="line"></span><br><span class="line">Mar 29 02:16:01 cobbler-server dhcpd: DHCPDISCOVER from 08:00:27:15:bd:34 via 192.168.57.10</span><br><span class="line">Mar 29 02:16:02 cobbler-server dhcpd: DHCPOFFER on 192.168.57.101 to 08:00:27:15:bd:34 via 192.168.57.10</span><br><span class="line">Mar 29 02:16:02 cobbler-server dhcpd: DHCPREQUEST <span class="keyword">for</span> 192.168.57.101 (192.168.56.11) from 08:00:27:15:bd:34 via 192.168.57.10</span><br><span class="line">Mar 29 02:16:02 cobbler-server dhcpd: DHCPACK on 192.168.57.101 to 08:00:27:15:bd:34 via 192.168.57.10</span><br><span class="line">Mar 29 02:18:58 cobbler-server in.tftpd[12800]: Client ::ffff:192.168.56.10 finished pxelinux.0</span><br><span class="line"></span><br><span class="line">[root@cobbler-server ~]<span class="comment"># tail /var/log/cobbler/cobbler.log</span></span><br><span class="line"></span><br><span class="line">Sun Mar 29 02:16:07 2020 - INFO | REMOTE generate_kickstart; user(?)</span><br><span class="line">Sun Mar 29 02:16:07 2020 - INFO | generate_kickstart</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>vrouter</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@vrouter:/home/ubuntu<span class="comment"># tcpdump -i enp0s8 -n port 67 and port 68 and -i enp0s9 -n port 67 and port 68</span></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv <span class="keyword">for</span> full protocol decode</span><br><span class="line">listening on enp0s9, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">06:43:21.321035 IP 0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 08:00:27:15:bd:34, length 380</span><br><span class="line">06:43:22.305331 IP 0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 08:00:27:15:bd:34, length 380</span><br><span class="line">06:43:22.323428 IP 192.168.57.10.67 &gt; 192.168.57.100.68: BOOTP/DHCP, Reply, length 300</span><br><span class="line">06:43:24.282418 IP 0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 08:00:27:15:bd:34, length 392</span><br><span class="line">06:43:24.297630 IP 192.168.57.10.67 &gt; 192.168.57.100.68: BOOTP/DHCP, Reply, length 300</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>screen captured for machine_0</p>
 </blockquote>
@@ -504,16 +444,18 @@
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>Post author:  </strong>Wey Gu | 古思为
+      <strong>Post author:  </strong>Wey Gu | 古思为
   </li>
   <li class="post-copyright-link">
-    <strong>Post link: </strong>
-    <a href="https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/" title="Cobbler provisioning via L3 and DHCP Relay, a PoC">https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/</a>
+      <strong>Post link: </strong>
+      <a href="https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/" title="Cobbler provisioning via L3 and DHCP Relay, a PoC">https://note.siwei.info/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -521,8 +463,6 @@
 </ul>
 </div>
 
-
-      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/cloud/" rel="tag"># cloud</a>
               <a href="/tags/dhcp-relay/" rel="tag"># DHCP Relay</a>
@@ -531,30 +471,28 @@
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/distributed-bugs-are-often-latent-a-troubleshoot-story/" rel="prev" title="Distributed bugs are often latent: a Troubleshoot Story">
-      <i class="fa fa-chevron-left"></i> Distributed bugs are often latent: a Troubleshoot Story
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/setup-your-ubuntu-server-in-ipados-with-utm/" rel="next" title="Setup your ubuntu server in iPadOS with UTM">
-      Setup your ubuntu server in iPadOS with UTM <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/distributed-bugs-are-often-latent-a-troubleshoot-story/" rel="prev" title="Distributed bugs are often latent: a Troubleshoot Story">
+                  <i class="fa fa-chevron-left"></i> Distributed bugs are often latent: a Troubleshoot Story
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/setup-your-ubuntu-server-in-ipados-with-utm/" rel="next" title="Setup your ubuntu server in iPadOS with UTM">
+                  Setup your ubuntu server in iPadOS with UTM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-  
-  
-  
+</div>
 
 
 
-        </div>
-        
-    <div class="comments" id="gitalk-container"></div>
+
+
+
+    <div class="comments gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -563,7 +501,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -572,23 +510,19 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+</div>
+  </main>
 
-      </div>
-    </main>
+  <footer class="footer">
+    <div class="footer-inner">
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -599,80 +533,52 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-  
-
-
-
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 <script src="/js/local-search.js"></script>
 
 
 
-
-
-
-
-
-
 <script>
-document.querySelectorAll('.pdfobject-container').forEach(element => {
-  let url = element.dataset.target;
-  let pdfOpenParams = {
-    navpanes : 0,
-    toolbar  : 0,
-    statusbar: 0,
-    pagemode : 'thumbs',
-    view     : 'FitH'
-  };
-  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
-  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
-
-  if (NexT.utils.supportsPDFs()) {
-    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
-  } else {
-    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
-  }
-});
+if (document.querySelectorAll('.pdf-container').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2.2.4/pdfobject.min.js', () => {
+    document.querySelectorAll('.pdf-container').forEach(element => {
+      PDFObject.embed(element.dataset.target, element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height   : element.dataset.height
+      });
+    });
+  }, window.PDFObject);
+}
 </script>
 
 
 
-
   
 
-  
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
 
 <script>
-NexT.utils.loadComments('#gitalk-container', () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js', () => {
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
       clientID    : '458d0826a0f8a2a81f82',
       clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
@@ -683,7 +589,7 @@ NexT.utils.loadComments('#gitalk-container', () => {
         language: 'en',
       distractionFreeMode: true
     });
-    gitalk.render('gitalk-container');
+    gitalk.render(document.querySelector('.gitalk-container'));
   }, window.Gitalk);
 });
 </script>
