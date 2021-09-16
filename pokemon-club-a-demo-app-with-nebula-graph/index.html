@@ -25,30 +25,37 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"note.siwei.info","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="I build things">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Siwei Notes">
-<meta property="og:url" content="https://note.siwei.info/index.html">
+<meta name="description" content="AboutIn the database world, there is one type of NoSQL DB called graph database, which is good at the query of traversing relationships between small entities, like:  Find one person’s 5th-degree frie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pokemon Club, a demo app with Nebula Graph">
+<meta property="og:url" content="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/index.html">
 <meta property="og:site_name" content="Siwei Notes">
-<meta property="og:description" content="I build things">
+<meta property="og:description" content="AboutIn the database world, there is one type of NoSQL DB called graph database, which is good at the query of traversing relationships between small entities, like:  Find one person’s 5th-degree frie">
 <meta property="og:locale">
+<meta property="og:image" content="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/michael-rivera-DypO_XgAE4Y-unsplash.jpg">
+<meta property="og:image" content="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/graph_schema.png">
+<meta property="article:published_time" content="2021-02-21T15:29:50.000Z">
+<meta property="article:modified_time" content="2021-02-21T15:29:50.000Z">
 <meta property="article:author" content="Wey Gu | 古思为">
+<meta property="article:tag" content="Nebula Graph">
+<meta property="article:tag" content="NoSQL">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/michael-rivera-DypO_XgAE4Y-unsplash.jpg">
 
 
-<link rel="canonical" href="https://note.siwei.info/">
+<link rel="canonical" href="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'default'
   };
 </script>
-<title>Siwei Notes</title>
+<title>Pokemon Club, a demo app with Nebula Graph | Siwei Notes</title>
   
 
 
@@ -178,7 +185,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -191,6 +198,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pokemon-Club"><span class="nav-number">2.</span> <span class="nav-text">Pokemon Club</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Hands-on-part"><span class="nav-number">3.</span> <span class="nav-text">The Hands-on part!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment-of-Nebula-Graph"><span class="nav-number">3.1.</span> <span class="nav-text">Deployment of Nebula Graph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nebula-Graph-Schema-and-Mock-Data-Import"><span class="nav-number">3.2.</span> <span class="nav-text">Nebula Graph Schema and Mock Data Import</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Graph-Data-Schema"><span class="nav-number">3.2.1.</span> <span class="nav-text">Graph Data Schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-Import"><span class="nav-number">3.2.2.</span> <span class="nav-text">Data Import</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query-the-data-from-Nebula-Graph"><span class="nav-number">3.3.</span> <span class="nav-text">Query the data from Nebula Graph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-API-code-handles-Web-Request-and-Invokes-Nebula-Graph"><span class="nav-number">3.4.</span> <span class="nav-text">The API code handles Web Request and Invokes Nebula Graph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-Working-In-Progress"><span class="nav-number">4.</span> <span class="nav-text">More Working In Progress</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-on-Nebula-Graph"><span class="nav-number">5.</span> <span class="nav-text">More on Nebula Graph</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -270,81 +278,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/note-siwei-info-will-be-archived/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/note-siwei-info-will-be-archived/" class="post-title-link" itemprop="url">note.siwei.info will be archived</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-09-16 20:56:08" itemprop="dateCreated datePublished" datetime="2021-09-16T20:56:08+08:00">2021-09-16</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>2021 年春夏，我开始在新站 👉 <a target="_blank" rel="noopener" href="https://siwei.io/">siwei.io</a> 进行新的篇章，本站将归档、只读 😊。</p>
-<p>I started a new site 👉 <a target="_blank" rel="noopener" href="https://siwei.io/">siwei.io</a>, please check that out and this site will be archived.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
     <link itemprop="mainEntityOfPage" href="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -357,9 +301,9 @@
       <meta itemprop="name" content="Siwei Notes">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/pokemon-club-a-demo-app-with-nebula-graph/" class="post-title-link" itemprop="url">Pokemon Club, a demo app with Nebula Graph</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Pokemon Club, a demo app with Nebula Graph
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -382,7 +326,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>In the database world, there is one type of NoSQL DB called graph database, which is good at the query of traversing relationships between small entities, like:</p>
+        <h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>In the database world, there is one type of NoSQL DB called graph database, which is good at the query of traversing relationships between small entities, like:</p>
 <ul>
 <li>Find one person’s 5th-degree friend connections in LinkedIn</li>
 <li>Detect fraud, starting from one bank account number, connected to its account address, card owner’s social identity number, and recent bank activities, the all linked relationship graph can be queried in realtime and then checked towards certain fraud pattern</li>
@@ -527,7 +471,6 @@
 <p>Apart from the k8s native deliverable, also it started to provide a managed service Graph DBaaS, in the test phase though.</p>
 <p>Hopefully I could create more contents on Nebula Graph later :), stay tuned!</p>
 
-      
     </div>
 
     
@@ -535,106 +478,42 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
+          
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/performance-optimization-refactor-in-large-python-codebase-a-note/" class="post-title-link" itemprop="url">Performance Optimization refactor in Large Python Codebase, a note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-08-18 20:09:58" itemprop="dateCreated datePublished" datetime="2020-08-18T20:09:58+08:00">2020-08-18</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Early this year, I had a chance to take a refactor task: one of our big downstream features doesn’t scale. Here I share some of my learning notes to potentially help you out there :-).</p>
-<h2 id="Steps-to-follow"><a href="#Steps-to-follow" class="headerlink" title="Steps to follow"></a>Steps to follow</h2><h3 id="1-Runnable-Minimal-Reproduce"><a href="#1-Runnable-Minimal-Reproduce" class="headerlink" title="1. Runnable Minimal Reproduce"></a>1. Runnable Minimal Reproduce</h3><p>For a distributed system that required heavy hardware setup, or even worse, when you are trying to fix a case in the condition of a large scale, we need to have a runnable minimal reproduce(RMR) method to decouple the costly large scale of test environment/ production environment. A handy RMR is crucial as it brings us repeatability in circles of the rests steps.</p>
-<p>In my case, when I started looking into this task, I found the only environment in hand was already quite expensive for the team (15+ servers, each of them is with 100+ GiB RAM and 40+ threads), yet it’s still far from the scale I am optimizing for(1000+ servers case).</p>
-<blockquote>
-<p>How to have a RMR?</p>
-</blockquote>
-<p>The answer could vary case by case:</p>
+<div class="post-copyright">
 <ul>
-<li>Buy/Pay-as-you-go-on-others-server 1000+ nodes cluster?<ul>
-<li>This may be the best choice when you are in a cool organization working ;)</li>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Wey Gu | 古思为
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/" title="Pokemon Club, a demo app with Nebula Graph">https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
 </ul>
-</li>
-<li>Setup virtualized node cluster?<ul>
-<li>In case you are dealing with the case you can semi-virtualize your environment to gain a 10/100 times scale yet with the closest to the real 1000+ node scale: use some efforts to set up 10 VMs on each bare-metal servers, that is, with 15+ servers you can reproduce the 150+ server issues. In my case, to create a virtualized environment is still very expensive as the workload we were working on depends on layers not that straightforward to be virtualized, and 150+ is still not enough for me.</li>
-</ul>
-</li>
-<li>Mock it!<ul>
-<li>I end up isolating the modular of code to be optimized, and, carefully mocking the interactions with other applications/ processes, with performance-wise mock.</li>
-</ul>
-</li>
-</ul>
-<p>With the RMR implemented, I put it in the existing UT code base with performance benchmark criteria as one of the assertions of the function I optimized. One of the reasons to trigger my putting RMR code in the codebase as UT is some of the surrounding mock utilities are there already, of course, the most important one is by doing so, these performance criteria will be always regression in every single commit merged to the codebase in future.</p>
-<p>It’s worth mentioning that, during the implementation of RMR, there are some assumptions to be made, for example, the involved database, RESTful API, and RPC calls were mocked with sort of sleep in certain times, which was estimated based some experiments. The actual value may vary in different environments while values under some assumptions still can help us on some level of evaluation, yet, provide us comparison on before and after the refactoring (as of course, we use same assumptions).</p>
-<h3 id="2-Profiling-and-analysis"><a href="#2-Profiling-and-analysis" class="headerlink" title="2. Profiling and analysis"></a>2. Profiling and analysis</h3><p>I started to have more of the whole-picture view of the function in two ways almost the same time: profiling and code reading.</p>
-<p>Before profiling the function calls, I perceptually went through the code the feature and drew all call flows with time complexity with <a target="_blank" rel="noopener" href="http://asciiflow.com/">http://asciiflow.com/</a> like this:</p>
-<img data-src="/performance-optimization-refactor-in-large-python-codebase-a-note/flow_ascii_blur.png" class="flow_ascii">
+</div>
 
-<p>Or drew it in whiteboard like this:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/performance-optimization-refactor-in-large-python-codebase-a-note/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+          <div class="post-tags">
+              <a href="/tags/nebula-graph/" rel="tag"># Nebula Graph</a>
+              <a href="/tags/nosql/" rel="tag"># NoSQL</a>
+          </div>
+
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/performance-optimization-refactor-in-large-python-codebase-a-note/" rel="prev" title="Performance Optimization refactor in Large Python Codebase, a note">
+                  <i class="fa fa-chevron-left"></i> Performance Optimization refactor in Large Python Codebase, a note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/note-siwei-info-will-be-archived/" rel="next" title="note.siwei.info will be archived">
+                  note.siwei.info will be archived <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -642,10 +521,9 @@
 
 
 
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
 
+
+    <div class="comments gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -727,6 +605,25 @@ if (document.querySelectorAll('.pdf-container').length) {
 
 
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '458d0826a0f8a2a81f82',
+      clientSecret: 'c7ba7c1e589c568e864e7a47aac5b94b64e0de88',
+      repo        : 'wey-gu.github.io',
+      owner       : 'wey-gu',
+      admin       : ['wey-gu'],
+      id          : '34fb38b9628f5a4d7f550648f52351b6',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render(document.querySelector('.gitalk-container'));
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

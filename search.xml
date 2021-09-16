@@ -760,21 +760,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Openstack Basic for newbie</title>
-    <url>/openstack-basic-for-newbie/</url>
-    <content><![CDATA[<p>整理了一下2017年8月份内部做的一个training的slide，去除了不能公布的部分，放在<a href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/release/Openstack_Basic_Blog.pdf">这里</a>。</p>
-<p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
-<p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
-]]></content>
-      <categories>
-        <category>openstack</category>
-      </categories>
-      <tags>
-        <tag>openstack</tag>
-        <tag>slide</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nova scheduling study on making it smart by machine learning</title>
     <url>/nova-scheduling-study-on-making-it-smart-by-machine-learning/</url>
     <content><![CDATA[<blockquote>
@@ -921,6 +906,21 @@
         <tag>cloud</tag>
         <tag>machine learning</tag>
         <tag>bayesian optimization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Openstack Basic for newbie</title>
+    <url>/openstack-basic-for-newbie/</url>
+    <content><![CDATA[<p>整理了一下2017年8月份内部做的一个training的slide，去除了不能公布的部分，放在<a href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/release/Openstack_Basic_Blog.pdf">这里</a>。</p>
+<p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
+<p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
+]]></content>
+      <categories>
+        <category>openstack</category>
+      </categories>
+      <tags>
+        <tag>openstack</tag>
+        <tag>slide</tag>
       </tags>
   </entry>
   <entry>
@@ -3259,6 +3259,159 @@
       </categories>
       <tags>
         <tag>openstack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pokemon Club, a demo app with Nebula Graph</title>
+    <url>/pokemon-club-a-demo-app-with-nebula-graph/</url>
+    <content><![CDATA[<h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>In the database world, there is one type of NoSQL DB called graph database, which is good at the query of traversing relationships between small entities, like:</p>
+<ul>
+<li>Find one person’s 5th-degree friend connections in LinkedIn</li>
+<li>Detect fraud, starting from one bank account number, connected to its account address, card owner’s social identity number, and recent bank activities, the all linked relationship graph can be queried in realtime and then checked towards certain fraud pattern</li>
+</ul>
+<p>Today, I will create a minimal PoC to build one tiny App leveraging a graph database, Nebula Graph.</p>
+<p><a href="https://github.com/vesoft-inc">Nebula Graph</a> is an open-source new graph DB built natively for globally distributed deployment in hyper-scale, with the help of <a href="https://en.wikipedia.org/wiki/Raft_(algorithm)">raft consensus algorithm</a> and architecture of <a href="https://en.wikipedia.org/wiki/Shared-nothing_architecture">shared-nothing</a>, it’s like the <a href="https://research.google.com/archive/spanner-osdi2012.pdf">Google Spanner</a> or CRDB/TiDB in the graph DB world.</p>
+<h2 id="Pokemon-Club"><a href="#Pokemon-Club" class="headerlink" title="Pokemon Club"></a>Pokemon Club</h2><blockquote>
+<p>Photo from <a href="https://unsplash.com/@michaelrivera_ph">Michael Rivera 🇵🇭</a></p>
+</blockquote>
+<img data-src="/pokemon-club-a-demo-app-with-nebula-graph/michael-rivera-DypO_XgAE4Y-unsplash.jpg" class="pikachu">
+
+<p>Today, let’s build a new SNS for the Pokemon Trainers, the Pokemon Club<del>house</del> ;)</p>
+<p>Pokemon Club is targeting to connect all Pokemon Trainers for their meetup or grouping to fight in certain Pokemon Go Gym.</p>
+<p>Like FB or Linkedin, we for sure have the User System with relational DB backed and users metadata of age, avatar, location, and Pokemons she owned, etc. Users as a trainer can create meetups and share posts in Pokemon Club and her friends can get the news feed and comment, join or chat to her.</p>
+<p>Apart from the main features, we will only focus on one feature to help trainers explore new friends recommended by the App, based on the Pokemons this trainer owns.</p>
+<p>Now we assume either in streaming/ real-time or the batch way, we had put trainer and pokemon relationship in our Nebula Graph DB, and then to create a humble API to get the recommended trainer friends:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;v1&#x2F;recommended_friends&#x2F;&lt;user&gt;</span><br><span class="line">     +</span><br><span class="line">     |          +--------------+         +----------------+</span><br><span class="line">     |          |              |         |                |</span><br><span class="line">     +----------&gt;  API Server  +---------&gt;  Nebula Graph  |</span><br><span class="line">                |              |         |                |</span><br><span class="line">                +--------------+         +----------------+</span><br></pre></td></tr></table></figure>
+
+<p>Then let’s start the hands-on part!</p>
+<h2 id="The-Hands-on-part"><a href="#The-Hands-on-part" class="headerlink" title="The Hands-on part!"></a>The Hands-on part!</h2><p>Let’s do bottom-up from the Nebula Graph DB:</p>
+<h3 id="Deployment-of-Nebula-Graph"><a href="#Deployment-of-Nebula-Graph" class="headerlink" title="Deployment of Nebula Graph"></a>Deployment of Nebula Graph</h3><p>Nebula Graph is released in shapes from <a href="https://docs.nebula-graph.io/manual-EN/3.build-develop-and-administration/1.build/1.build-source-code/">source code tarball</a>, [RPM/DEB package](RPM/DEB package), <a href="https://hub.docker.com/r/vesoft/">Docker containers</a>, and <a href="https://github.com/vesoft-inc/nebula-docker-compose">docker-compose</a> to <a href="https://github.com/vesoft-inc/nebula/tree/master/kubernetes/helm">helm chart</a> or <a href="https://medium.com/nebula-graph/nebula-operator-automated-the-nebula-graph-cluster-deployment-and-maintenance-on-k8s-2730987b8c42">a k8s CRD/operator</a>.</p>
+<p>Here, we will start with the smallest footprint and the easiest way, the docker-compose fashion referring to <a href="https://github.com/vesoft-inc/nebula-docker-compose">https://github.com/vesoft-inc/nebula-docker-compose</a>.</p>
+<p>Here I spawned a preemptible(cheap, no SLA) VM from GCP for this ad-hoc purpose, with the spec of Intel CPU and 8GiB ram, in a Ubuntu 18.04 LTS image.</p>
+<p>Also, I allowed TCP ports of 6996 and 7001 from the firewall setting associated with the VM.</p>
+<p>Below is the deployment commands in this machine:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo su -i</span><br><span class="line">apt-get update</span><br><span class="line">apt-get install docker.io docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># deploy a nebula cluster</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/vesoft-inc/nebula-docker-compose.git</span><br><span class="line"><span class="built_in">cd</span> nebula-docker-compose/</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line">docker ps --filter health=healthy <span class="comment"># wait and verify that 3x graphd, 3x metad, 3x storaged are healthy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># deploy a nebula Studio</span></span><br><span class="line"><span class="built_in">cd</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/vesoft-inc/nebula-web-docker.git</span><br><span class="line"><span class="built_in">cd</span> nebula-web-docker/v2</span><br><span class="line">docker-compose pull</span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Nebula-Graph-Schema-and-Mock-Data-Import"><a href="#Nebula-Graph-Schema-and-Mock-Data-Import" class="headerlink" title="Nebula Graph Schema and Mock Data Import"></a>Nebula Graph Schema and Mock Data Import</h3><h4 id="Graph-Data-Schema"><a href="#Graph-Data-Schema" class="headerlink" title="Graph Data Schema"></a>Graph Data Schema</h4><p>Here we created the plainest schema with two types(tags) of vertices and two types of edges:</p>
+<ul>
+<li><p>Vertices:</p>
+<ul>
+<li>trainer<ul>
+<li>property:<ul>
+<li>name</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>pokemon<ul>
+<li>property:<ul>
+<li>name</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Edges:</p>
+<ul>
+<li>owns_pokemon<ul>
+<li>source: trainer</li>
+<li>dest: pokemon</li>
+</ul>
+</li>
+<li>is_friend_with<ul>
+<li>source: trainer</li>
+<li>dest: trainer</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>From the below image, it’s easier for us to understand the schema:</p>
+<img data-src="/pokemon-club-a-demo-app-with-nebula-graph/graph_schema.png" class="graph_schema">
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> SPACE pokemon_club (vid_type <span class="operator">=</span> FIXED_STRING(<span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> TAG pokemon (name string <span class="keyword">NOT</span> <span class="keyword">NULL</span> )</span><br><span class="line"><span class="keyword">CREATE</span> TAG trainer (name string <span class="keyword">NOT</span> <span class="keyword">NULL</span> )</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> EDGE owns_pokemon ()</span><br></pre></td></tr></table></figure>
+
+<h4 id="Data-Import"><a href="#Data-Import" class="headerlink" title="Data Import"></a>Data Import</h4><p>For hyper-scale data migration into Nebula Graph, there is a <a href="https://github.com/vesoft-inc/nebula-spark-utils">Spark utility</a> named Nebula Exchange to generate RocksDB SST files to enable extremely high import efficiency.</p>
+<p>For a small scale of data, the utility <a href="https://github.com/vesoft-inc/nebula-importer">nebula-importer</a> is enough, with which, we could define mapping rules in a yaml file and import CSV files.</p>
+<p>Here we leverage a GUI utility in Nebula Studio as it comes with a guided process to define the mapping rule in the web console itself and call the underlying nebula-importer for us w/o composing the yaml file ;).</p>
+<p>We have mocked data for importing as below:</p>
+<ul>
+<li>trainer–&gt;pokemon</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tom,pikachu</span><br><span class="line">Tom,muk</span><br><span class="line">Jerry,weedle</span><br><span class="line">Jerry,pikachu</span><br><span class="line">Sue,pikachu</span><br><span class="line">Wey,pikachu</span><br><span class="line">Joe,koffing</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>trainer –&gt; trainer</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tom,Jerry</span><br><span class="line">Sue,Wey</span><br></pre></td></tr></table></figure>
+
+<p>Please refer to the video demo on how this mapping could be done in Nebula Studio :).</p>
+<h3 id="Query-the-data-from-Nebula-Graph"><a href="#Query-the-data-from-Nebula-Graph" class="headerlink" title="Query the data from Nebula Graph"></a>Query the data from Nebula Graph</h3><p>Cool! Now we have a distributed graph DB with some data schema defined and some Pokemon Trainers data is also there!</p>
+<p>To simplify the PoC, we assume that the recommendation API will query in this logic: </p>
+<ul>
+<li>For a given trainer Tom, what are those trainers own the same Pokemons Tom owned?</li>
+</ul>
+<p>I know it’s quite a silly logic though ;-), it’s just a minimal example here.</p>
+<p>Nebula Graph comes with a SQL-like query language named nGQL, you can for sure refer to its doc <a href="https://docs.nebula-graph.io/2.0/3.ngql-guide/2.nav.md/1.search-guide/">here</a>, and in the video, I showed you how to create a query with the help of the Explore GUI in Nebula Studio.</p>
+<ul>
+<li><code>owns_pokemon</code> is the edge</li>
+<li>the query <code>OVER</code> it means to go <code>FROM</code> its source end, which is <code>trainer</code> tag</li>
+<li>we <code>YIELD</code> its dest end, which is <code>pokemon</code> tag, as <code>pokemon_id</code></li>
+<li>then we used <code>|</code> (<a href="https://docs.nebula-graph.io/2.0/3.ngql-guide/5.operators/4.pipe/">pipe</a> operator) to pipe the query result in next query starting from the second <code>GO</code></li>
+<li><code>$-</code> stands for the piped result namespace and wo start from <code>$-.pokemon_id</code> now</li>
+<li>again we query <code>OVER</code> same edge with one extra <code>REVERSELY</code> key word, yes! it means the other direction this time: <code>FROM</code> its dest end!</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">GO <span class="keyword">FROM</span> &quot;Tom&quot; <span class="keyword">OVER</span> owns_pokemon YIELD owns_pokemon._dst <span class="keyword">as</span> pokemon_id \</span><br><span class="line"><span class="operator">|</span> GO <span class="keyword">FROM</span> $<span class="operator">-</span>.pokemon_id <span class="keyword">OVER</span> owns_pokemon REVERSELY</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="The-API-code-handles-Web-Request-and-Invokes-Nebula-Graph"><a href="#The-API-code-handles-Web-Request-and-Invokes-Nebula-Graph" class="headerlink" title="The API code handles Web Request and Invokes Nebula Graph"></a>The API code handles Web Request and Invokes Nebula Graph</h3><p>There are <a href="https://nebula-graph.io/download">different client libs</a> there and now we are using the Python one: <a href="https://github.com/vesoft-inc/nebula-python">https://github.com/vesoft-inc/nebula-python</a>.</p>
+<p>I created a simple Flask App with <code>nebula2-python</code> to call our Nebula Graph cluster, the main code logic is as below:</p>
+<ul>
+<li>it takes api query in format <code>/v1/recommended_friends/&lt;user&gt;</code> and returns result in JSON.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/v1/recommended_friends/&lt;user&gt;&quot;</span>, methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recommended_friends</span>(<span class="params">user</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Get Recommended new Friends</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    ng_credential = get_nebula_graph_crential()</span><br><span class="line">    session = connection_pool.get_session(*ng_credential)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        session.execute(<span class="string">&#x27;USE pokemon_club&#x27;</span>)</span><br><span class="line">        query = (</span><br><span class="line">            <span class="string">f&#x27;GO FROM &quot;<span class="subst">&#123; user &#125;</span>&quot; &#x27;</span></span><br><span class="line">             <span class="string">&#x27;OVER owns_pokemon &#x27;</span></span><br><span class="line">             <span class="string">&#x27;YIELD owns_pokemon._dst as pokemon_id &#x27;</span></span><br><span class="line">             <span class="string">&#x27;| GO FROM $-.pokemon_id &#x27;</span></span><br><span class="line">             <span class="string">&#x27;OVER owns_pokemon REVERSELY&#x27;</span>)</span><br><span class="line">        query_result = session.execute(query)</span><br><span class="line">        trainers = [<span class="built_in">str</span>(trainer.values[<span class="number">0</span>].get_sVal(), <span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">for</span> trainer <span class="keyword">in</span> query_result.rows()]</span><br><span class="line">        trainers = <span class="built_in">list</span>(<span class="built_in">set</span>(trainers))</span><br><span class="line">        <span class="keyword">if</span> user <span class="keyword">in</span> trainers:</span><br><span class="line">            trainers.remove(user)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        session.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(trainers)</span><br></pre></td></tr></table></figure>
+
+<p>After deployed it to Cloud Run and configured the Nebula Graph’s graphd endpoint in env of the cloud run instance, we will have an external URL to enable anyone in the word to query it, and it looks like this:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$curl</span> https://pokemon-club-v1-****-uw.a.run.app/v1/recommended_friends/Tom | jq</span><br><span class="line">[</span><br><span class="line">  <span class="string">&quot;Sue&quot;</span>,</span><br><span class="line">  <span class="string">&quot;Wey&quot;</span>,</span><br><span class="line">  <span class="string">&quot;Jerry&quot;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>Below are how I deployed it into GCP Cloud Run and I put all code in GitHub(<a href="https://github.com/wey-gu/pokemon_club">https://github.com/wey-gu/pokemon_club</a>) as well.</p>
+<blockquote>
+<p>The Dockerfile</p>
+</blockquote>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Use Python37</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Copy requirements.txt to the docker image and install packages</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> requirements.txt /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install -r requirements.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the WORKDIR to be the folder</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Expose port 5000</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">5000</span></span><br><span class="line"><span class="keyword">ENV</span> PORT <span class="number">5000</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Nebula Graph</span></span><br><span class="line"><span class="keyword">ENV</span> NG_GCP_PROPJECT_ID=</span><br><span class="line"><span class="keyword">ENV</span> NG_GCP_PASSWORD_SECRET_ID=</span><br><span class="line"><span class="keyword">ENV</span> NG_GCP_USER_SECRET_ID=</span><br><span class="line"><span class="keyword">ENV</span> NG_GCP_CREDENTIAL_VERSION <span class="string">&quot;latest&quot;</span></span><br><span class="line"><span class="keyword">ENV</span> NG_ENDPOINTS <span class="string">&quot;127.0.0.1:9669,&quot;</span></span><br><span class="line"><span class="keyword">ENV</span> NG_MAX_CONN_POOL_SIZE <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Use gunicorn as the entrypoint</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> <span class="built_in">exec</span> gunicorn --<span class="built_in">bind</span> :<span class="variable">$PORT</span> main:app --workers 1 --threads 1 --timeout 60</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>build and deploy container to Cloud Run</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PROPJECT_ID=&lt;GCP_PROJECT_ID&gt;</span><br><span class="line">docker build -t gcr.io/<span class="variable">$PROPJECT_ID</span>/pokemon_club:v1 . <span class="comment"># I know I shouldnt build on my own machine but I dont have time to use GCP Cloud Build :P</span></span><br><span class="line">docker push gcr.io/<span class="variable">$PROPJECT_ID</span>/pokemon_club:v1</span><br><span class="line"></span><br><span class="line">gcloud run deploy pokemon-club-v1 \</span><br><span class="line">    --image gcr.io/<span class="variable">$PROPJECT_ID</span>/pokemon_club:v1 \</span><br><span class="line">    --region us-west1 \</span><br><span class="line">    --platform managed \</span><br><span class="line">    --memory 128Mi</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="More-Working-In-Progress"><a href="#More-Working-In-Progress" class="headerlink" title="More Working In Progress"></a>More Working In Progress</h2><p>To Do:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Video Demo(s)</li>
+<li><input disabled="" type="checkbox"> Adding <del>Fraud</del> 🚀<a href="https://bulbapedia.bulbagarden.net/wiki/Team_Rocket">Team Rocket</a> hidden member detection API, like based on who owns <a href="https://pokeres.bastionbot.org/images/pokemon/109.png">Koffing</a></li>
+<li><input disabled="" type="checkbox"> Front End Part<ul>
+<li><input disabled="" type="checkbox"> Invoking Pokemon API<ul>
+<li>catalog for human: <a href="https://pokemondb.net/pokedex/national#gen-1">https://pokemondb.net/pokedex/national#gen-1</a></li>
+<li>metadata fetching: <a href="https://pokeapi.co/">https://pokeapi.co/</a></li>
+<li>image fetching: <a href="https://pokeres.bastionbot.org/images/pokemon/109.png">https://pokeres.bastionbot.org/images/pokemon/109.png</a> # <code>109</code> is Pokemon ID here.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="More-on-Nebula-Graph"><a href="#More-on-Nebula-Graph" class="headerlink" title="More on Nebula Graph"></a>More on Nebula Graph</h2><p>Nebula Graph is already used by some Gaint Companies and its community is quite active, with the help of that, it grows fast and comes with some great utilities like <a href="https://github.com/vesoft-inc/nebula-spark-utils">an extremely fast batch importing tool</a>.</p>
+<p>Apart from the k8s native deliverable, also it started to provide a managed service Graph DBaaS, in the test phase though.</p>
+<p>Hopefully I could create more contents on Nebula Graph later :), stay tuned!</p>
+]]></content>
+      <tags>
+        <tag>Nebula Graph</tag>
+        <tag>NoSQL</tag>
       </tags>
   </entry>
 </search>

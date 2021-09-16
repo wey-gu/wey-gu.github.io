@@ -9,6 +9,13 @@
   </url>
   
   <url>
+    <loc>https://note.siwei.info/pokemon-club-a-demo-app-with-nebula-graph/</loc>
+    
+    <lastmod>2021-02-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://note.siwei.info/performance-optimization-refactor-in-large-python-codebase-a-note/</loc>
     
     <lastmod>2020-08-18</lastmod>
@@ -334,6 +341,20 @@
   
   <url>
     <loc>https://note.siwei.info/tags/utm/</loc>
+    <lastmod>2021-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://note.siwei.info/tags/nebula-graph/</loc>
+    <lastmod>2021-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://note.siwei.info/tags/nosql/</loc>
     <lastmod>2021-09-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

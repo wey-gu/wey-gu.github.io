@@ -130,9 +130,9 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
         <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">29</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">15</span></a></li>
         <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
         <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
@@ -206,7 +206,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -219,7 +219,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -271,6 +271,178 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="I build things">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei Notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/" class="post-title-link" itemprop="url">Project Resource Board: a scalable webapp with Flask socketio and Vue.js</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-02-16 22:27:28" itemprop="dateCreated datePublished" datetime="2019-02-16T22:27:28+08:00">2019-02-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/build-notes/" itemprop="url" rel="index"><span itemprop="name">build notes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img data-src="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/arch_diagram_0.png" class="">
+
+<h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>我在做一个叫做 resource board的 side project， 它是一个方便团队协作中使用共享资源的web app。</p>
+<p>本文是我在写第一个发布版本之前持续更新的记录。</p>
+<blockquote>
+<p>updated in <code>2019-April-6</code></p>
+<p>以单体架构先实现了可用的版本，部署在公司内网给项目使用上了，也公布一下代码：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wey-gu/resource-board">https://github.com/wey-gu/resource-board</a></p>
+<p>之后我会花时间迭代下去，不过现在课余时间在做一个机器学习调优的项目，这个优先级只能降低。</p>
+</blockquote>
+<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><blockquote>
+<p>为什么开始</p>
+</blockquote>
+<p>在云计算研发部门搬砖半年，一直做一些很小的feature开发，连着几个月早出晚归加上牺牲周末时间的赶进度让我内心很不平静。我需要做点什么，因为本质上我热爱的是 <code>build things</code>，做一个<code>proper side project</code> 的主意在脑子里转了好久了，我决定先做一个简单的东西出来。</p>
+<p>这个东西就是一个 <code>resource board</code> 。</p>
+<blockquote>
+<p>学到什么</p>
+</blockquote>
+<p><code>resourece borard</code> 是我起的名字，其实就是一份在线的表格、面板，本质上用 <code>O365</code> / <code>onedrive for business</code> 完全可以实现类似的功效。不过我还是想造这样一个轮子，涉及一下产品开发的全生命周期的从无到有的创造、学习、实践：</p>
+<ul>
+<li>planning, prototyping</li>
+<li>architecture</li>
+<li>front end</li>
+<li>back end</li>
+<li>CI/ CD</li>
+<li>maintenance</li>
+<li>refactoring<ul>
+<li>for test</li>
+<li>for scale</li>
+</ul>
+</li>
+<li>tuning</li>
+</ul>
+<blockquote>
+<p>User story of resource board</p>
+</blockquote>
+<p><code>resource board</code> 主要解决异地团队协作中对共享资源使用的问题，它是一个电子化的资源使用白板。</p>
+<p>试想一下没有资源占用白板的时候，团队里的人共享10个虚拟化数据中心，我们简称 <code>DC</code> ，对于它的使用分几个场景：</p>
+<ul>
+<li>CI <ul>
+<li>被CI占用，没有再触发CI调用它的人不可以干预</li>
+</ul>
+</li>
+<li>testing<ul>
+<li>被非独占式的人使用中，特定的人可以并行使用它，（理想情况下）不会干扰到彼此</li>
+</ul>
+</li>
+<li>occupied<ul>
+<li>被人独占使用，不可与别人共享</li>
+</ul>
+</li>
+<li>free<ul>
+<li>任何人可以使用它，或者挪作其他用途</li>
+</ul>
+</li>
+</ul>
+<p>这种情况下，使用它的A同学需要站起来告诉所有人，或者群发邮件，说我要用 <code>DC123</code> 独占调试一个代码，有人在用么？ 10分钟后，在注意到没人回复的情况下，ta就在 <code>DC123</code>上开始<del>做坏事</del> 调试ta的代码了。然而刚从厕所回来的B同学，却发现ta的环境被破坏了，半天白忙活了😢。</p>
+<p>如果这个资源共享的工作方式之中引入了记录资源占用情况的白板，A同学只需要看一下白板上空闲的DC，发现<code>DC125</code> 可以使用，他可以做到：</p>
+<ul>
+<li>无需等待确认广播信息的回复立刻使用 <code>DC125</code></li>
+<li>不会破坏任何被占用的资源环境比如 <code>DC123</code> </li>
+</ul>
+<p>看起来比较自然。</p>
+<h1 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h1><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><ul>
+<li>数字化白板应该是一个Wep App</li>
+<li>它需要是实时的<ul>
+<li>支持面向连接的(server —&gt; client)</li>
+</ul>
+</li>
+<li>可扩展，可扩容<ul>
+<li>后端<ul>
+<li>只做api</li>
+<li>分布式，可scale up</li>
+</ul>
+</li>
+<li>前端<ul>
+<li>single page client</li>
+<li>websocket</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="简单原型"><a href="#简单原型" class="headerlink" title="简单原型"></a>简单原型</h2><p>我用Balsamiq Mockups 简单做了一个原型：</p>
+<ul>
+<li>用卡片表示每一个资源的信息</li>
+<li>不同的section表示资源被使用的状态，或者分类</li>
+<li>提供面向资源的历史查看页面</li>
+</ul>
+<p>我没有花更多时间去画更详细的原型图，只是在画这个初始的版本的过程中引导我思考我初始的数据schema，前后端最开始要做的事情，一旦雏形确定下来，我就直接进入前后端的开发，在开发中直接实现业务逻辑的进化。</p>
+<blockquote>
+<p> 这里是我截取的原型图的demo动画 😁</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/project-resource-board-a-scalable-webapp-with-flask-socketio-and-vue-js/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -428,121 +600,6 @@
 <p>那次的training是针对telco. engineers开始学习NFVi的知识的为期一周的，每天半天session的集中入门。前两天是讲解这个slide，后三天是hands-on的手动安装基于Ubuntu VM集群上的Openstack O。</p>
 <p>hands-on的部分我写成了单独的note，也放在<a href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">这里</a>。</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/" class="post-title-link" itemprop="url">deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-01-01 14:04:47" itemprop="dateCreated datePublished" datetime="2019-01-01T14:04:47+08:00">2019-01-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。</p>
-</blockquote>
-<h1 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h1><p>Latest version: <a target="_blank" rel="noopener" href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/installation-openstack-ubuntu-note.md">installation-openstack-ubuntu-note.md</a> hosted on <em>Github.com/wey-gu</em></p>
-<blockquote>
-<p>ref: <a target="_blank" rel="noopener" href="https://docs.openstack.org/install-guide">https://docs.openstack.org/install-guide</a></p>
-</blockquote>
-<p>Ubuntu was chosen as host OS.</p>
-<blockquote>
-<p>“It’s a good way to learn by installing it manually for as many services as you could :-) .”</p>
-<p>​                                                                                                           Wey Gu </p>
-</blockquote>
-<h2 id="Host-networking"><a href="#Host-networking" class="headerlink" title="Host networking"></a>Host networking</h2><blockquote>
-<p>ref: <a target="_blank" rel="noopener" href="https://docs.openstack.org/install-guide/environment-networking.html">https://docs.openstack.org/install-guide/environment-networking.html</a></p>
-</blockquote>
-<blockquote>
-<p>ref: <a target="_blank" rel="noopener" href="https://help.ubuntu.com/lts/serverguide/network-configuration.html">https://help.ubuntu.com/lts/serverguide/network-configuration.html</a></p>
-</blockquote>
-<p>The example architectures assume use of the following networks:</p>
-<ul>
-<li><p>Management on 10.0.0.0/24 with gateway 10.0.0.1</p>
-<p>This network requires a gateway to provide Internet access to all nodes for administrative purposes such as package installation, security updates, DNS, and NTP.</p>
-</li>
-<li><p>Provider on 203.0.113.0/24 with gateway 203.0.113.1</p>
-<p>This network requires a gateway to provide Internet access to instances in your OpenStack environment.</p>
-</li>
-</ul>
-<h3 id="My-network-solution"><a href="#My-network-solution" class="headerlink" title="My network solution"></a>My network solution</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Net0:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter</span><br><span class="line">	Purpose: administrator / management network</span><br><span class="line">	IP block: 10.20.0.0/24</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	Linux device: eth0</span><br><span class="line"></span><br><span class="line">Net1:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#2</span></span><br><span class="line">	Purpose: Provider network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 172.16.0.0/24</span><br><span class="line">	Linux device: eth1</span><br><span class="line"></span><br><span class="line">Net2：</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#3</span></span><br><span class="line">	Purpose: Storage network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 192.168.99.0/24</span><br><span class="line">	Linux device: eth2</span><br><span class="line"></span><br><span class="line">Net3：</span><br><span class="line">	Network name: VirtualBox  Bridged or NAT // <span class="keyword">for</span> accessing network or remote access purpose</span><br><span class="line">	Purpose: Internet</span><br><span class="line">	DHCP: <span class="built_in">enable</span></span><br><span class="line">	IP block: &lt;depend on your network&gt;</span><br><span class="line">	Linux device: eth3</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>Edit the <code>/etc/network/interfaces</code> file to contain the following:</p>
-<p>Replace <code>INTERFACE_NAME</code> with the actual interface name. For example, <em>eth1</em> or <em>ens224</em>.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The provider network interface</span></span><br><span class="line">auto INTERFACE_NAME</span><br><span class="line">iface INTERFACE_NAME inet manual</span><br><span class="line">up ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> up</span><br><span class="line">down ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> down</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 

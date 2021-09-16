@@ -130,9 +130,9 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
         <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">29</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">15</span></a></li>
         <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
         <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
@@ -206,7 +206,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -219,7 +219,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -271,6 +271,121 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="I build things">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei Notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/" class="post-title-link" itemprop="url">deploy Openstack O on self privisoned virtualbox Ubuntu VMs manually</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-01-01 14:04:47" itemprop="dateCreated datePublished" datetime="2019-01-01T14:04:47+08:00">2019-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>今天，把我之前在公司内部给同事们培训Openstack 介绍的note放到这里，是一年多之前基于当时的O版本的Ubuntu的部署，对于初学的同学也许有一些帮助，不过其实整个过程无非就是参照官方安装的guide而已。</p>
+</blockquote>
+<h1 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h1><p>Latest version: <a target="_blank" rel="noopener" href="https://github.com/wey-gu/workshops/blob/master/00-Openstack-Basic/installation-openstack-ubuntu-note.md">installation-openstack-ubuntu-note.md</a> hosted on <em>Github.com/wey-gu</em></p>
+<blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://docs.openstack.org/install-guide">https://docs.openstack.org/install-guide</a></p>
+</blockquote>
+<p>Ubuntu was chosen as host OS.</p>
+<blockquote>
+<p>“It’s a good way to learn by installing it manually for as many services as you could :-) .”</p>
+<p>​                                                                                                           Wey Gu </p>
+</blockquote>
+<h2 id="Host-networking"><a href="#Host-networking" class="headerlink" title="Host networking"></a>Host networking</h2><blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://docs.openstack.org/install-guide/environment-networking.html">https://docs.openstack.org/install-guide/environment-networking.html</a></p>
+</blockquote>
+<blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://help.ubuntu.com/lts/serverguide/network-configuration.html">https://help.ubuntu.com/lts/serverguide/network-configuration.html</a></p>
+</blockquote>
+<p>The example architectures assume use of the following networks:</p>
+<ul>
+<li><p>Management on 10.0.0.0/24 with gateway 10.0.0.1</p>
+<p>This network requires a gateway to provide Internet access to all nodes for administrative purposes such as package installation, security updates, DNS, and NTP.</p>
+</li>
+<li><p>Provider on 203.0.113.0/24 with gateway 203.0.113.1</p>
+<p>This network requires a gateway to provide Internet access to instances in your OpenStack environment.</p>
+</li>
+</ul>
+<h3 id="My-network-solution"><a href="#My-network-solution" class="headerlink" title="My network solution"></a>My network solution</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Net0:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter</span><br><span class="line">	Purpose: administrator / management network</span><br><span class="line">	IP block: 10.20.0.0/24</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	Linux device: eth0</span><br><span class="line"></span><br><span class="line">Net1:</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#2</span></span><br><span class="line">	Purpose: Provider network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 172.16.0.0/24</span><br><span class="line">	Linux device: eth1</span><br><span class="line"></span><br><span class="line">Net2：</span><br><span class="line">	Network name: VirtualBox  host-only Ethernet Adapter<span class="comment">#3</span></span><br><span class="line">	Purpose: Storage network</span><br><span class="line">	DHCP: <span class="built_in">disable</span></span><br><span class="line">	IP block: 192.168.99.0/24</span><br><span class="line">	Linux device: eth2</span><br><span class="line"></span><br><span class="line">Net3：</span><br><span class="line">	Network name: VirtualBox  Bridged or NAT // <span class="keyword">for</span> accessing network or remote access purpose</span><br><span class="line">	Purpose: Internet</span><br><span class="line">	DHCP: <span class="built_in">enable</span></span><br><span class="line">	IP block: &lt;depend on your network&gt;</span><br><span class="line">	Linux device: eth3</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>Edit the <code>/etc/network/interfaces</code> file to contain the following:</p>
+<p>Replace <code>INTERFACE_NAME</code> with the actual interface name. For example, <em>eth1</em> or <em>ens224</em>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The provider network interface</span></span><br><span class="line">auto INTERFACE_NAME</span><br><span class="line">iface INTERFACE_NAME inet manual</span><br><span class="line">up ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> up</span><br><span class="line">down ip link <span class="built_in">set</span> dev <span class="variable">$IFACE</span> down</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/deploy-openstack-o-on-self-privisoned-virtualbox-ubuntu-vms-manually/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 

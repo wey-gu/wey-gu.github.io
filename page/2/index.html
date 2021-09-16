@@ -130,9 +130,9 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-résumé"><a href="/resume/" rel="section"><i class="fa fa-book fa-fw"></i>Résumé</a></li>
         <li class="menu-item menu-item-简历"><a href="/resume_chs/" rel="section"><i class="fa fa-book fa-fw"></i>简历</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">27</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">29</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">15</span></a></li>
         <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li>
         <li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li>
       <li class="menu-item menu-item-search">
@@ -206,7 +206,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -219,7 +219,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -271,6 +271,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
+      <meta itemprop="name" content="Wey Gu | 古思为">
+      <meta itemprop="description" content="I build things">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Siwei Notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/" class="post-title-link" itemprop="url">Setup Kolla-ansible OpenStack Cluster in Vagrant 2020</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-05-26 18:31:36" itemprop="dateCreated datePublished" datetime="2020-05-26T18:31:36+08:00">2020-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>This is a note on setting up kolla ansible openstack develop envrionment in your working machine.</p>
+<p>I referred to this document: <a target="_blank" rel="noopener" href="https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html">https://docs.openstack.org/kolla-ansible/latest/contributor/vagrant-dev-env.html</a></p>
+<p>I had done this in 2020 May on my old mac mini with Catalina ;-). With 20 GiB disk and 6GiB RAM assigned to one Vagrant spawned (virtualbox), the OpenStack Cluster is running pretty well, comparing to my previous setups ( multi-VMs based manually deployment and VM based Mirantis Fuel 9.0 deployment), it’s obviously more reponsive with the help of the single node setup.</p>
+<p>Here I leave the notes as a reference for you to have a playground easier.</p>
+<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><h3 id="Install-vagrant-and-plugins-needed"><a href="#Install-vagrant-and-plugins-needed" class="headerlink" title="Install vagrant and plugins needed"></a>Install vagrant and plugins needed</h3><p>Below is an example to do this on a macOS machine, to do that from other OS, refer to <a target="_blank" rel="noopener" href="https://www.vagrantup.com/docs/installation/">here</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew cask install virtualbox vagrant</span><br><span class="line"></span><br><span class="line">vagrant plugin install vagrant-hostmanager vagrant-vbguest</span><br><span class="line"></span><br><span class="line"><span class="comment"># if we need to resize disks after vagrant up</span></span><br><span class="line">vagrant plugin install vagrant-disksize</span><br><span class="line"><span class="comment"># if we need to make vagrant VM behind a proxy</span></span><br><span class="line">vagrant plugin install vagrant-proxyconf</span><br></pre></td></tr></table></figure>
+
+<h3 id="Clone-kolla-repo"><a href="#Clone-kolla-repo" class="headerlink" title="Clone kolla repo"></a>Clone kolla repo</h3><p>We need to clone below three repositories.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-cli</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla-ansible</span><br><span class="line">git <span class="built_in">clone</span> https://opendev.org/openstack/kolla</span><br></pre></td></tr></table></figure>
+
+<h3 id="Customise-Vagrant-scripts"><a href="#Customise-Vagrant-scripts" class="headerlink" title="Customise Vagrant scripts"></a>Customise Vagrant scripts</h3><p>I found the configuration file out-of-box is no longer working/ out of repair for some time, below changes on <code>Vagrantfile</code>, <code>Vagrantfile.custom</code>,  and <code>bootstrap.sh</code> are needed.</p>
+<p>For Vagrantfile.custom, we need to use Ubuntu 18.04 instead of 16.04, which comes with python3.6+ in apt repo.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/setup-kolla-ansible-openstack-cluster-in-vagrant-2020/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -435,123 +526,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/cobbler-provisioning-via-l3-and-dhcp-relay-a-poc/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://note.siwei.info/distributed-bugs-are-often-latent-a-troubleshoot-story/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wey_pixel_tinified.png">
-      <meta itemprop="name" content="Wey Gu | 古思为">
-      <meta itemprop="description" content="I build things">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Siwei Notes">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/distributed-bugs-are-often-latent-a-troubleshoot-story/" class="post-title-link" itemprop="url">Distributed bugs are often latent: a Troubleshoot Story</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-02-28 10:10:02" itemprop="dateCreated datePublished" datetime="2020-02-28T10:10:02+08:00">2020-02-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/openstack/" itemprop="url" rel="index"><span itemprop="name">openstack</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>OpenStack, as a nested distributed system(where some of the subsystems are distributed systems), to troubleshoot on it could be quite tricky, not to mention its interdependence with other distributed systems in real word.</p>
-<p>We all share the feelings on how hard it is to solve a hidden issue in a distributed system as each call during a chain of invocation is unpredictable, the methods/ tools for sniffing/ tracking each part are either too hard, incapable, outside of control, or too expensive.</p>
-<p>The trigger made me composing this blog is the article: <a target="_blank" rel="noopener" href="https://aws.amazon.com/builders-library/challenges-with-distributed-systems/">Challenges with distributed systems</a> from <a target="_blank" rel="noopener" href="https://twitter.com/jacobgabrielson">Jacob Gabrielson</a>, where Jacob expounded how and why designing/ managing a request/response distributed system is challenging. I recommend to read it 😊. </p>
-<p>The story in this blog is a troubleshoot case I solved in a customer staging network years ago, where OpenStack clusters were integrated with some other different (virtual) Network Function clusters.</p>
-<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>There were many OpenStack Clusters onsite, with different VNFs running on top of them. </p>
-<ul>
-<li><p>Two months before I arrived the customer site, the alarm <code>[NTP Upstream Server Failure]</code> was raised in one of the OpenStack Cluster.</p>
-</li>
-<li><p>Every party involved on this issue had looked into it jointly and each of them claimed they are all good: no clue to move on, and after the whole site’s yearly power down and up activity, the issue was gone. </p>
-</li>
-<li><p>One week ago, after a control plane nodes reboot, this alarm was raised again on another OpenStack Cluster.</p>
-</li>
-</ul>
-<p>Reviewing everything to have the pattern of the issue:</p>
-<ul>
-<li><p>There were two types of servers acted as upstream NTP for Openstack Clusters. Let’s say NTP-A and NTP-B, they were actually not dedicated NTP servers but a more heavy network function(NF):</p>
-<!--
-<img data-src="./distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png" alt="NTP_Openstack_0" style="zoom:50%;" />
--->
-<img data-src="/distributed-bugs-are-often-latent-a-troubleshoot-story/NTP_Openstack_0.png" class="">
-
-<ul>
-<li>NTP-A was the one associated with the issue OpenStack Clusters, which was a VNF running in Linux.</li>
-<li>NTP-B was a native NF in Solaris, to be repalced by NTP-A in future. #Customer has reasons to worry the issue more 😜.</li>
-</ul>
-</li>
-<li><p>The OpenStack side claimed they were good because they captured the NTP client packet sent to NTP-A and no response recieved.</p>
-</li>
-<li><p>The other side checked everything around NTP configuration, network etc. nothing abnormal was sorted out. Thus they had to blame the OpenStack side as there were other systems utilizing their NTP-A as upstream NTP, while no issues had encounterred.</p>
-</li>
-<li><p>Then both side suspected the packet was dropped somehow between NTP-A and OpenStack Cluster: the networking/ switches.</p>
-<ul>
-<li>The switch team observed nothing pointing to packet drop from the traffic .</li>
-<li>Even though there was chance they didn’t capture the drop on right time, why only OpenStack’s NTP request not responded?</li>
-<li>Was this issue happening in small frequency?</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/distributed-bugs-are-often-latent-a-troubleshoot-story/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
